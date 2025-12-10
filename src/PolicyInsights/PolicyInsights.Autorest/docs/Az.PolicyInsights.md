@@ -1,0 +1,52 @@
+---
+Module Name: Az.PolicyInsights
+Module Guid: 111a457d-aca0-41e4-95bb-b4e461b374b8
+Download Help Link: https://learn.microsoft.com/powershell/module/az.policyinsights
+Help Version: 1.0.0.0
+Locale: en-US
+---
+
+# Az.PolicyInsights Module
+## Description
+Microsoft Azure PowerShell: PolicyInsights cmdlets
+
+## Az.PolicyInsights Cmdlets
+### [Get-AzPolicyAttestation](Get-AzPolicyAttestation.md)
+Gets an existing attestation at subscription scope.
+
+### [Get-AzPolicyEvent](Get-AzPolicyEvent.md)
+Queries policy events for the resources under the management group.
+
+### [Get-AzPolicyMetadata](Get-AzPolicyMetadata.md)
+Get a list of the policy metadata resources.
+
+### [Get-AzPolicyRemediation](Get-AzPolicyRemediation.md)
+Gets an existing remediation at management group scope.
+
+### [Get-AzPolicyState](Get-AzPolicyState.md)
+Queries policy states for the resources under the management group.
+
+### [Get-AzPolicyStateSummary](Get-AzPolicyStateSummary.md)
+Summarizes policy states for the resources under the management group.
+
+### [New-AzPolicyAttestation](New-AzPolicyAttestation.md)
+Create an attestation at subscription scope.
+
+### [Remove-AzPolicyAttestation](Remove-AzPolicyAttestation.md)
+Deletes an existing attestation at subscription scope.
+
+### [Remove-AzPolicyRemediation](Remove-AzPolicyRemediation.md)
+Deletes an existing remediation at management group scope.
+
+### [Start-AzPolicyComplianceScan](Start-AzPolicyComplianceScan.md)
+Triggers a policy evaluation scan for all the resources under the subscription or resource group scope.
+
+### [Start-AzPolicyRemediation](Start-AzPolicyRemediation.md)
+Create a remediation at management group scope.
+
+### [Stop-AzPolicyRemediation](Stop-AzPolicyRemediation.md)
+Cancels a remediation at management group scope.
+
+### [Update-AzPolicyAttestation](Update-AzPolicyAttestation.md)
+Update an attestation at resource scope.
+
