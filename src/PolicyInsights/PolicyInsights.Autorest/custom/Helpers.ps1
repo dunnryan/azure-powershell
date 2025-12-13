@@ -13,10 +13,11 @@
 # is regenerated.
 # ----------------------------------------------------------------------------------
 
+using namespace System.Management.Automation.Language
 
 # split scope into usable parts
 function ParseScope {
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
+    #[Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
     param($scope)
 
     # validate args
@@ -88,7 +89,7 @@ function ParseScope {
 # convert various parameter input formats to policy-formatted hashtable suitable for autorest serializers
 function ConvertParameterInput
 {
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
+    #[Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
     param ($InputObject)
 
     # traverse collections to ensure nested values are all processed
@@ -125,7 +126,7 @@ function ConvertParameterInput
 # Wrapper for JSON -> PSObject conversion that works on both Core and Desktop editions
 function ConvertFrom-JsonSafe
 {
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
+    #[Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
     param(
         [Parameter(ValueFromPipeline)]
         $InputObject,
@@ -152,7 +153,7 @@ function ConvertFrom-JsonSafe
 
 # tests whether the given string is a Uri
 function Test-Uri {
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
+    #[Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
     param([string]$Value)
 
     $uri = ''
@@ -161,7 +162,7 @@ function Test-Uri {
 
 # issues a GET to the given address and returns the contents
 function Get-UriContent {
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
+    #[Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
     param([string]$UriAddress)
 
     $response = Invoke-WebRequest $UriAddress -DisableKeepAlive -Method Get
@@ -173,7 +174,7 @@ function Get-UriContent {
 # if the given string is a file path or URI, returns the contents of the file or web page
 # otherwise returns the original string
 function GetFileUriOrStringParameterValue {
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
+    #[Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
     param([string]$parameterValue)
 
     if (Test-Path $parameterValue) {
@@ -189,9 +190,104 @@ function GetFileUriOrStringParameterValue {
     }
 }
 
+# going to check a nested obj! if it works, will update function names/comments then add! :)
+
+# wow actually works with a really complex PSCustomObject string! pretty tight!
+
+
+# Recursive converters for common literal ASTs
+function Convert-AstLiteral {
+    param([Ast] $Node)
+
+    switch ($Node) {
+        # Strings like "text" or 'text'
+        { $_.GetType() -eq [StringConstantExpressionAst] } { return $_.Value }
+        { $_.GetType() -eq [ExpandableStringExpressionAst] } { return $_.Value } # unexpanded, by design
+        # Numbers, $true/$false/$null
+        { $_.GetType() -eq [ConstantExpressionAst] } { return $_.Value }
+        # Need to cover case of ArrayExpressionAst, essentially wrapper node for an array
+        { $_.GetType() -eq [ArrayExpressionAst] } {
+            $arr = @()
+            foreach ($e in $_.SubExpression.Statements) {
+                $arr += Convert-AstLiteral $e
+            }
+            return $arr
+        }
+        # Arrays: @( ... )
+        { $_.GetType() -eq [ArrayLiteralAst] } {
+            $arr = @()
+            foreach ($e in $_.Elements) {
+                $arr += Convert-AstLiteral $e
+            }
+            return $arr
+        }
+        # Nested hashtables 
+        { $_.GetType() -eq [HashtableAst] } {
+            $h = @{}
+            foreach ($kv in $_.KeyValuePairs) {
+                $k = $kv.Item1.Value
+                $h[$k] = Convert-AstLiteral $kv.Item2
+            }
+            return $h
+        }
+        # Case where a literal is wrapped in a pipeline
+        { $_.GetType() -eq [PipelineAst] } {
+            if ($_.PipelineElements.Count -eq 1) {
+                return Convert-AstLiteral $_.PipelineElements[0].Expression
+            }
+            else {
+                throw "Ran into issue attempting to parse PSCustomObject."
+            }
+        }
+        # Case for VariableExpressionAst
+        { $_.GetType() -eq [VariableExpressionAst] } {
+            # Parses for variables such as $null, $true, $false
+            if ($_.VariablePath.IsVariable) {
+                return $_.VariablePath.UserPath
+            }
+            else {
+                throw "Unsupported variable path for safe conversion: $($_.VariablePath.ToString()). Unable to parse PSCustomObject."
+            }
+        }
+        default {
+            # Anything else (commands, variables, expressions) are not allowed
+            throw "Unsupported AST node for safe conversion: $($_.GetType().Name). Unable to parse PSCustomObject."
+        }
+    }
+}
+
+function Convert-HashtableStringSafely {
+    param(
+        [Parameter(Mandatory)]
+        [string] $Metadata
+    )
+
+    $tokens = $null; $errors = $null
+    $ast = [Parser]::ParseInput($Metadata, [ref]$tokens, [ref]$errors)
+
+    if ($errors?.Count) {
+        throw "Invalid PSCustomObject or hashtable literal: $($errors[0].Message)"
+    }
+
+    # Find the first expression in the script
+    $expr = $ast.EndBlock.Statements | ForEach-Object {
+        $_.PipelineElements | ForEach-Object { $_.Expression }
+    } | Select-Object -First 1
+
+    if (-not ($expr -is [HashtableAst])) {
+        throw "Top-level expression is not a hashtable."
+    }
+
+    return Convert-AstLiteral $expr
+}
+
+
+
+
+
 # Returns metadata property as hashtable, extracting from file when necessary
 function ResolvePolicyMetadataParameter {
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
+    #[Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
     param(
         $MetadataValue,
         [bool]$Debug = $false
@@ -212,7 +308,8 @@ function ResolvePolicyMetadataParameter {
 
     if ($metadata -like '@{*') {
         # probably a PSCustomObject, try converting to hashtable
-        return (Invoke-Expression($metadata.Replace('=',"='").Replace(';',"';").Replace('}',"'}")))
+        return Convert-HashtableStringSafely -Metadata $metadata
+        #return (Invoke-Expression($metadata.Replace('=',"='").Replace(';',"';").Replace('}',"'}")))
     }
 
     # otherwise it should be a JSON string
