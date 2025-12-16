@@ -17,7 +17,7 @@ using namespace System.Management.Automation.Language
 
 # split scope into usable parts
 function ParseScope {
-    #[Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
+    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
     param($scope)
 
     # validate args
@@ -89,7 +89,7 @@ function ParseScope {
 # convert various parameter input formats to policy-formatted hashtable suitable for autorest serializers
 function ConvertParameterInput
 {
-    #[Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
+    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
     param ($InputObject)
 
     # traverse collections to ensure nested values are all processed
@@ -126,7 +126,7 @@ function ConvertParameterInput
 # Wrapper for JSON -> PSObject conversion that works on both Core and Desktop editions
 function ConvertFrom-JsonSafe
 {
-    #[Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
+    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
     param(
         [Parameter(ValueFromPipeline)]
         $InputObject,
@@ -153,7 +153,7 @@ function ConvertFrom-JsonSafe
 
 # tests whether the given string is a Uri
 function Test-Uri {
-    #[Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
+    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
     param([string]$Value)
 
     $uri = ''
@@ -162,7 +162,7 @@ function Test-Uri {
 
 # issues a GET to the given address and returns the contents
 function Get-UriContent {
-    #[Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
+    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
     param([string]$UriAddress)
 
     $response = Invoke-WebRequest $UriAddress -DisableKeepAlive -Method Get
@@ -174,7 +174,7 @@ function Get-UriContent {
 # if the given string is a file path or URI, returns the contents of the file or web page
 # otherwise returns the original string
 function GetFileUriOrStringParameterValue {
-    #[Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
+    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
     param([string]$parameterValue)
 
     if (Test-Path $parameterValue) {
@@ -190,14 +190,10 @@ function GetFileUriOrStringParameterValue {
     }
 }
 
-# going to check a nested obj! if it works, will update function names/comments then add! :)
-
-# wow actually works with a really complex PSCustomObject string! pretty tight!
-
-
-# Recursive converters for common literal ASTs
+# Recursive conversion function for common AST blocks from parsing
 function Convert-AstLiteral {
     param([Ast] $Node)
+    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
 
     switch ($Node) {
         # Strings like "text" or 'text'
@@ -205,7 +201,7 @@ function Convert-AstLiteral {
         { $_.GetType() -eq [ExpandableStringExpressionAst] } { return $_.Value } # unexpanded, by design
         # Numbers, $true/$false/$null
         { $_.GetType() -eq [ConstantExpressionAst] } { return $_.Value }
-        # Need to cover case of ArrayExpressionAst, essentially wrapper node for an array
+        # This node type is essentially a wrapper node for an array
         { $_.GetType() -eq [ArrayExpressionAst] } {
             $arr = @()
             foreach ($e in $_.SubExpression.Statements) {
@@ -239,9 +235,8 @@ function Convert-AstLiteral {
                 throw "Ran into issue attempting to parse PSCustomObject."
             }
         }
-        # Case for VariableExpressionAst
+        # Handles variables such as $null, $true, $false
         { $_.GetType() -eq [VariableExpressionAst] } {
-            # Parses for variables such as $null, $true, $false
             if ($_.VariablePath.IsVariable) {
                 return $_.VariablePath.UserPath
             }
@@ -250,20 +245,22 @@ function Convert-AstLiteral {
             }
         }
         default {
-            # Anything else (commands, variables, expressions) are not allowed
+            # Anything else is not allowed
             throw "Unsupported AST node for safe conversion: $($_.GetType().Name). Unable to parse PSCustomObject."
         }
     }
 }
 
-function Convert-HashtableStringSafely {
+# Safely converts a string representation of a hashtable or PSCustomObject into a hashtable
+function ConvertTo-HashtableSafely {
+    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
     param(
         [Parameter(Mandatory)]
-        [string] $Metadata
+        [string] $InputObject
     )
 
     $tokens = $null; $errors = $null
-    $ast = [Parser]::ParseInput($Metadata, [ref]$tokens, [ref]$errors)
+    $ast = [Parser]::ParseInput($InputObject, [ref]$tokens, [ref]$errors)
 
     if ($errors?.Count) {
         throw "Invalid PSCustomObject or hashtable literal: $($errors[0].Message)"
@@ -281,13 +278,9 @@ function Convert-HashtableStringSafely {
     return Convert-AstLiteral $expr
 }
 
-
-
-
-
 # Returns metadata property as hashtable, extracting from file when necessary
 function ResolvePolicyMetadataParameter {
-    #[Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
+    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
     param(
         $MetadataValue,
         [bool]$Debug = $false
@@ -308,13 +301,12 @@ function ResolvePolicyMetadataParameter {
 
     if ($metadata -like '@{*') {
         # probably a PSCustomObject, try converting to hashtable
-        return Convert-HashtableStringSafely -Metadata $metadata
-        #return (Invoke-Expression($metadata.Replace('=',"='").Replace(';',"';").Replace('}',"'}")))
+        return ConvertTo-HashtableSafely -InputObject $metadata
     }
 
     # otherwise it should be a JSON string
     if ($metadata -like '{*}') {
-        return $metadata | ConvertFrom-Json -AsHashtable
+        return $metadata | ConvertFrom-JsonSafe -AsHashtable
     }
 
     throw "Unrecognized metadata format - value: [$($metadataValue)], type: [$($metadataValue.GetType())]"
