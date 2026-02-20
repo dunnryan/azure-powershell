@@ -57,15 +57,6 @@ New-AzPolicyAttestation -InputObject <IPolicyInsightsIdentity> -PolicyAssignment
  [<CommonParameters>]
 ```
 
-### CreateViaIdentityExpanded2
-```
-New-AzPolicyAttestation -InputObject <IPolicyInsightsIdentity> -PolicyAssignmentId <String>
- [-AssessmentDate <DateTime>] [-Comment <String>] [-ComplianceState <String>]
- [-Evidence <IAttestationEvidence[]>] [-ExpiresOn <DateTime>] [-Metadata <String>] [-Owner <String>]
- [-PolicyDefinitionReferenceId <String>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf]
- [<CommonParameters>]
-```
-
 ## DESCRIPTION
 Create an attestation at subscription scope.
 
@@ -191,7 +182,7 @@ Identity Parameter
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-Parameter Sets: CreateViaIdentityExpanded1, CreateViaIdentityExpanded2
+Parameter Sets: CreateViaIdentityExpanded1
 Aliases:
 
 Required: True
@@ -300,7 +291,7 @@ Resource ID.
 ```yaml
 Type: System.String
 Parameter Sets: CreateExpanded2
-Aliases:
+Aliases: Id
 
 Required: True
 Position: Named

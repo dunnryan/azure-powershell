@@ -41,18 +41,6 @@ Get-AzPolicyAttestation -InputObject <IPolicyInsightsIdentity> [-DefaultProfile 
  [<CommonParameters>]
 ```
 
-### GetViaIdentity1
-```
-Get-AzPolicyAttestation -InputObject <IPolicyInsightsIdentity> [-DefaultProfile <PSObject>]
- [<CommonParameters>]
-```
-
-### GetViaIdentity2
-```
-Get-AzPolicyAttestation -InputObject <IPolicyInsightsIdentity> [-DefaultProfile <PSObject>]
- [<CommonParameters>]
-```
-
 ### List1
 ```
 Get-AzPolicyAttestation -ResourceGroupName <String> [-SubscriptionId <String[]>] [-Filter <String>]
@@ -141,7 +129,7 @@ Identity Parameter
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-Parameter Sets: GetViaIdentity, GetViaIdentity1, GetViaIdentity2
+Parameter Sets: GetViaIdentity
 Aliases:
 
 Required: True

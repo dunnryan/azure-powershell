@@ -28,9 +28,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Cmdlets
             Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.IEventListener eventListener,
             Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.ISendAsync sender)
         {
+            var terminalStateReached = false;
+
             // setup the first polling request
             var requestUri = responseMessage.RequestMessage.RequestUri;
-            HttpRequestMessage request = new global::System.Net.Http.HttpRequestMessage(Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.Method.Get, requestUri);
 
             // setup variables that will be continually updated during polling
             HttpResponseMessage response = responseMessage;
@@ -50,8 +51,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Cmdlets
                     await global::System.Threading.Tasks.Task.Delay(1000);
                 }
 
+                // create new request message object
+                HttpRequestMessage request = new global::System.Net.Http.HttpRequestMessage(Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.Method.Get, requestUri);
+                await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.Events.RequestCreated, request.RequestUri.PathAndQuery);
+                await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.Events.BeforeCall, request);
+
                 // make the polling call
                 response = await sender.SendAsync(request, eventListener);
+                await eventListener.Signal(Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.Events.ResponseCreated, response);
 
                 // if we got back an OK, take a peek inside and see if it's done
                 if (response.StatusCode == global::System.Net.HttpStatusCode.OK)
@@ -76,6 +83,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Cmdlets
                                 case "complete":
                                 case "canceled":
                                     // we're done polling.
+                                    terminalStateReached = true;
                                     cmdlet.WriteInformation("Operation reached terminal state.", new string[] { });
                                     break;
 
@@ -91,6 +99,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Cmdlets
                         // if we run into a problem peeking into the result,
                         // we really don't want to do anything special.
                     }
+                }
+
+                if (terminalStateReached)
+                {
+                    break;
                 }
             }
 

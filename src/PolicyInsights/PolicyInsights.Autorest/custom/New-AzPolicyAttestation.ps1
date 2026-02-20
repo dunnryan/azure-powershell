@@ -89,6 +89,7 @@ param(
     ${ResourceGroupName},
 
     [Parameter(ParameterSetName='CreateExpanded2', Mandatory)]
+    [Alias('Id')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource ID.
@@ -101,7 +102,6 @@ param(
     ${Scope},
 
     [Parameter(ParameterSetName='CreateViaIdentityExpanded1', Mandatory, ValueFromPipeline)]
-    [Parameter(ParameterSetName='CreateViaIdentityExpanded2', Mandatory, ValueFromPipeline)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity]
     # Identity Parameter
@@ -231,7 +231,6 @@ process {
                 $null = $PSBoundParameters.Add("SubscriptionId", $scopeObject.SubscriptionId)
             }
             'resource' {
-
                 $null = $PSBoundParameters.Add("ResourceId", $scopeObject.Resource)
             }
             default {

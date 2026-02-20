@@ -48,30 +48,6 @@ Remove-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-DefaultProfi
  [-AsJob] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### DeleteViaIdentity1
-```
-Remove-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-DefaultProfile <PSObject>] [-AllowStop]
- [-AsJob] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### DeleteViaIdentity2
-```
-Remove-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-DefaultProfile <PSObject>] [-AllowStop]
- [-AsJob] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### DeleteViaIdentity3
-```
-Remove-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-DefaultProfile <PSObject>] [-AllowStop]
- [-AsJob] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### DeleteViaIdentityManagementGroup
-```
-Remove-AzPolicyRemediation -ManagementGroupInputObject <IPolicyInsightsIdentity> -Name <String>
- [-DefaultProfile <PSObject>] [-AllowStop] [-AsJob] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
 ## DESCRIPTION
 Deletes an existing remediation at management group scope.
 
@@ -153,7 +129,7 @@ Identity Parameter
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-Parameter Sets: DeleteViaIdentity, DeleteViaIdentity1, DeleteViaIdentity2, DeleteViaIdentity3
+Parameter Sets: DeleteViaIdentity
 Aliases:
 
 Required: True
@@ -178,27 +154,12 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ManagementGroupInputObject
-Identity Parameter
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-Parameter Sets: DeleteViaIdentityManagementGroup
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
 ### -Name
 The name of the remediation.
 
 ```yaml
 Type: System.String
-Parameter Sets: Delete, Delete1, Delete2, Delete3, DeleteScope, DeleteViaIdentityManagementGroup
+Parameter Sets: Delete, Delete1, Delete2, Delete3, DeleteScope
 Aliases: RemediationName
 
 Required: True

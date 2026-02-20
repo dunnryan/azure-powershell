@@ -177,30 +177,40 @@ function GetFileUriOrStringParameterValue {
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
     param([string]$parameterValue)
 
-    if (Test-Path $parameterValue) {
-        Get-Content $parameterValue | Out-String
+    # Test-Path can throw on bad input, but we just want to move to the next check if it does 
+    try {
+        if (Test-Path $parameterValue) {
+            return Get-Content $parameterValue | Out-String
+        }
+    }
+    catch {
+        # if error, want to handle exactly same as path not being valid by continuing
+    }
+
+    if (Test-Uri $parameterValue) {
+        return Get-UriContent $parameterValue
     }
     else {
-        if (Test-Uri $parameterValue) {
-            Get-UriContent $parameterValue
-        }
-        else {
-            $parameterValue
-        }
+        return $parameterValue
     }
 }
 
 # Recursive conversion function for common AST blocks from parsing
 function Convert-AstLiteral {
-    param([Ast] $Node)
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
+    param([Ast] $Node)
+
+    # ensure Node isn't null before checking type in switch 
+    if ($null -eq $Node) {
+        return $null
+    }
 
     switch ($Node) {
-        # Strings like "text" or 'text'
-        { $_.GetType() -eq [StringConstantExpressionAst] } { return $_.Value }
-        { $_.GetType() -eq [ExpandableStringExpressionAst] } { return $_.Value } # unexpanded, by design
         # Numbers, $true/$false/$null
         { $_.GetType() -eq [ConstantExpressionAst] } { return $_.Value }
+        # Strings like "text" or 'text'
+        { $_.GetType() -eq [StringConstantExpressionAst] } { return $_.Value }
+        { $_.GetType() -eq [ExpandableStringExpressionAst] } { return $_.Value }
         # This node type is essentially a wrapper node for an array
         { $_.GetType() -eq [ArrayExpressionAst] } {
             $arr = @()
@@ -232,7 +242,7 @@ function Convert-AstLiteral {
                 return Convert-AstLiteral $_.PipelineElements[0].Expression
             }
             else {
-                throw "Ran into issue attempting to parse PSCustomObject."
+                throw "Pipeline contains multiple elements, expected a single literal expression when parsing PSCustomObject."
             }
         }
         # Handles variables such as $null, $true, $false
@@ -244,9 +254,13 @@ function Convert-AstLiteral {
                 throw "Unsupported variable path for safe conversion: $($_.VariablePath.ToString()). Unable to parse PSCustomObject."
             }
         }
+        # Handles the case where a literal gets tokenized as a MemberExpressionAst - returns the string representation of the token
+        { $_.GetType() -eq [MemberExpressionAst] } {
+            return $_.Extent.Text
+        }
         default {
             # Anything else is not allowed
-            throw "Unsupported AST node for safe conversion: $($_.GetType().Name). Unable to parse PSCustomObject."
+            throw "Unsupported AST node for safe conversion: $($_.GetType().Name). Value: $($_.ToString()). Unable to parse PSCustomObject."
         }
     }
 }
@@ -259,10 +273,13 @@ function ConvertTo-HashtableSafely {
         [string] $InputObject
     )
 
-    $tokens = $null; $errors = $null
-    $ast = [Parser]::ParseInput($InputObject, [ref]$tokens, [ref]$errors)
+    # Adding quotes to unquoted strings, datetimes, etc. to avoid parsing errors
+    $fixedInput = $InputObject -replace '(?m)(=\s*)([a-zA-Z_][\w\-\.:/]*|\d{1,2}:\d{2}:\d{2}|\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}:\d{2}Z?)?|\d{1,2}/\d{1,2}/\d{4}(?:\s+\d{1,2}:\d{2}:\d{2})?|\d{4}/\d{2}/\d{2}(?:\s+\d{1,2}:\d{2}:\d{2})?)(\s*[\r\n;}]|$)', '$1"$2"$3'
 
-    if ($errors?.Count) {
+    $tokens = $null; $errors = $null
+    $ast = [Parser]::ParseInput($fixedInput, [ref]$tokens, [ref]$errors)
+
+    if ($errors -and $errors.Count -gt 0) {
         throw "Invalid PSCustomObject or hashtable literal: $($errors[0].Message)"
     }
 
@@ -272,7 +289,7 @@ function ConvertTo-HashtableSafely {
     } | Select-Object -First 1
 
     if (-not ($expr -is [HashtableAst])) {
-        throw "Top-level expression is not a hashtable."
+        throw "Top-level expression is not a hashtable. It is of type: $($expr.GetType())"
     }
 
     return Convert-AstLiteral $expr
@@ -292,6 +309,11 @@ function ResolvePolicyMetadataParameter {
 
     if ([System.String]::IsNullOrEmpty($metadataValue)) {
         return $metadataValue
+    }
+
+    # This function will usually be passed a string, but can have an issue if passed a PSCustomObject that isn't converted to string
+    if ($MetadataValue -isnot [string]) {
+        $MetadataValue = $MetadataValue | ConvertTo-Json -Depth 30
     }
 
     $metadata = (GetFileUriOrStringParameterValue $metadataValue).Trim()

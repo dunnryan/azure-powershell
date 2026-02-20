@@ -17,8 +17,7 @@ Create a remediation at management group scope.
 Start-AzPolicyRemediation -Name <String> [-SubscriptionId <String>] [-FailureThresholdPercentage <Single>]
  [-FilterLocation <String[]>] [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>]
  [-PolicyAssignmentId <String>] [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>]
- [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+ [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
 ```
 
 ### CreateExpanded
@@ -26,8 +25,7 @@ Start-AzPolicyRemediation -Name <String> [-SubscriptionId <String>] [-FailureThr
 Start-AzPolicyRemediation -ManagementGroupId <String> -Name <String> [-FailureThresholdPercentage <Single>]
  [-FilterLocation <String[]>] [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>]
  [-PolicyAssignmentId <String>] [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>]
- [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+ [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
 ```
 
 ### CreateExpanded2
@@ -36,7 +34,7 @@ Start-AzPolicyRemediation -Name <String> -ResourceGroupName <String> [-Subscript
  [-FailureThresholdPercentage <Single>] [-FilterLocation <String[]>] [-FilterResourceId <String[]>]
  [-ParallelDeployment <Int32>] [-PolicyAssignmentId <String>] [-PolicyDefinitionReferenceId <String>]
  [-ResourceCount <Int32>] [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait]
- [-Confirm] [-WhatIf] [<CommonParameters>]
+ [<CommonParameters>]
 ```
 
 ### CreateExpanded3
@@ -44,8 +42,7 @@ Start-AzPolicyRemediation -Name <String> -ResourceGroupName <String> [-Subscript
 Start-AzPolicyRemediation -Name <String> -ResourceId <String> [-FailureThresholdPercentage <Single>]
  [-FilterLocation <String[]>] [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>]
  [-PolicyAssignmentId <String>] [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>]
- [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+ [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
 ```
 
 ### CreateExpandedScope
@@ -54,7 +51,7 @@ Start-AzPolicyRemediation -Name <String> -PolicyAssignmentId <String> -Scope <St
  [-ManagementGroupId <String>] [-ResourceGroupName <String>] [-FailureThresholdPercentage <Single>]
  [-FilterLocation <String[]>] [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>]
  [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>] [-ResourceDiscoveryMode <String>]
- [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
 ```
 
 ### CreateViaIdentityExpanded1
@@ -62,35 +59,31 @@ Start-AzPolicyRemediation -Name <String> -PolicyAssignmentId <String> -Scope <St
 Start-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-FailureThresholdPercentage <Single>]
  [-FilterLocation <String[]>] [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>]
  [-PolicyAssignmentId <String>] [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>]
- [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+ [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
 ```
 
 ### CreateViaIdentityExpanded2
 ```
-Start-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-FailureThresholdPercentage <Single>]
- [-FilterLocation <String[]>] [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>]
- [-PolicyAssignmentId <String>] [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>]
- [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+Start-AzPolicyRemediation [-FailureThresholdPercentage <Single>] [-FilterLocation <String[]>]
+ [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>] [-PolicyAssignmentId <String>]
+ [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>] [-ResourceDiscoveryMode <String>]
+ [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
 ```
 
 ### CreateViaIdentityExpanded3
 ```
-Start-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-FailureThresholdPercentage <Single>]
- [-FilterLocation <String[]>] [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>]
- [-PolicyAssignmentId <String>] [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>]
- [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+Start-AzPolicyRemediation [-FailureThresholdPercentage <Single>] [-FilterLocation <String[]>]
+ [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>] [-PolicyAssignmentId <String>]
+ [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>] [-ResourceDiscoveryMode <String>]
+ [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
 ```
 
 ### CreateViaIdentityManagementGroupExpanded
 ```
-Start-AzPolicyRemediation -ManagementGroupInputObject <IPolicyInsightsIdentity> -Name <String>
- [-FailureThresholdPercentage <Single>] [-FilterLocation <String[]>] [-FilterResourceId <String[]>]
- [-ParallelDeployment <Int32>] [-PolicyAssignmentId <String>] [-PolicyDefinitionReferenceId <String>]
- [-ResourceCount <Int32>] [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait]
- [-Confirm] [-WhatIf] [<CommonParameters>]
+Start-AzPolicyRemediation -Name <String> [-FailureThresholdPercentage <Single>] [-FilterLocation <String[]>]
+ [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>] [-PolicyAssignmentId <String>]
+ [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>] [-ResourceDiscoveryMode <String>]
+ [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -124,7 +117,7 @@ Create a remediation at management group scope.
 
 ### -AsJob
 Run cmdlet in the background.
-Runs until deployments from Remediation complete.
+Runs until terminal state of Remediation is reached.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -208,7 +201,7 @@ Identity Parameter
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-Parameter Sets: CreateViaIdentityExpanded1, CreateViaIdentityExpanded2, CreateViaIdentityExpanded3
+Parameter Sets: CreateViaIdentityExpanded1
 Aliases:
 
 Required: True
@@ -230,21 +223,6 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ManagementGroupInputObject
-Identity Parameter
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-Parameter Sets: CreateViaIdentityManagementGroupExpanded
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
@@ -379,7 +357,7 @@ Resource ID.
 ```yaml
 Type: System.String
 Parameter Sets: CreateExpanded3
-Aliases:
+Aliases: Id
 
 Required: True
 Position: Named
@@ -416,37 +394,6 @@ Aliases:
 Required: False
 Position: Named
 Default value: (Get-AzContext).Subscription.Id
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
-
-```yaml
-Type: System.Management.Automation.SwitchParameter
-Parameter Sets: (All)
-Aliases: cf
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
-
-```yaml
-Type: System.Management.Automation.SwitchParameter
-Parameter Sets: (All)
-Aliases: wi
-
-Required: False
-Position: Named
-Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

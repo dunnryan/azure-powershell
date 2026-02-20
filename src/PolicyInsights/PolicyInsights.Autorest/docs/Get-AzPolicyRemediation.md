@@ -48,30 +48,6 @@ Get-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-DefaultProfile 
  [<CommonParameters>]
 ```
 
-### GetViaIdentity1
-```
-Get-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-DefaultProfile <PSObject>]
- [<CommonParameters>]
-```
-
-### GetViaIdentity2
-```
-Get-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-DefaultProfile <PSObject>]
- [<CommonParameters>]
-```
-
-### GetViaIdentity3
-```
-Get-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-DefaultProfile <PSObject>]
- [<CommonParameters>]
-```
-
-### GetViaIdentityManagementGroup
-```
-Get-AzPolicyRemediation -ManagementGroupInputObject <IPolicyInsightsIdentity> -Name <String>
- [-DefaultProfile <PSObject>] [<CommonParameters>]
-```
-
 ### List
 ```
 Get-AzPolicyRemediation -ManagementGroupId <String> [-Filter <String>] [-Top <Int32>]
@@ -182,7 +158,7 @@ Identity Parameter
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-Parameter Sets: GetViaIdentity, GetViaIdentity1, GetViaIdentity2, GetViaIdentity3
+Parameter Sets: GetViaIdentity
 Aliases:
 
 Required: True
@@ -207,27 +183,12 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ManagementGroupInputObject
-Identity Parameter
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-Parameter Sets: GetViaIdentityManagementGroup
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
 ### -Name
 The name of the remediation.
 
 ```yaml
 Type: System.String
-Parameter Sets: Get, Get1, Get2, Get3, GetViaIdentityManagementGroup, ScopeAndName
+Parameter Sets: Get, Get1, Get2, Get3, ScopeAndName
 Aliases: RemediationName
 
 Required: True

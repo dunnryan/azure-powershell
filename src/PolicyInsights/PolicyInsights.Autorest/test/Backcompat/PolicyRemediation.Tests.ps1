@@ -16,6 +16,10 @@
 . (Join-Path $PSScriptRoot 'Common.ps1') 'Remediation-CRUD'
 
 
+
+# currently: running the below tests manually to get a feel for them! :)
+# next: refactor according to current behavior
+
 # add tests for:
 # - remediation resource ID filter 
 
@@ -25,7 +29,9 @@
 # oof, gonna have to change a loooot of Deployment variable refs here 
 
 # right now... I'm of the mind that I might revert some changes I've made if they give issues 
-#     if it's little stuff, that's one thing
+#     if it's little stuff, that's one thing, but my changes are already so breaking 
+
+# okay, start with above idea tomorrow! ^^^ try running some manually! :)
 
 Describe 'Remediation-CRUD' {
 

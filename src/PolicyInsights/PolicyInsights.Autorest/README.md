@@ -44,7 +44,7 @@ input-file:
 #  - (this-folder)/relative-path-to-your-local-readme.md
 
 # For new RP, the version is 0.1.1
-module-version: 0.1.1
+module-version: 20.1.1
 # Normally, title is the service name
 root-module-name: $(prefix).PolicyInsights
 title: PolicyInsights
@@ -185,6 +185,38 @@ directive:
           }
         }
       }
+
+# Directives to add parameter aliases 
+  - where:
+      subject: Remediation
+      parameter-name: FilterLocation
+    set:
+      alias: LocationFilter
+  - where:
+      subject: Remediation
+      parameter-name: ManagementGroupId
+    set:
+      alias: ManagementGroupName
+  - where:
+      subject: Remediation
+      parameter-name: ResourceId
+    set:
+      alias: Id
+  - where:
+      subject: Remediation
+      parameter-name: FailureThresholdPercentage
+    set:
+      alias: FailureThreshold
+  - where:
+      subject: Remediation
+      parameter-name: ParallelDeployment
+    set:
+      alias: ParallelDeploymentCount
+  - where:
+      subject: Attestation
+      parameter-name: ResourceId
+    set:
+      alias: Id
 
 # Policy Insights specific cmdlet directives 
   # Hide Get-AzPolicyStateQueryResult, will be called by Get-AzPolicyState

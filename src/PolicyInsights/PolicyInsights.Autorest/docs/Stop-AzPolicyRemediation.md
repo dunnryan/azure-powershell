@@ -32,8 +32,8 @@ Stop-AzPolicyRemediation -Name <String> -ResourceGroupName <String> [-Subscripti
 
 ### Cancel3
 ```
-Stop-AzPolicyRemediation -Name <String> -ResourceId <String> [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+Stop-AzPolicyRemediation -Name <String> -ResourceId <String> [-DefaultProfile <PSObject>] [-AsJob] [-NoWait]
+ [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### CancelScope
@@ -48,28 +48,10 @@ Stop-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-DefaultProfile
  [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### CancelViaIdentity1
-```
-Stop-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-DefaultProfile <PSObject>] [-AsJob]
- [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### CancelViaIdentity2
-```
-Stop-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-DefaultProfile <PSObject>] [-AsJob]
- [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### CancelViaIdentity3
-```
-Stop-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-DefaultProfile <PSObject>] [-Confirm]
- [-WhatIf] [<CommonParameters>]
-```
-
 ### CancelViaIdentityManagementGroup
 ```
-Stop-AzPolicyRemediation -ManagementGroupInputObject <IPolicyInsightsIdentity> -Name <String>
- [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
+Stop-AzPolicyRemediation -Name <String> [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -106,7 +88,7 @@ Run the command as a job
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
-Parameter Sets: Cancel, Cancel1, Cancel2, CancelScope, CancelViaIdentity, CancelViaIdentity1, CancelViaIdentity2, CancelViaIdentityManagementGroup
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -137,7 +119,7 @@ Identity Parameter
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-Parameter Sets: CancelViaIdentity, CancelViaIdentity1, CancelViaIdentity2, CancelViaIdentity3
+Parameter Sets: CancelViaIdentity
 Aliases:
 
 Required: True
@@ -162,21 +144,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ManagementGroupInputObject
-Identity Parameter
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-Parameter Sets: CancelViaIdentityManagementGroup
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
 ### -Name
 The name of the remediation.
 
@@ -197,7 +164,7 @@ Run the command asynchronously
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
-Parameter Sets: Cancel, Cancel1, Cancel2, CancelScope, CancelViaIdentity, CancelViaIdentity1, CancelViaIdentity2, CancelViaIdentityManagementGroup
+Parameter Sets: (All)
 Aliases:
 
 Required: False

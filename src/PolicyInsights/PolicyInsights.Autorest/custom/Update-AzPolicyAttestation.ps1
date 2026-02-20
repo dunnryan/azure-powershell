@@ -215,8 +215,6 @@ param(
     ${ProxyUseDefaultCredentials}
 )
 
-# if not stuck anywhere else lol, need to convert Metadata to a hash table in readme! 
-
 process {
 
     # ResourceId validation in generated code for ViaIdentity is broken so we workaround it by extracting 

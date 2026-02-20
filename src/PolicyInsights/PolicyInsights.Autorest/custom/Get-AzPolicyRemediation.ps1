@@ -53,25 +53,6 @@ INPUTOBJECT <IPolicyInsightsIdentity>: Identity Parameter
   [ResourceName <String>]: The name of the policy metadata resource.
   [SubscriptionId <String>]: The ID of the target subscription.
 
-MANAGEMENTGROUPINPUTOBJECT <IPolicyInsightsIdentity>: Identity Parameter
-  [AttestationName <String>]: The name of the attestation.
-  [AuthorizationNamespace <String>]: The namespace for Microsoft Authorization resource provider; only "Microsoft.Authorization" is allowed.
-  [Id <String>]: Resource identity path
-  [ManagementGroupId <String>]: Management group ID.
-  [ManagementGroupName <String>]: Management group name.
-  [ManagementGroupsNamespace <String>]: The namespace for Microsoft Management RP; only "Microsoft.Management" is allowed.
-  [NextLink <String>]: Next link for list operation.
-  [PolicyAssignmentName <String>]: Policy assignment name.
-  [PolicyDefinitionName <String>]: Policy definition name.
-  [PolicyEventsResource <String>]: The name of the virtual resource under PolicyEvents resource type; only "default" is allowed.
-  [PolicySetDefinitionName <String>]: Policy set definition name.
-  [PolicyStatesResource <String>]: The virtual resource under PolicyStates resource type. In a given time range, 'latest' represents the latest policy state(s), whereas 'default' represents all policy state(s).
-  [PolicyStatesSummaryResource <String>]: The virtual resource under PolicyStates resource type for summarize action. In a given time range, 'latest' represents the latest policy state(s) and is the only allowed value.
-  [RemediationName <String>]: The name of the remediation.
-  [ResourceGroupName <String>]: The name of the resource group. The name is case insensitive.
-  [ResourceId <String>]: Resource ID.
-  [ResourceName <String>]: The name of the policy metadata resource.
-  [SubscriptionId <String>]: The ID of the target subscription.
 .Link
 https://learn.microsoft.com/powershell/module/az.policyinsights/get-azpolicyremediation
 #>
@@ -91,7 +72,6 @@ param(
     [Parameter(ParameterSetName='Get1', Mandatory)]
     [Parameter(ParameterSetName='Get2', Mandatory)]
     [Parameter(ParameterSetName='Get3', Mandatory)]
-    [Parameter(ParameterSetName='GetViaIdentityManagementGroup', Mandatory)]
     [Parameter(ParameterSetName='ScopeAndName', Mandatory)]
     [Alias('RemediationName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
@@ -131,19 +111,10 @@ param(
     ${Scope},
 
     [Parameter(ParameterSetName='GetViaIdentity', Mandatory, ValueFromPipeline)]
-    [Parameter(ParameterSetName='GetViaIdentity1', Mandatory, ValueFromPipeline)]
-    [Parameter(ParameterSetName='GetViaIdentity2', Mandatory, ValueFromPipeline)]
-    [Parameter(ParameterSetName='GetViaIdentity3', Mandatory, ValueFromPipeline)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity]
     # Identity Parameter
     ${InputObject},
-
-    [Parameter(ParameterSetName='GetViaIdentityManagementGroup', Mandatory, ValueFromPipeline)]
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity]
-    # Identity Parameter
-    ${ManagementGroupInputObject},
 
     [Parameter(ParameterSetName='List')]
     [Parameter(ParameterSetName='List1')]
@@ -235,6 +206,18 @@ process {
 
     $output = $null
 
+    # Generated code can't parse which scope of InputObject is being passed in so it's easiest to parse it into other parameters 
+    if($PSBoundParameters.ContainsKey("InputObject"))
+    {        
+        # extract scope from the InputObject's Id and add to Parameters 
+        $idSplit = $InputObject.Id -split '/providers/microsoft.policyinsights/remediations/'
+        $null = $PSBoundParameters.Add("Scope", $idSplit[0])
+        $null = $PSBoundParameters.Add("Name", $idSplit[1])
+
+        # remove the InputObject parameter
+        $null = $PSBoundParameters.Remove("InputObject")
+    }
+
     # pre process the "Scope" parameter into other parameters if it's present
     if($PSBoundParameters.ContainsKey("Scope"))
     {
@@ -253,7 +236,6 @@ process {
                 $null = $PSBoundParameters.Add("SubscriptionId", $scopeObject.SubscriptionId)
             }
             'resource' {
-
                 $null = $PSBoundParameters.Add("ResourceId", $scopeObject.Resource)
             }
             default {

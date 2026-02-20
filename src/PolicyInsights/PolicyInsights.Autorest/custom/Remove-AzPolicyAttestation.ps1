@@ -158,19 +158,12 @@ param(
     ${ProxyUseDefaultCredentials}
 )
 
-# think I figured out a solution to the piping issue! :)
-# going to use a variable calledParameters instead of PSBoundParameters! this will reset every iteration!
-# will: 
-# - add it here X
-# - run the tests to verify X
-# - and add it to the rest of the cmdlets if successful
-
 process {
 
     # ResourceId validation in generated code for ViaIdentity is broken so we workaround it by extracting 
     # the id from the InputObject and having it parsed as Scope afterwards
     if($PSBoundParameters.ContainsKey("InputObject"))
-    {        
+    {
         # extract scope from the InputObject's Id and add to Parameters 
         $idSplit = $InputObject.Id -split '/providers/microsoft.policyinsights/attestations/'
         $null = $PSBoundParameters.Add("Scope", $idSplit[0])

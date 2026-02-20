@@ -52,26 +52,6 @@ INPUTOBJECT <IPolicyInsightsIdentity>: Identity Parameter
   [ResourceId <String>]: Resource ID.
   [ResourceName <String>]: The name of the policy metadata resource.
   [SubscriptionId <String>]: The ID of the target subscription.
-
-MANAGEMENTGROUPINPUTOBJECT <IPolicyInsightsIdentity>: Identity Parameter
-  [AttestationName <String>]: The name of the attestation.
-  [AuthorizationNamespace <String>]: The namespace for Microsoft Authorization resource provider; only "Microsoft.Authorization" is allowed.
-  [Id <String>]: Resource identity path
-  [ManagementGroupId <String>]: Management group ID.
-  [ManagementGroupName <String>]: Management group name.
-  [ManagementGroupsNamespace <String>]: The namespace for Microsoft Management RP; only "Microsoft.Management" is allowed.
-  [NextLink <String>]: Next link for list operation.
-  [PolicyAssignmentName <String>]: Policy assignment name.
-  [PolicyDefinitionName <String>]: Policy definition name.
-  [PolicyEventsResource <String>]: The name of the virtual resource under PolicyEvents resource type; only "default" is allowed.
-  [PolicySetDefinitionName <String>]: Policy set definition name.
-  [PolicyStatesResource <String>]: The virtual resource under PolicyStates resource type. In a given time range, 'latest' represents the latest policy state(s), whereas 'default' represents all policy state(s).
-  [PolicyStatesSummaryResource <String>]: The virtual resource under PolicyStates resource type for summarize action. In a given time range, 'latest' represents the latest policy state(s) and is the only allowed value.
-  [RemediationName <String>]: The name of the remediation.
-  [ResourceGroupName <String>]: The name of the resource group. The name is case insensitive.
-  [ResourceId <String>]: Resource ID.
-  [ResourceName <String>]: The name of the policy metadata resource.
-  [SubscriptionId <String>]: The ID of the target subscription.
 .Link
 https://learn.microsoft.com/powershell/module/az.policyinsights/stop-azpolicyremediation
 #>
@@ -119,19 +99,10 @@ param(
     ${ResourceId},
 
     [Parameter(ParameterSetName='CancelViaIdentity', Mandatory, ValueFromPipeline)]
-    [Parameter(ParameterSetName='CancelViaIdentity1', Mandatory, ValueFromPipeline)]
-    [Parameter(ParameterSetName='CancelViaIdentity2', Mandatory, ValueFromPipeline)]
-    [Parameter(ParameterSetName='CancelViaIdentity3', Mandatory, ValueFromPipeline)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity]
     # Identity Parameter
     ${InputObject},
-
-    [Parameter(ParameterSetName='CancelViaIdentityManagementGroup', Mandatory, ValueFromPipeline)]
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity]
-    # Identity Parameter
-    ${ManagementGroupInputObject},
 
     [Parameter()]
     [Alias('AzureRMContext', 'AzureCredential')]
@@ -142,14 +113,6 @@ param(
     # Use the SubscriptionId parameter when available if executing the cmdlet against a different subscription.
     ${DefaultProfile},
 
-    [Parameter(ParameterSetName='Cancel')]
-    [Parameter(ParameterSetName='Cancel1')]
-    [Parameter(ParameterSetName='Cancel2')]
-    [Parameter(ParameterSetName='CancelScope')]
-    [Parameter(ParameterSetName='CancelViaIdentity')]
-    [Parameter(ParameterSetName='CancelViaIdentity1')]
-    [Parameter(ParameterSetName='CancelViaIdentity2')]
-    [Parameter(ParameterSetName='CancelViaIdentityManagementGroup')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Runtime')]
     [System.Management.Automation.SwitchParameter]
     # Run the command as a job
@@ -181,14 +144,6 @@ param(
     # SendAsync Pipeline Steps to be prepended to the front of the pipeline
     ${HttpPipelinePrepend},
 
-    [Parameter(ParameterSetName='Cancel')]
-    [Parameter(ParameterSetName='Cancel1')]
-    [Parameter(ParameterSetName='Cancel2')]
-    [Parameter(ParameterSetName='CancelScope')]
-    [Parameter(ParameterSetName='CancelViaIdentity')]
-    [Parameter(ParameterSetName='CancelViaIdentity1')]
-    [Parameter(ParameterSetName='CancelViaIdentity2')]
-    [Parameter(ParameterSetName='CancelViaIdentityManagementGroup')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Runtime')]
     [System.Management.Automation.SwitchParameter]
     # Run the command asynchronously
@@ -217,6 +172,18 @@ param(
 # This cmdlet requires customization in order to process scope
 
 process {
+
+    # Generated code can't parse which scope of InputObject is being passed in so it's easiest to parse it into other parameters 
+    if($PSBoundParameters.ContainsKey("InputObject"))
+    {        
+        # extract scope from the InputObject's Id and add to Parameters 
+        $idSplit = $InputObject.Id -split '/providers/microsoft.policyinsights/remediations/'
+        $null = $PSBoundParameters.Add("Scope", $idSplit[0])
+        $null = $PSBoundParameters.Add("Name", $idSplit[1])
+
+        # remove the InputObject parameter
+        $null = $PSBoundParameters.Remove("InputObject")
+    }
 
     # pre process the "Scope" parameter into other parameters if it's present
     if($PSBoundParameters.ContainsKey("Scope"))
