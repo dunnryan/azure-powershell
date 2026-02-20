@@ -237,15 +237,41 @@ param(
     ${ProxyUseDefaultCredentials}
 )
 
-# Needs customization to match parameter names with current versions and add support for scope parameter
-
 process {
 
-    $RunAsJob = $false
+    # Check if AsJob switch was used and setup a job to run and call the cmdlet within it
     if($PSBoundParameters.ContainsKey("AsJob"))
     {
-        $RunAsJob = $true
         $null = $PSBoundParameters.Remove("AsJob")
+
+        # Save context to a temp file for the job to import
+        $contextFilePath = [System.IO.Path]::GetTempFileName()
+        $null = Save-AzContext -Path $contextFilePath -Force
+
+        # ScriptBlock for Start-Job to call, it does the necessary env setup required to run the cmdlet in a fresh powershell process
+        $scriptCmd = {
+            param($InputParameters, $ScriptRoot, $ContextFilePath)
+
+            # Load the main module which handles Az.Accounts integration and proper initialization
+            $mainModulePath = Join-Path $ScriptRoot '..\Az.PolicyInsights.psd1'
+            if(Test-Path $mainModulePath) {
+                $null = Import-Module -Name $mainModulePath -Force
+            }
+
+            # Restore the Azure context in the job
+            $null = Import-AzContext -Path $ContextFilePath
+
+            # Clean up the temp file
+            Remove-Item -Path $ContextFilePath -Force -ErrorAction SilentlyContinue
+
+            & Start-AzPolicyRemediation @InputParameters
+        }
+
+        $parametersHashtable = [hashtable]$PSBoundParameters
+
+        $output = Start-Job -ScriptBlock $scriptCmd -ArgumentList $parametersHashtable, $PSScriptRoot, $contextFilePath
+
+        return $output
     }
 
     # Generated code can't parse which scope of InputObject is being passed in so it's easiest to parse it into other parameters 
@@ -289,61 +315,8 @@ process {
         $null = $PSBoundParameters.Remove("Scope")
     }
 
-    # For parameter sets that use SubscriptionId, ensure it's resolved before starting the job
-    # since jobs don't have access to the Azure context
-    $subscriptionParameterSets = @('CreateExpanded1', 'CreateExpanded2')
-    if ($subscriptionParameterSets -contains $PSCmdlet.ParameterSetName -and -not $PSBoundParameters.ContainsKey('SubscriptionId'))
-    {
-        $context = Get-AzContext
-        if ($null -eq $context -or $null -eq $context.Subscription -or $null -eq $context.Subscription.Id)
-        {
-            throw "No Azure subscription context found. Please run 'Connect-AzAccount' and 'Set-AzContext' before running this cmdlet, or provide the -SubscriptionId parameter."
-        }
-        $PSBoundParameters['SubscriptionId'] = $context.Subscription.Id
-    }
 
-    if ($RunAsJob)
-    {
-        # Capture the Azure context to pass into the job
-        $azContext = Get-AzContext
-        if ($null -eq $azContext)
-        {
-            throw "No Azure context found. Please run 'Connect-AzAccount' before running this cmdlet with -AsJob."
-        }
-
-        # Save context to a temp file for the job to import
-        $contextFilePath = [System.IO.Path]::GetTempFileName()
-        $null = Save-AzContext -Path $contextFilePath -Force
-
-        $scriptCmd = {
-            param($InputParameters, $ScriptRoot, $ContextFilePath)
-
-            # Load the main module which handles Az.Accounts integration and proper initialization
-            $mainModulePath = Join-Path $ScriptRoot '..\Az.PolicyInsights.psd1'
-            if(Test-Path $mainModulePath) {
-                $null = Import-Module -Name $mainModulePath -Force
-            }
-
-            # Restore the Azure context in the job
-            $null = Import-AzContext -Path $ContextFilePath
-
-            # Clean up the temp file
-            Remove-Item -Path $ContextFilePath -Force -ErrorAction SilentlyContinue
-
-            & Start-AzPolicyRemediation @InputParameters
-            #& Az.PolicyInsights.internal\New-AzPolicyRemediation @InputParameters
-        }
-
-        $scriptRootHolder = $PSScriptRoot
-        $ht = [hashtable]$PSBoundParameters
-
-        $output = Start-Job -ScriptBlock $scriptCmd -ArgumentList $ht, $scriptRootHolder, $contextFilePath
-    }
-    else
-    {
-        $output = Az.PolicyInsights.internal\New-AzPolicyRemediation @PSBoundParameters
-    }
-
+    $output = Az.PolicyInsights.internal\New-AzPolicyRemediation @PSBoundParameters
 
     $PSCmdlet.WriteObject($output, $true)
 

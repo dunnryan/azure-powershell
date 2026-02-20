@@ -176,125 +176,130 @@ param(
     ${ProxyUseDefaultCredentials}
 )
 
-# if there's an issue, consider passing PSBoundParameters to the ScriptBlock
-
-# okay! time to analyze the Job component of this! :)
-#   analyze, test it, then likely remove the AsJob component hahaha
-# unless it somehow works... in which case I'll be adding it back to Start hahaha
 
 process {
 
-    $runAsJob = $false
     if($PSBoundParameters.ContainsKey("AsJob"))
     {
         $null = $PSBoundParameters.Remove("AsJob")
-        $runAsJob = $true
+
+        # Save context to a temp file for the job to import
+        $contextFilePath = [System.IO.Path]::GetTempFileName()
+        $null = Save-AzContext -Path $contextFilePath -Force
+
+        # ScriptBlock for Start-Job to call, it does the necessary env setup required to run the cmdlet in a fresh powershell process
+        $scriptCmd = {
+            param($InputParameters, $ScriptRoot, $ContextFilePath)
+
+            # Load the main module which handles Az.Accounts integration and proper initialization
+            $mainModulePath = Join-Path $ScriptRoot '..\Az.PolicyInsights.psd1'
+            if(Test-Path $mainModulePath) {
+                $null = Import-Module -Name $mainModulePath -Force
+            }
+
+            # Restore the Azure context in the job
+            $null = Import-AzContext -Path $ContextFilePath
+
+            # Clean up the temp file
+            Remove-Item -Path $ContextFilePath -Force -ErrorAction SilentlyContinue
+
+            & Remove-AzPolicyRemediation @InputParameters
+        }
+
+        $parametersHashtable = [hashtable]$PSBoundParameters
+
+        $output = Start-Job -ScriptBlock $scriptCmd -ArgumentList $parametersHashtable, $PSScriptRoot, $contextFilePath
+
+        return $output
     }
 
 
-    # placing the logic for the cmdlet in a script block so that it can either be called synchronously or asynchronously 
-    $wrappedCmd = {
+    # Generated code can't parse which scope of InputObject is being passed in so it's easiest to parse it into other parameters 
+    if($PSBoundParameters.ContainsKey("InputObject"))
+    {        
+        # extract scope from the InputObject's Id and add to Parameters 
+        $idSplit = $InputObject.Id -split '/providers/microsoft.policyinsights/remediations/'
+        $null = $PSBoundParameters.Add("Scope", $idSplit[0])
+        $null = $PSBoundParameters.Add("Name", $idSplit[1])
 
-        # Generated code can't parse which scope of InputObject is being passed in so it's easiest to parse it into other parameters 
-        if($PSBoundParameters.ContainsKey("InputObject"))
-        {        
-            # extract scope from the InputObject's Id and add to Parameters 
-            $idSplit = $InputObject.Id -split '/providers/microsoft.policyinsights/remediations/'
-            $null = $PSBoundParameters.Add("Scope", $idSplit[0])
-            $null = $PSBoundParameters.Add("Name", $idSplit[1])
-
-            # remove the InputObject parameter
-            $null = $PSBoundParameters.Remove("InputObject")
-        }
-
-        # pre process the "Scope" parameter into other parameters if it's present
-        if($PSBoundParameters.ContainsKey("Scope"))
-        {
-            # processing the Scope parameter with a helper method
-            $scopeObject = ParseScope $Scope 
-
-            switch ($scopeObject.ScopeType) {
-                'mgname' {
-                    $null = $PSBoundParameters.Add("ManagementGroupId", $scopeObject.ManagementGroupName)
-                }
-                'rgname' {
-                    $null = $PSBoundParameters.Add("SubscriptionId", $scopeObject.SubscriptionId)
-                    $null = $PSBoundParameters.Add("ResourceGroupName", $scopeObject.ResourceGroupName)
-                }
-                'subId' {
-                    $null = $PSBoundParameters.Add("SubscriptionId", $scopeObject.SubscriptionId)
-                }
-                'resource' {
-
-                    $null = $PSBoundParameters.Add("ResourceId", $scopeObject.Resource)
-                }
-                default {
-                    throw "The provided scope '$Scope' is not valid for this cmdlet. Supported scopes are management group, resource group, subscription, and resource."
-                }
-            }
-
-            $null = $PSBoundParameters.Remove("Scope")
-        }
-        
-        # setup dictionary of scope and name parameters to use for Get and Stop
-        $scopeKeys = @('ResourceGroupName', 'SubscriptionId', 'ResourceId', 'ManagementGroupId')
-        $scopeParams = @{}
-        foreach ($key in $scopeKeys) {
-            if ($PSBoundParameters.ContainsKey($key)) {
-                $scopeParams[$key] = $PSBoundParameters[$key]
-            }
-        }
-        $scopeParams['Name'] = $Name
-
-        $remediation = $null
-
-        try {
-            # get the remediation so we can ensure it's not in progress
-            $remediation = Az.PolicyInsights.custom\Get-AzPolicyRemediation @scopeParams
-        } catch {
-            throw "Could not retrieve remediation to check status: $($_.Exception.Message). Deletion aborted."
-        }
-
-        $remediationStatus = $remediation.ProvisioningState
-        $terminalStates = @("Succeeded", "Failed", "Canceled", "Complete")
-
-        # check if remediation is not complete (not in a terminal state)
-        if ($remediationStatus -inotin $terminalStates)
-        {
-            # $remediationStatus is not in the terminalStates list so check if AllowStop is set
-            if ($AllowStop)
-            {
-                # if set, run Stop-AzPolicyRemediation, check the output that deployments are stopped 
-                $null = Az.PolicyInsights.custom\Stop-AzPolicyRemediation @scopeParams
-            }
-            else
-            {
-                throw "Remediation is still in progress and AllowStop is not set."
-            }
-        }
-
-        # remove AllowStop if present
-        if($PSBoundParameters.ContainsKey("AllowStop"))
-        {
-            $null = $PSBoundParameters.Remove("AllowStop")
-        }
-
-        #   now remediation is complete/stopped, call internal generated delete cmdlet
-        Az.PolicyInsights.internal\Remove-AzPolicyRemediation @PSBoundParameters
+        # remove the InputObject parameter
+        $null = $PSBoundParameters.Remove("InputObject")
     }
 
-    $output = $null
-
-    # now run the ScriptBlock either immediately or in a job depending on if AsJob is present
-    if($runAsJob)
+    # pre process the "Scope" parameter into other parameters if it's present
+    if($PSBoundParameters.ContainsKey("Scope"))
     {
-        $output = Start-Job -ScriptBlock $wrappedCmd @PSBoundParameters
+        # processing the Scope parameter with a helper method
+        $scopeObject = ParseScope $Scope 
+
+        switch ($scopeObject.ScopeType) {
+            'mgname' {
+                $null = $PSBoundParameters.Add("ManagementGroupId", $scopeObject.ManagementGroupName)
+            }
+            'rgname' {
+                $null = $PSBoundParameters.Add("SubscriptionId", $scopeObject.SubscriptionId)
+                $null = $PSBoundParameters.Add("ResourceGroupName", $scopeObject.ResourceGroupName)
+            }
+            'subId' {
+                $null = $PSBoundParameters.Add("SubscriptionId", $scopeObject.SubscriptionId)
+            }
+            'resource' {
+
+                $null = $PSBoundParameters.Add("ResourceId", $scopeObject.Resource)
+            }
+            default {
+                throw "The provided scope '$Scope' is not valid for this cmdlet. Supported scopes are management group, resource group, subscription, and resource."
+            }
+        }
+
+        $null = $PSBoundParameters.Remove("Scope")
     }
-    else
-    {
-        $output = Invoke-Command -ScriptBlock $wrappedCmd @PSBoundParameters 
+    
+    # setup dictionary of scope and name parameters to use for Get and Stop
+    $scopeKeys = @('ResourceGroupName', 'SubscriptionId', 'ResourceId', 'ManagementGroupId')
+    $scopeParams = @{}
+    foreach ($key in $scopeKeys) {
+        if ($PSBoundParameters.ContainsKey($key)) {
+            $scopeParams[$key] = $PSBoundParameters[$key]
+        }
+    }
+    $scopeParams['Name'] = $Name
+
+    $remediation = $null
+
+    try {
+        # get the remediation so we can ensure it's not in progress
+        $remediation = Az.PolicyInsights.custom\Get-AzPolicyRemediation @scopeParams
+    } catch {
+        throw "Could not retrieve remediation to check status: $($_.Exception.Message). Deletion aborted."
     }
 
+    $remediationStatus = $remediation.ProvisioningState
+    $terminalStates = @("Succeeded", "Failed", "Canceled", "Complete")
+
+    # check if remediation is not complete (not in a terminal state)
+    if ($remediationStatus -inotin $terminalStates)
+    {
+        # $remediationStatus is not in the terminalStates list so check if AllowStop is set
+        if ($AllowStop)
+        {
+            # if set, run Stop-AzPolicyRemediation, check the output that deployments are stopped 
+            $null = Az.PolicyInsights.custom\Stop-AzPolicyRemediation @scopeParams
+        }
+        else
+        {
+            throw "Remediation is still in progress and AllowStop is not set."
+        }
+    }
+
+    # remove AllowStop if present
+    if($PSBoundParameters.ContainsKey("AllowStop"))
+    {
+        $null = $PSBoundParameters.Remove("AllowStop")
+    }
+
+    # remediation is complete/stopped, call internal generated delete cmdlet
+    $output = Az.PolicyInsights.internal\Remove-AzPolicyRemediation @PSBoundParameters
 
     $PSCmdlet.WriteObject($output)
 
