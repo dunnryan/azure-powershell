@@ -84,7 +84,7 @@ Cancels a remediation at management group scope.
 ## PARAMETERS
 
 ### -AsJob
-Run the command as a job
+Run the command as a job, which completes when the remediation finishes being cancelled.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter

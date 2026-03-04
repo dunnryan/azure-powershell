@@ -179,6 +179,7 @@ param(
 
 process {
 
+    # Check if AsJob switch was used and setup a job to run and call the cmdlet within it
     if($PSBoundParameters.ContainsKey("AsJob"))
     {
         $null = $PSBoundParameters.Remove("AsJob")
@@ -269,7 +270,7 @@ process {
 
     try {
         # get the remediation so we can ensure it's not in progress
-        $remediation = Az.PolicyInsights.custom\Get-AzPolicyRemediation @scopeParams
+        $remediation = Get-AzPolicyRemediation @scopeParams
     } catch {
         throw "Could not retrieve remediation to check status: $($_.Exception.Message). Deletion aborted."
     }
@@ -283,8 +284,8 @@ process {
         # $remediationStatus is not in the terminalStates list so check if AllowStop is set
         if ($AllowStop)
         {
-            # if set, run Stop-AzPolicyRemediation, check the output that deployments are stopped 
-            $null = Az.PolicyInsights.custom\Stop-AzPolicyRemediation @scopeParams
+            # if set, run Stop-AzPolicyRemediation to force to a terminal state so that deletion can proceed
+            $null = Stop-AzPolicyRemediation @scopeParams
         }
         else
         {

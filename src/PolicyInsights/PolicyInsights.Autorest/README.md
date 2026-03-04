@@ -91,20 +91,6 @@ directive:
     where: $.definitions.AttestationProperties.properties.metadata
     transform: $['additionalProperties'] = true
 
-# Directives to enable long-running operation, which will generate AsJob support in the Remediation Stop cmdlets
-  - from: swagger-document
-    where: $.paths["/providers/{managementGroupsNamespace}/managementGroups/{managementGroupId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel"].post
-    transform: $["x-ms-long-running-operation"] = true
-  - from: swagger-document
-    where: $.paths["/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel"].post
-    transform: $["x-ms-long-running-operation"] = true
-  - from: swagger-document
-    where: $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel"].post
-    transform: $["x-ms-long-running-operation"] = true
-  - from: swagger-document
-    where: $.paths["/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel"].put
-    transform: $["x-ms-long-running-operation"] = true
-
 # Directives to disable long-running operation, which will remove AsJob and NoWait behavior in Attestation creation cmdlets
   - from: swagger-document
     where: $.paths["/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}"].put

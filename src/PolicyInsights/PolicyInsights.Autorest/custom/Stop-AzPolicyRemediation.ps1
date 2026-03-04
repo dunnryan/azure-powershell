@@ -115,7 +115,7 @@ param(
 
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Runtime')]
     [System.Management.Automation.SwitchParameter]
-    # Run the command as a job
+    # Run the command as a job, which completes when the remediation finishes being cancelled.
     ${AsJob},
 
     [Parameter(ParameterSetName='CancelScope', Mandatory)]
@@ -169,9 +169,43 @@ param(
     ${ProxyUseDefaultCredentials}
 )
 
-# This cmdlet requires customization in order to process scope
 
 process {
+
+    # Check if AsJob switch was used and setup a job to run and call the cmdlet within it
+    if($PSBoundParameters.ContainsKey("AsJob"))
+    {
+        $null = $PSBoundParameters.Remove("AsJob")
+
+        # Save context to a temp file for the job to import
+        $contextFilePath = [System.IO.Path]::GetTempFileName()
+        $null = Save-AzContext -Path $contextFilePath -Force
+
+        # ScriptBlock for Start-Job to call, it does the necessary env setup required to run the cmdlet in a fresh powershell process
+        $scriptCmd = {
+            param($InputParameters, $ScriptRoot, $ContextFilePath)
+
+            # Load the main module which handles Az.Accounts integration and proper initialization
+            $mainModulePath = Join-Path $ScriptRoot '..\Az.PolicyInsights.psd1'
+            if(Test-Path $mainModulePath) {
+                $null = Import-Module -Name $mainModulePath -Force
+            }
+
+            # Restore the Azure context in the job
+            $null = Import-AzContext -Path $ContextFilePath
+
+            # Clean up the temp file
+            Remove-Item -Path $ContextFilePath -Force -ErrorAction SilentlyContinue
+
+            & Stop-AzPolicyRemediation @InputParameters
+        }
+
+        $parametersHashtable = [hashtable]$PSBoundParameters
+
+        $output = Start-Job -ScriptBlock $scriptCmd -ArgumentList $parametersHashtable, $PSScriptRoot, $contextFilePath
+
+        return $output
+    }
 
     # Generated code can't parse which scope of InputObject is being passed in so it's easiest to parse it into other parameters 
     if($PSBoundParameters.ContainsKey("InputObject"))
@@ -214,8 +248,34 @@ process {
         $null = $PSBoundParameters.Remove("Scope")
     }
 
+    # Check if NoWait switch was used, if so call the internal method and return immediately
+    if($PSBoundParameters.ContainsKey("NoWait"))
+    {
+        $null = $PSBoundParameters.Remove("NoWait")
 
-    Az.PolicyInsights.internal\Stop-AzPolicyRemediation @PSBoundParameters
+        $output = Az.PolicyInsights.internal\Stop-AzPolicyRemediation @PSBoundParameters
+
+        return $output
+    }
+
+    # Call the internal generated cmdlet to start the cancellation 
+    $remediation = Az.PolicyInsights.internal\Stop-AzPolicyRemediation @PSBoundParameters
+    $remediationStatus = $remediation.ProvisioningState
+    
+    $terminalStates = @("Succeeded", "Failed", "Canceled", "Complete")
+
+    # Polling loop to check if cancellation has completed
+    while ($remediationStatus -inotin $terminalStates)
+    {
+        Write-Debug "Delay between polling calls. Current remediation status: '$remediationStatus'. Waiting for 30 seconds before checking again..."
+        Start-Sleep -Seconds 30
+
+        # Call Get-AzPolicyRemediation to check the status again
+        $remediation = Get-AzPolicyRemediation @PSBoundParameters
+        $remediationStatus = $remediation.ProvisioningState
+    }
+
+    return $remediation
 
     # Resetting modified/added parameters in case multiple objects are piped in
     $PSBoundParameters.Clear()
