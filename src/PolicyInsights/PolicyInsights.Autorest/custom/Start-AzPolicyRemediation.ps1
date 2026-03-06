@@ -290,6 +290,7 @@ process {
     if($PSBoundParameters.ContainsKey("Scope"))
     {
         # processing the Scope parameter with a helper method
+        $Scope = $PSBoundParameters["Scope"] 
         $scopeObject = ParseScope $Scope 
 
         switch ($scopeObject.ScopeType) {
@@ -315,8 +316,43 @@ process {
         $null = $PSBoundParameters.Remove("Scope")
     }
 
+    # if NoWait is present, call the internal cmdlet and return that output immediately
+    if($PSBoundParameters.ContainsKey("NoWait"))
+    {
+        $null = $PSBoundParameters.Remove("NoWait")
+        $output = Az.PolicyInsights.internal\New-AzPolicyRemediation @PSBoundParameters
+        $PSCmdlet.WriteObject($output, $true)
+        return
+    }
 
-    $output = Az.PolicyInsights.internal\New-AzPolicyRemediation @PSBoundParameters
+    # since NoWait isn't present, we'll start the remediation and poll it until it's reached a terminal state
+    $remediation = Az.PolicyInsights.internal\New-AzPolicyRemediation @PSBoundParameters
+
+    # setup dictionary of scope and name parameters to use for Get
+    $scopeKeys = @('ResourceGroupName', 'SubscriptionId', 'ResourceId', 'ManagementGroupId')
+    $scopeParams = @{}
+    foreach ($key in $scopeKeys) {
+        if ($PSBoundParameters.ContainsKey($key)) {
+            $scopeParams[$key] = $PSBoundParameters[$key]
+        }
+    }
+    $scopeParams['Name'] = $Name
+
+    $remediationStatus = $remediation.ProvisioningState
+    $terminalStates = @("Succeeded", "Failed", "Canceled", "Complete")
+
+    # Polling loop to check if remediation has finished
+    while ($remediationStatus -inotin $terminalStates)
+    {
+        Write-Debug "Delay between polling calls. Current remediation status: '$remediationStatus'. Waiting for 30 seconds before checking again..."
+        Start-Sleep -Seconds 30
+
+        # Call Get-AzPolicyRemediation to check the status again
+        $remediation = Get-AzPolicyRemediation @scopeParams
+        $remediationStatus = $remediation.ProvisioningState
+    }
+
+    $output = $remediation
 
     $PSCmdlet.WriteObject($output, $true)
 

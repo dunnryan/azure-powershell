@@ -231,6 +231,7 @@ process {
     if($PSBoundParameters.ContainsKey("Scope"))
     {
         # processing the Scope parameter with a helper method
+        $Scope = $PSBoundParameters["Scope"] 
         $scopeObject = ParseScope $Scope 
 
         switch ($scopeObject.ScopeType) {

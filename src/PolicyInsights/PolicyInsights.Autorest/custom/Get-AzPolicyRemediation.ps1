@@ -199,9 +199,6 @@ param(
     ${ProxyUseDefaultCredentials}
 )
 
-
-# need a custom cmdlet so that we can add a switch parameter that also calls the deployments cmdlet and add scope parameter support
-
 process {
 
     $output = $null
@@ -222,6 +219,7 @@ process {
     if($PSBoundParameters.ContainsKey("Scope"))
     {
         # processing the Scope parameter with a helper method
+        $Scope = $PSBoundParameters["Scope"] 
         $scopeObject = ParseScope $Scope 
 
         switch ($scopeObject.ScopeType) {
@@ -246,10 +244,10 @@ process {
         $null = $PSBoundParameters.Remove("Scope")
     }
 
-
     if($PSBoundParameters.ContainsKey("IncludeDetail"))
     {
         # in this case, Get-AzPolicyRemediation and Get-AzPolicyRemediationDeployment must both be called 
+        $null = $PSBoundParameters.Remove("IncludeDetail")
 
         # Name is RemediationName in Get-AzPolicyRemediationDeployment
         if($PSBoundParameters.ContainsKey("Name"))
@@ -267,7 +265,6 @@ process {
         }
 
         # remove IncludeDetail, call Get-AzPolicyRemediation with splatting
-        $null = $PSBoundParameters.Remove("IncludeDetail")
         $output = Az.PolicyInsights.internal\Get-AzPolicyRemediation @PSBoundParameters
         # now, need to add deployments to output
         $output.Deployments = $deployments

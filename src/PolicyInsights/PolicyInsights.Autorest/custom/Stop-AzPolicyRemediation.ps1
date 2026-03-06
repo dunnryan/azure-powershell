@@ -223,6 +223,7 @@ process {
     if($PSBoundParameters.ContainsKey("Scope"))
     {
         # processing the Scope parameter with a helper method
+        $Scope = $PSBoundParameters["Scope"] 
         $scopeObject = ParseScope $Scope 
 
         switch ($scopeObject.ScopeType) {
@@ -254,8 +255,8 @@ process {
         $null = $PSBoundParameters.Remove("NoWait")
 
         $output = Az.PolicyInsights.internal\Stop-AzPolicyRemediation @PSBoundParameters
-
-        return $output
+        $PSCmdlet.WriteObject($output, $true)
+        return
     }
 
     # Call the internal generated cmdlet to start the cancellation 
@@ -275,7 +276,10 @@ process {
         $remediationStatus = $remediation.ProvisioningState
     }
 
-    return $remediation
+    $output = $remediation
+
+    $PSCmdlet.WriteObject($output, $true)
+    return
 
     # Resetting modified/added parameters in case multiple objects are piped in
     $PSBoundParameters.Clear()
