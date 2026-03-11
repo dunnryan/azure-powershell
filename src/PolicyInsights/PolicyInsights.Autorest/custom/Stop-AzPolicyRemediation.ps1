@@ -59,40 +59,40 @@ function Stop-AzPolicyRemediation {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IRemediation])]
 [CmdletBinding(DefaultParameterSetName='Cancel1', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
-    [Parameter(ParameterSetName='Cancel', Mandatory)]
+    [Parameter(ParameterSetName='Cancel', Mandatory, ValueFromPipelineByPropertyName)]
     [Alias('ManagementGroupName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Management group ID.
     ${ManagementGroupId},
 
-    [Parameter(ParameterSetName='Cancel', Mandatory)]
-    [Parameter(ParameterSetName='Cancel1', Mandatory)]
-    [Parameter(ParameterSetName='Cancel2', Mandatory)]
-    [Parameter(ParameterSetName='Cancel3', Mandatory)]
-    [Parameter(ParameterSetName='CancelScope', Mandatory)]
-    [Parameter(ParameterSetName='CancelViaIdentityManagementGroup', Mandatory)]
+    [Parameter(ParameterSetName='Cancel', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Cancel1', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Cancel2', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Cancel3', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CancelScope', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CancelViaIdentityManagementGroup', Mandatory, ValueFromPipelineByPropertyName)]
     [Alias('RemediationName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the remediation.
     ${Name},
 
-    [Parameter(ParameterSetName='Cancel1')]
-    [Parameter(ParameterSetName='Cancel2')]
+    [Parameter(ParameterSetName='Cancel1', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Cancel2', ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
     # The ID of the target subscription.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='Cancel2', Mandatory)]
+    [Parameter(ParameterSetName='Cancel2', Mandatory, ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource group name.
     ${ResourceGroupName},
 
-    [Parameter(ParameterSetName='Cancel3', Mandatory)]
+    [Parameter(ParameterSetName='Cancel3', Mandatory, ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource ID.
@@ -118,7 +118,7 @@ param(
     # Run the command as a job, which completes when the remediation finishes being cancelled.
     ${AsJob},
 
-    [Parameter(ParameterSetName='CancelScope', Mandatory)]
+    [Parameter(ParameterSetName='CancelScope', Mandatory, ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Scope of the resource. E.g. '/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
@@ -169,43 +169,7 @@ param(
     ${ProxyUseDefaultCredentials}
 )
 
-
 process {
-
-    # Check if AsJob switch was used and setup a job to run and call the cmdlet within it
-    if($PSBoundParameters.ContainsKey("AsJob"))
-    {
-        $null = $PSBoundParameters.Remove("AsJob")
-
-        # Save context to a temp file for the job to import
-        $contextFilePath = [System.IO.Path]::GetTempFileName()
-        $null = Save-AzContext -Path $contextFilePath -Force
-
-        # ScriptBlock for Start-Job to call, it does the necessary env setup required to run the cmdlet in a fresh powershell process
-        $scriptCmd = {
-            param($InputParameters, $ScriptRoot, $ContextFilePath)
-
-            # Load the main module which handles Az.Accounts integration and proper initialization
-            $mainModulePath = Join-Path $ScriptRoot '..\Az.PolicyInsights.psd1'
-            if(Test-Path $mainModulePath) {
-                $null = Import-Module -Name $mainModulePath -Force
-            }
-
-            # Restore the Azure context in the job
-            $null = Import-AzContext -Path $ContextFilePath
-
-            # Clean up the temp file
-            Remove-Item -Path $ContextFilePath -Force -ErrorAction SilentlyContinue
-
-            & Stop-AzPolicyRemediation @InputParameters
-        }
-
-        $parametersHashtable = [hashtable]$PSBoundParameters
-
-        $output = Start-Job -ScriptBlock $scriptCmd -ArgumentList $parametersHashtable, $PSScriptRoot, $contextFilePath
-
-        return $output
-    }
 
     # Generated code can't parse which scope of InputObject is being passed in so it's easiest to parse it into other parameters 
     if($PSBoundParameters.ContainsKey("InputObject"))
@@ -217,6 +181,40 @@ process {
 
         # remove the InputObject parameter
         $null = $PSBoundParameters.Remove("InputObject")
+    }
+
+    # We want to support the ResourceId parameter being provided as the full remediation ResourceId
+    # so the below section handles that possibility 
+    if($PSBoundParameters.ContainsKey("ResourceId"))
+    {
+        $resourceIdContainsName = $ResourceId -like '*/providers/microsoft.policyinsights/remediations/*'
+        if($resourceIdContainsName)
+        {
+            $idSplit = $ResourceId -split '/providers/microsoft.policyinsights/remediations/'
+            $remediationName = $idSplit[1]
+            $PSBoundParameters["ResourceId"] = $idSplit[0]
+
+            # if the ResourceId contains the name, it must match the Name parameter if provided
+            if($PSBoundParameters.ContainsKey("Name"))
+            {
+                if($remediationName -ne $Name)
+                {
+                    throw "The provided ResourceId '$ResourceId' contains remediation name '$remediationName' which does not match the provided Name parameter '$Name'. Please correct the parameters."
+                }
+            }
+            else
+            {
+                # if the Name was not provided, add it to the Parameters from the ResourceId
+                $null = $PSBoundParameters.Add("Name", $remediationName)
+            }
+        }
+        else
+        {
+            if(!$PSBoundParameters.ContainsKey("Name"))
+            {
+                throw "The provided ResourceId '$ResourceId' does not contain a remediation name, and no Name parameter was provided. Please provide a ResourceId that includes the remediation name or provide a Name parameter."
+            }
+        }
     }
 
     # pre process the "Scope" parameter into other parameters if it's present
@@ -247,6 +245,49 @@ process {
         }
 
         $null = $PSBoundParameters.Remove("Scope")
+    }
+
+    # Check if AsJob switch was used and setup a job to run and call the cmdlet within it
+    if($PSBoundParameters.ContainsKey("AsJob"))
+    {
+        $null = $PSBoundParameters.Remove("AsJob")
+
+        # **CRITICAL: Remove HTTP pipeline parameters that can't be serialized**
+        $pipelineParams = @('HttpPipelinePrepend', 'HttpPipelineAppend', 'Proxy', 'ProxyCredential', 'ProxyUseDefaultCredentials', 'Break')
+        foreach ($param in $pipelineParams) {
+            if ($PSBoundParameters.ContainsKey($param)) {
+                $null = $PSBoundParameters.Remove($param)
+            }
+        }
+
+        # Save context to a temp file for the job to import
+        $contextFilePath = [System.IO.Path]::GetTempFileName()
+        $null = Save-AzContext -Path $contextFilePath -Force
+
+        # ScriptBlock for Start-Job to call, it does the necessary env setup required to run the cmdlet in a fresh powershell process
+        $scriptCmd = {
+            param($InputParameters, $ScriptRoot, $ContextFilePath)
+
+            # Load the main module which handles Az.Accounts integration and proper initialization
+            $mainModulePath = Join-Path $ScriptRoot '..\Az.PolicyInsights.psd1'
+            if(Test-Path $mainModulePath) {
+                $null = Import-Module -Name $mainModulePath -Force
+            }
+
+            # Restore the Azure context in the job
+            $null = Import-AzContext -Path $ContextFilePath
+
+            # Clean up the temp file
+            Remove-Item -Path $ContextFilePath -Force -ErrorAction SilentlyContinue
+
+            & Stop-AzPolicyRemediation @InputParameters
+        }
+
+        $parametersHashtable = [hashtable]$PSBoundParameters
+
+        $output = Start-Job -ScriptBlock $scriptCmd -ArgumentList $parametersHashtable, $PSScriptRoot, $contextFilePath
+
+        return $output
     }
 
     # Check if NoWait switch was used, if so call the internal method and return immediately

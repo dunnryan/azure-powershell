@@ -139,55 +139,55 @@ function Get-AzPolicyStateSummary {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.ISummary])]
 [CmdletBinding(DefaultParameterSetName='Summarize1', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
-    [Parameter(ParameterSetName='Summarize', Mandatory)]
+    [Parameter(ParameterSetName='Summarize', Mandatory, ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Management group name.
     ${ManagementGroupName},
 
-    [Parameter(ParameterSetName='Summarize1')]
-    [Parameter(ParameterSetName='Summarize2')]
-    [Parameter(ParameterSetName='Summarize4')]
-    [Parameter(ParameterSetName='Summarize5')]
-    [Parameter(ParameterSetName='Summarize6')]
-    [Parameter(ParameterSetName='Summarize7')]
+    [Parameter(ParameterSetName='Summarize1', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Summarize2', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Summarize4', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Summarize5', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Summarize6', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Summarize7', ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
     # Microsoft Azure subscription ID.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='Summarize2', Mandatory)]
-    [Parameter(ParameterSetName='Summarize7', Mandatory)]
+    [Parameter(ParameterSetName='Summarize2', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Summarize7', Mandatory, ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource group name.
     ${ResourceGroupName},
 
-    [Parameter(ParameterSetName='Summarize3', Mandatory)]
+    [Parameter(ParameterSetName='Summarize3', Mandatory, ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource ID.
     ${ResourceId},
 
-    [Parameter(ParameterSetName='Summarize4', Mandatory)]
-    [Parameter(ParameterSetName='SummarizeViaIdentitySubscription', Mandatory)]
+    [Parameter(ParameterSetName='Summarize4', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='SummarizeViaIdentitySubscription', Mandatory, ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Policy set definition name.
     ${PolicySetDefinitionName},
 
-    [Parameter(ParameterSetName='Summarize5', Mandatory)]
-    [Parameter(ParameterSetName='SummarizeViaIdentitySubscription1', Mandatory)]
+    [Parameter(ParameterSetName='Summarize5', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='SummarizeViaIdentitySubscription1', Mandatory, ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Policy definition name.
     ${PolicyDefinitionName},
 
-    [Parameter(ParameterSetName='Summarize6', Mandatory)]
+    [Parameter(ParameterSetName='Summarize6', Mandatory, ValueFromPipelineByPropertyName)]
     [Parameter(ParameterSetName='Summarize7', Mandatory)]
-    [Parameter(ParameterSetName='SummarizeViaIdentitySubscription2', Mandatory)]
-    [Parameter(ParameterSetName='SummarizeViaIdentitySubscription3', Mandatory)]
+    [Parameter(ParameterSetName='SummarizeViaIdentitySubscription2', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='SummarizeViaIdentitySubscription3', Mandatory, ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Policy assignment name.
@@ -229,20 +229,20 @@ param(
     # Identity Parameter
     ${Subscription3InputObject},
 
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
     # OData filter expression.
     ${Filter},
 
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.DateTime]
     # ISO 8601 formatted timestamp specifying the start time of the interval to query.
     # When not specified, the service uses ($to - 1-day).
     ${From},
 
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.DateTime]
     # ISO 8601 formatted timestamp specifying the end time of the interval to query.

@@ -15,9 +15,6 @@
 # setup the Pester environment
 . (Join-Path $PSScriptRoot 'Common.ps1') 'Remediation-CRUD'
 
-# add tests for:
-# - add some Start tests without NoWait flag - treat same as AsJob without wait
-# - remediation resource ID filter 
 
 Describe 'Remediation-CRUD' {
 
@@ -49,7 +46,7 @@ Describe 'Remediation-CRUD' {
         Assert-AreEqualArray $remediation.FilterLocation @("westus2", "northcentralus")
         Assert-AreEqual 3 $remediation.DeploymentStatusTotalDeployment
         Assert-AreEqual 0 $remediation.DeploymentStatusFailedDeployment
-        Assert-AreEqual 0.9 $remediation.FailureThresholdPercentage
+        Assert-AreEqual ([float]0.9) $remediation.FailureThresholdPercentage
         Assert-AreEqual 3 $remediation.ResourceCount
         Assert-AreEqual 20 $remediation.ParallelDeployment
 
@@ -90,7 +87,32 @@ Describe 'Remediation-CRUD' {
         $result = ($remediation | Remove-AzPolicyRemediation -PassThru)
         Assert-AreEqual $true $result
 
-        # Create a new remediation
+        # Create a new remediation to test synchronous Start and FilterResourceId
+        # Remediation should just have two deployments for the two specified resources
+        $resourceIdFilter = @("/subscriptions/e5a130f3-57fd-46b6-9c55-03d21a853935/resourcegroups/pstestrg2/providers/microsoft.network/networksecuritygroups/pstests97", "/subscriptions/e5a130f3-57fd-46b6-9c55-03d21a853935/resourcegroups/pstestrg2/providers/microsoft.network/networksecuritygroups/pstests92")
+        $remediation = Start-AzPolicyRemediation -PolicyAssignmentId $assignmentId -Name $remediationName -LocationFilter "westus2", "northcentralus" -FailureThresholdPercentage 0.9 -ResourceCount 3 -ParallelDeploymentCount 20 -FilterResourceId $resourceIdFilter
+        
+        # Verify the remediation completed with the expected properties
+        Validate-Remediation $remediation
+        Assert-AreEqual "ExistingNonCompliant" $remediation.ResourceDiscoveryMode
+        Assert-AreEqual $remediationName $remediation.Name
+        Assert-AreEqual "Succeeded" $remediation.ProvisioningState
+        Assert-AreEqual $assignmentId $remediation.PolicyAssignmentId
+        Assert-AreEqual 2 $remediation.FilterLocation.Count
+        Assert-AreEqualArray $remediation.FilterLocation @("westus2", "northcentralus")
+        Assert-AreEqual 2 $remediation.FilterResourceId.Count
+        Assert-AreEqualArray $remediation.FilterResourceId $resourceIdFilter
+        Assert-AreEqual 2 $remediation.DeploymentStatusTotalDeployment
+        Assert-AreEqual 0 $remediation.DeploymentStatusFailedDeployment
+        Assert-AreEqual ([float]0.9) $remediation.FailureThresholdPercentage
+        Assert-AreEqual 3 $remediation.ResourceCount
+        Assert-AreEqual 20 $remediation.ParallelDeployment
+
+        # Cleanup the Remediation that was just created
+        $result = ($remediation | Remove-AzPolicyRemediation -PassThru)
+        Assert-AreEqual $true $result
+
+        # Create a new remediation with the NoWait flag
         $remediation = Start-AzPolicyRemediation -PolicyAssignmentId $assignmentId -Name $remediationName -LocationFilter "westus2", "northcentralus" -FailureThresholdPercentage 0.9 -ResourceCount 3 -ParallelDeploymentCount 20 -NoWait
         Validate-Remediation $remediation
         Assert-AreEqual "ExistingNonCompliant" $remediation.ResourceDiscoveryMode
@@ -100,7 +122,7 @@ Describe 'Remediation-CRUD' {
         Assert-AreEqual 2 $remediation.FilterLocation.Count
         Assert-AreEqualArray $remediation.FilterLocation @("westus2", "northcentralus")
         Assert-AreEqual 0 $remediation.DeploymentStatusTotalDeployment
-        Assert-AreEqual 0.9 $remediation.FailureThresholdPercentage
+        Assert-AreEqual ([float]0.9) $remediation.FailureThresholdPercentage
         Assert-AreEqual 3 $remediation.ResourceCount
         Assert-AreEqual 20 $remediation.ParallelDeployment
 
@@ -119,7 +141,7 @@ Describe 'Remediation-CRUD' {
         Assert-AreEqualArray $remediation.FilterLocation @("westus2", "northcentralus")
         Assert-AreEqual 0 $remediation.DeploymentStatusTotalDeployment
         Assert-AreEqual 0 $remediation.DeploymentStatusFailedDeployment
-        Assert-AreEqual 0.9 $remediation.FailureThresholdPercentage
+        Assert-AreEqual ([float]0.9) $remediation.FailureThresholdPercentage
         Assert-AreEqual 3 $remediation.ResourceCount
         Assert-AreEqual 20 $remediation.ParallelDeployment
     }
@@ -142,7 +164,7 @@ Describe 'Remediation-CRUD' {
         Assert-Null $remediation.Filters
         Assert-AreEqual 3 $remediation.DeploymentStatusTotalDeployment
         Assert-AreEqual 0 $remediation.DeploymentStatusFailedDeployment
-        Assert-AreEqual 0.9 $remediation.FailureThresholdPercentage
+        Assert-AreEqual ([float]0.9) $remediation.FailureThresholdPercentage
         Assert-AreEqual 3 $remediation.ResourceCount
         Assert-AreEqual 20 $remediation.ParallelDeployment
 
@@ -182,7 +204,26 @@ Describe 'Remediation-CRUD' {
         $result = (Remove-AzPolicyRemediation -ResourceGroupName $resourceGroupName -Name $remediationName -PassThru)
         Assert-AreEqual $true $result
 
-        # Create a new remediation
+        # Create a new remediation to test the synchronous Start
+        $remediation = Start-AzPolicyRemediation -ResourceGroupName $resourceGroupName -PolicyAssignmentId $assignmentId -Name $remediationName -FailureThresholdPercentage 0.9 -ResourceCount 3 -ParallelDeploymentCount 20
+
+        # Validate the remediation completed with the expected properties
+        Validate-Remediation $remediation
+        Assert-AreEqual $remediationName $remediation.Name
+        Assert-AreEqual $remediation.ProvisioningState "Succeeded"
+        Assert-AreEqual $assignmentId $remediation.PolicyAssignmentId
+        Assert-Null $remediation.Filters
+        Assert-AreEqual 3 $remediation.DeploymentStatusTotalDeployment
+        Assert-AreEqual 0 $remediation.DeploymentStatusFailedDeployment
+        Assert-AreEqual ([float]0.9) $remediation.FailureThresholdPercentage
+        Assert-AreEqual 3 $remediation.ResourceCount
+        Assert-AreEqual 20 $remediation.ParallelDeployment
+
+        # Cleanup the remediation so we can test the same Scope
+        $result = (Remove-AzPolicyRemediation -ResourceGroupName $resourceGroupName -Name $remediationName -PassThru)
+        Assert-AreEqual $true $result
+
+        # Create a new remediation with the NoWait flag
         $remediation = Start-AzPolicyRemediation -ResourceGroupName $resourceGroupName -PolicyAssignmentId $assignmentId -Name $remediationName -FailureThresholdPercentage 0.9 -ResourceCount 3 -ParallelDeploymentCount 20 -NoWait
         Validate-Remediation $remediation
         Assert-AreEqual $assignmentId $remediation.PolicyAssignmentId
@@ -190,7 +231,7 @@ Describe 'Remediation-CRUD' {
         Assert-AreEqual "Accepted" $remediation.ProvisioningState
         Assert-Null $remediation.Filters
         Assert-AreEqual 0 $remediation.DeploymentStatusTotalDeployment
-        Assert-AreEqual 0.9 $remediation.FailureThresholdPercentage
+        Assert-AreEqual ([float]0.9) $remediation.FailureThresholdPercentage
         Assert-AreEqual 3 $remediation.ResourceCount
         Assert-AreEqual 20 $remediation.ParallelDeployment
 
@@ -206,7 +247,7 @@ Describe 'Remediation-CRUD' {
         Assert-Null $remediation.Filters
         Assert-AreEqual 0 $remediation.DeploymentStatusTotalDeployment
         Assert-AreEqual 0 $remediation.DeploymentStatusFailedDeployment
-        Assert-AreEqual 0.9 $remediation.FailureThresholdPercentage
+        Assert-AreEqual ([float]0.9) $remediation.FailureThresholdPercentage
         Assert-AreEqual 3 $remediation.ResourceCount
         Assert-AreEqual 20 $remediation.ParallelDeployment
     }
@@ -229,7 +270,7 @@ Describe 'Remediation-CRUD' {
         Assert-Null $remediation.Filters
         Assert-AreEqual 1 $remediation.DeploymentStatusTotalDeployment
         Assert-AreEqual 0 $remediation.DeploymentStatusFailedDeployment
-        Assert-AreEqual 0.9 $remediation.FailureThresholdPercentage
+        Assert-AreEqual ([float]0.9) $remediation.FailureThresholdPercentage
         Assert-AreEqual 3 $remediation.ResourceCount
         Assert-AreEqual 20 $remediation.ParallelDeployment
 
@@ -264,7 +305,26 @@ Describe 'Remediation-CRUD' {
         $result = (Remove-AzPolicyRemediation -Scope $scope -Name $remediationName -PassThru)
         Assert-AreEqual $true $result
 
-        # Create a new remediation
+        # Create a new remediation to test synchronous Start
+        $remediation = Start-AzPolicyRemediation -Scope $scope -PolicyAssignmentId $assignmentId -Name $remediationName -FailureThresholdPercentage 0.9 -ResourceCount 3 -ParallelDeploymentCount 20
+
+        # Verify the remediation completed with the expected properties
+        Validate-Remediation $remediation
+        Assert-AreEqual $remediationName $remediation.Name
+        Assert-AreEqual $remediation.ProvisioningState "Succeeded"
+        Assert-AreEqual $assignmentId $remediation.PolicyAssignmentId
+        Assert-Null $remediation.Filters
+        Assert-AreEqual 1 $remediation.DeploymentStatusTotalDeployment
+        Assert-AreEqual 0 $remediation.DeploymentStatusFailedDeployment
+        Assert-AreEqual ([float]0.9) $remediation.FailureThresholdPercentage
+        Assert-AreEqual 3 $remediation.ResourceCount
+        Assert-AreEqual 20 $remediation.ParallelDeployment
+
+        # Cleanup the remediation so we can test the same scope
+        $result = (Remove-AzPolicyRemediation -Scope $scope -Name $remediationName -PassThru)
+        Assert-AreEqual $true $result
+
+        # Create a new remediation to test NoWait
         $remediation = Start-AzPolicyRemediation -Scope $scope -PolicyAssignmentId $assignmentId -Name $remediationName -FailureThresholdPercentage 0.9 -ResourceCount 3 -ParallelDeploymentCount 20 -NoWait
         Validate-Remediation $remediation
         Assert-AreEqual $assignmentId $remediation.PolicyAssignmentId
@@ -272,7 +332,7 @@ Describe 'Remediation-CRUD' {
         Assert-AreEqual "Accepted" $remediation.ProvisioningState
         Assert-Null $remediation.Filters
         Assert-AreEqual 0 $remediation.DeploymentStatusTotalDeployment
-        Assert-AreEqual 0.9 $remediation.FailureThresholdPercentage
+        Assert-AreEqual ([float]0.9) $remediation.FailureThresholdPercentage
         Assert-AreEqual 3 $remediation.ResourceCount
         Assert-AreEqual 20 $remediation.ParallelDeployment
 
@@ -289,7 +349,7 @@ Describe 'Remediation-CRUD' {
         Assert-Null $remediation.Filters
         Assert-AreEqual 0 $remediation.DeploymentStatusTotalDeployment
         Assert-AreEqual 0 $remediation.DeploymentStatusFailedDeployment
-        Assert-AreEqual 0.9 $remediation.FailureThresholdPercentage
+        Assert-AreEqual ([float]0.9) $remediation.FailureThresholdPercentage
         Assert-AreEqual 3 $remediation.ResourceCount
         Assert-AreEqual 20 $remediation.ParallelDeployment
     }
@@ -311,7 +371,7 @@ Describe 'Remediation-CRUD' {
         Assert-AreEqualArray $remediation.FilterLocation @("westus2", "northcentralus")
         Assert-AreEqual 3 $remediation.DeploymentStatusTotalDeployment
         Assert-AreEqual 0 $remediation.DeploymentStatusFailedDeployment
-        Assert-AreEqual 0.9 $remediation.FailureThresholdPercentage
+        Assert-AreEqual ([float]0.9) $remediation.FailureThresholdPercentage
         Assert-AreEqual 3 $remediation.ResourceCount
         Assert-AreEqual 20 $remediation.ParallelDeployment
 
@@ -351,7 +411,26 @@ Describe 'Remediation-CRUD' {
         $result = (Remove-AzPolicyRemediation -ResourceId $remediation.Id -PassThru)
         Assert-AreEqual $true $result
 
-        # Create a new remediation
+        # Create a new remediation to test synchronous Start
+        $remediation = Start-AzPolicyRemediation -ManagementGroupName $managementGroupName -PolicyAssignmentId $assignmentId -Name $remediationName -LocationFilter "westus2", "northcentralus"  -FailureThresholdPercentage 0.9 -ResourceCount 3 -ParallelDeploymentCount 20
+
+        # Validate the remediation completed with the expected properties
+        Validate-Remediation $remediation
+        Assert-AreEqual $remediationName $remediation.Name
+        Assert-AreEqual "Succeeded" $remediation.ProvisioningState
+        Assert-AreEqual $assignmentId $remediation.PolicyAssignmentId
+        Assert-AreEqualArray $remediation.FilterLocation @("westus2", "northcentralus")
+        Assert-AreEqual 3 $remediation.DeploymentStatusTotalDeployment
+        Assert-AreEqual 0 $remediation.DeploymentStatusFailedDeployment
+        Assert-AreEqual ([float]0.9) $remediation.FailureThresholdPercentage
+        Assert-AreEqual 3 $remediation.ResourceCount
+        Assert-AreEqual 20 $remediation.ParallelDeployment
+
+        # Cleanup the remediation so we can test the same Scope
+        $result = (Remove-AzPolicyRemediation -ResourceId $remediation.Id -PassThru)
+        Assert-AreEqual $true $result
+
+        # Create a new remediation to test NoWait
         $remediation = Start-AzPolicyRemediation -ManagementGroupName $managementGroupName -PolicyAssignmentId $assignmentId -Name $remediationName -LocationFilter "westus2", "northcentralus"  -FailureThresholdPercentage 0.9 -ResourceCount 3 -ParallelDeploymentCount 20 -NoWait
         Validate-Remediation $remediation
         Assert-AreEqual $assignmentId $remediation.PolicyAssignmentId
@@ -359,7 +438,7 @@ Describe 'Remediation-CRUD' {
         Assert-AreEqual "Accepted" $remediation.ProvisioningState
         Assert-AreEqualArray $remediation.FilterLocation @("westus2", "northcentralus")
         Assert-AreEqual 0 $remediation.DeploymentStatusTotalDeployment
-        Assert-AreEqual 0.9 $remediation.FailureThresholdPercentage
+        Assert-AreEqual ([float]0.9) $remediation.FailureThresholdPercentage
         Assert-AreEqual 3 $remediation.ResourceCount
         Assert-AreEqual 20 $remediation.ParallelDeployment
 
@@ -375,7 +454,7 @@ Describe 'Remediation-CRUD' {
         Assert-AreEqualArray $remediation.FilterLocation @("westus2", "northcentralus")
         Assert-AreEqual 0 $remediation.DeploymentStatusTotalDeployment
         Assert-AreEqual 0 $remediation.DeploymentStatusFailedDeployment
-        Assert-AreEqual 0.9 $remediation.FailureThresholdPercentage
+        Assert-AreEqual ([float]0.9) $remediation.FailureThresholdPercentage
         Assert-AreEqual 3 $remediation.ResourceCount
         Assert-AreEqual 20 $remediation.ParallelDeployment
     }
@@ -397,7 +476,7 @@ Describe 'Remediation-CRUD' {
         Assert-AreEqual 1 $remediation.FilterLocation.Count
         Assert-AreEqualArray $remediation.FilterLocation @("westus2")
         Assert-AreEqual 1 $remediation.DeploymentStatusTotalDeployment
-        Assert-AreEqual 1 $remediation.DeploymentSummary.SuccessfulDeployments
+        Assert-AreEqual 1 $remediation.DeploymentStatusSuccessfulDeployment
         Assert-AreEqual 0 $remediation.DeploymentStatusFailedDeployment
 
         # Create the remediation again so we can remove/stop it in a job
@@ -459,7 +538,7 @@ Describe 'Remediation-CRUD' {
         Assert-Null $remediation.PolicyDefinitionReferenceId
         Assert-AreEqual "Succeeded" $remediation.ProvisioningState
         Assert-AreEqual 1010 $remediation.DeploymentStatusTotalDeployment
-        Assert-AreEqual 1010 $remediation.DeploymentSummary.SuccessfulDeployments
+        Assert-AreEqual 1010 $remediation.DeploymentStatusSuccessfulDeployment
         Assert-AreEqual 0 $remediation.DeploymentStatusFailedDeployment
         Assert-AreEqual 30 $remediation.ParallelDeployment
         Assert-AreEqual 1010 $remediation.ResourceCount
@@ -482,6 +561,6 @@ Describe 'Remediation-CRUD' {
         # Attempt to request compliance re-evaluation at MG scope, should fail
         Assert-ThrowsContains `
         { Start-AzPolicyRemediation -ManagementGroupName $managementGroupName -PolicyAssignmentId $assignmentId -Name $remediationName -ResourceDiscoveryMode ReEvaluateCompliance } `
-           "InvalidCreateRemediationRequest: The request to create remediation '$remediationName' is invalid. Evaluating compliance before remediation is only supported for remediations at subscription scope and below."
+           "[InvalidCreateRemediationRequest] : The request to create remediation '$remediationName' is invalid. Evaluating compliance before remediation is only supported for remediations at subscription scope and below."
         }
     }

@@ -39,7 +39,7 @@ param(
     # Maximum number of records to return.
     ${Top},
 
-    [Parameter()] #parameters previous: ParameterSetName='Get', Mandatory
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the policy metadata resource.

@@ -64,39 +64,39 @@ function Update-AzPolicyAttestation {
 [CmdletBinding(DefaultParameterSetName='UpdateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 [Alias('Set-AzPolicyAttestation')]
 param(
-    [Parameter(ParameterSetName='UpdateExpanded', Mandatory)]
-    [Parameter(ParameterSetName='UpdateExpanded1', Mandatory)]
-    [Parameter(ParameterSetName='UpdateExpanded2')]
-    [Parameter(ParameterSetName='UpdateScope', Mandatory)]
+    [Parameter(ParameterSetName='UpdateExpanded', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='UpdateExpanded1', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='UpdateExpanded2', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='UpdateScope', Mandatory, ValueFromPipelineByPropertyName)]
     [Alias('AttestationName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the attestation.
     ${Name},
 
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Parameter(ParameterSetName='UpdateExpanded1')]
+    [Parameter(ParameterSetName='UpdateExpanded', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='UpdateExpanded1', ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
     # The ID of the target subscription.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='UpdateExpanded1', Mandatory)]
+    [Parameter(ParameterSetName='UpdateExpanded1', Mandatory, ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the resource group.
     # The name is case insensitive.
     ${ResourceGroupName},
 
-    [Parameter(ParameterSetName='UpdateExpanded2', Mandatory)]
+    [Parameter(ParameterSetName='UpdateExpanded2', Mandatory, ValueFromPipelineByPropertyName)]
     [Alias('Id')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource ID.
     ${ResourceId},
 
-    [Parameter(ParameterSetName='UpdateScope', Mandatory)]
+    [Parameter(ParameterSetName='UpdateScope', Mandatory, ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Scope of the resource. E.g. '/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
@@ -108,58 +108,58 @@ param(
     # Identity Parameter
     ${InputObject},
 
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.DateTime]
     # The time the evidence was assessed
     ${AssessmentDate},
 
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.String]
     # Comments describing why this attestation was created.
     ${Comment},
 
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.PSArgumentCompleterAttribute("Compliant", "NonCompliant", "Unknown")]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.String]
     # The compliance state that should be set on the resource.
     ${ComplianceState},
 
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName)]
     [AllowEmptyCollection()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IAttestationEvidence[]]
     # The evidence supporting the compliance state set in this attestation.
     ${Evidence},
 
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.DateTime]
     # The time the compliance state should expire.
     ${ExpiresOn},
 
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.String]
     # Additional metadata for this attestation
     ${Metadata},
 
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.String]
     # The person responsible for setting the state of the resource.
     # This value is typically an Azure Active Directory object ID.
     ${Owner},
 
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.String]
     # The resource ID of the policy assignment that the attestation is setting the state for.
     ${PolicyAssignmentId},
 
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.String]
     # The policy definition reference ID from a policy set definition that the attestation is setting the state for.

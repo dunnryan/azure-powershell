@@ -59,42 +59,42 @@ function Start-AzPolicyRemediation {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IRemediation])]
 [CmdletBinding(DefaultParameterSetName='CreateExpanded1', PositionalBinding=$false, ConfirmImpact='Medium')]
 param(
-    [Parameter(ParameterSetName='CreateExpanded', Mandatory)]
-    [Parameter(ParameterSetName='CreateExpandedScope')]
+    [Parameter(ParameterSetName='CreateExpanded', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CreateExpandedScope', ValueFromPipelineByPropertyName)]
     [Alias('ManagementGroupName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Management group ID.
     ${ManagementGroupId},
 
-    [Parameter(ParameterSetName='CreateExpanded', Mandatory)]
-    [Parameter(ParameterSetName='CreateExpanded1', Mandatory)]
-    [Parameter(ParameterSetName='CreateExpanded2', Mandatory)]
-    [Parameter(ParameterSetName='CreateExpanded3', Mandatory)]
-    [Parameter(ParameterSetName='CreateExpandedScope', Mandatory)]
-    [Parameter(ParameterSetName='CreateViaIdentityManagementGroupExpanded', Mandatory)]
+    [Parameter(ParameterSetName='CreateExpanded', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CreateExpanded1', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CreateExpanded2', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CreateExpanded3', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CreateExpandedScope', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CreateViaIdentityManagementGroupExpanded', Mandatory, ValueFromPipelineByPropertyName)]
     [Alias('RemediationName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the remediation.
     ${Name},
 
-    [Parameter(ParameterSetName='CreateExpanded1')]
-    [Parameter(ParameterSetName='CreateExpanded2')]
+    [Parameter(ParameterSetName='CreateExpanded1', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CreateExpanded2', ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
     # The ID of the target subscription.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='CreateExpanded2', Mandatory)]
-    [Parameter(ParameterSetName='CreateExpandedScope')]
+    [Parameter(ParameterSetName='CreateExpanded2', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CreateExpandedScope', ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource group name.
     ${ResourceGroupName},
 
-    [Parameter(ParameterSetName='CreateExpanded3', Mandatory)]
+    [Parameter(ParameterSetName='CreateExpanded3', Mandatory, ValueFromPipelineByPropertyName)]
     [Alias('Id')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
@@ -107,6 +107,7 @@ param(
     # Identity Parameter
     ${InputObject},
 
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Alias('FailureThreshold')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.Single]
@@ -115,6 +116,7 @@ param(
     # failed deployments) exceeds this threshold.
     ${FailureThresholdPercentage},
 
+    [Parameter(ValueFromPipelineByPropertyName)]
     [AllowEmptyCollection()]
     [Alias('LocationFilter')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
@@ -122,6 +124,7 @@ param(
     # The resource locations that will be remediated.
     ${FilterLocation},
 
+    [Parameter(ValueFromPipelineByPropertyName)]
     [AllowEmptyCollection()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.String[]]
@@ -130,6 +133,7 @@ param(
     # This filter cannot be used when ReEvaluateCompliance is set to ReEvaluateCompliance, and cannot be empty if provided.
     ${FilterResourceId},
 
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Alias('ParallelDeploymentCount')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.Int32]
@@ -138,32 +142,35 @@ param(
     # If not provided, the default parallel deployments value is used.
     ${ParallelDeployment},
 
-    [Parameter(ParameterSetName='CreateExpanded')]
-    [Parameter(ParameterSetName='CreateExpanded1')]
-    [Parameter(ParameterSetName='CreateExpanded2')]
-    [Parameter(ParameterSetName='CreateExpanded3')]
-    [Parameter(ParameterSetName='CreateExpandedScope', Mandatory)]
-    [Parameter(ParameterSetName='CreateViaIdentityExpanded1')]
-    [Parameter(ParameterSetName='CreateViaIdentityExpanded2')]
-    [Parameter(ParameterSetName='CreateViaIdentityExpanded3')]
-    [Parameter(ParameterSetName='CreateViaIdentityManagementGroupExpanded')]
+    [Parameter(ParameterSetName='CreateExpanded', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CreateExpanded1', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CreateExpanded2', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CreateExpanded3', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CreateExpandedScope', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CreateViaIdentityExpanded1', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CreateViaIdentityExpanded2', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CreateViaIdentityExpanded3', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CreateViaIdentityManagementGroupExpanded', ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.String]
     # The resource ID of the policy assignment that should be remediated.
     ${PolicyAssignmentId},
 
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.String]
     # The policy definition reference ID of the individual definition that should be remediated.
     # Required when the policy assignment being remediated assigns a policy set definition.
     ${PolicyDefinitionReferenceId},
 
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.Int32]
     # Determines the max number of resources that can be remediated by the remediation job.
     # If not provided, the default resource count is used.
     ${ResourceCount},
 
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.PSArgumentCompleterAttribute("ExistingNonCompliant", "ReEvaluateCompliance")]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.String]
@@ -171,7 +178,7 @@ param(
     # Defaults to ExistingNonCompliant if not specified.
     ${ResourceDiscoveryMode},
 
-    [Parameter(ParameterSetName='CreateExpandedScope', Mandatory)]
+    [Parameter(ParameterSetName='CreateExpandedScope', Mandatory, ValueFromPipelineByPropertyName)]
     [System.String]
     # Scope of the resource. E.g. '/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
     ${Scope},
@@ -239,41 +246,6 @@ param(
 
 process {
 
-    # Check if AsJob switch was used and setup a job to run and call the cmdlet within it
-    if($PSBoundParameters.ContainsKey("AsJob"))
-    {
-        $null = $PSBoundParameters.Remove("AsJob")
-
-        # Save context to a temp file for the job to import
-        $contextFilePath = [System.IO.Path]::GetTempFileName()
-        $null = Save-AzContext -Path $contextFilePath -Force
-
-        # ScriptBlock for Start-Job to call, it does the necessary env setup required to run the cmdlet in a fresh powershell process
-        $scriptCmd = {
-            param($InputParameters, $ScriptRoot, $ContextFilePath)
-
-            # Load the main module which handles Az.Accounts integration and proper initialization
-            $mainModulePath = Join-Path $ScriptRoot '..\Az.PolicyInsights.psd1'
-            if(Test-Path $mainModulePath) {
-                $null = Import-Module -Name $mainModulePath -Force
-            }
-
-            # Restore the Azure context in the job
-            $null = Import-AzContext -Path $ContextFilePath
-
-            # Clean up the temp file
-            Remove-Item -Path $ContextFilePath -Force -ErrorAction SilentlyContinue
-
-            & Start-AzPolicyRemediation @InputParameters
-        }
-
-        $parametersHashtable = [hashtable]$PSBoundParameters
-
-        $output = Start-Job -ScriptBlock $scriptCmd -ArgumentList $parametersHashtable, $PSScriptRoot, $contextFilePath
-
-        return $output
-    }
-
     # Generated code can't parse which scope of InputObject is being passed in so it's easiest to parse it into other parameters 
     if($PSBoundParameters.ContainsKey("InputObject"))
     {        
@@ -314,6 +286,49 @@ process {
         }
 
         $null = $PSBoundParameters.Remove("Scope")
+    }
+
+    # Check if AsJob switch was used and setup a job to run and call the cmdlet within it
+    if($PSBoundParameters.ContainsKey("AsJob"))
+    {
+        $null = $PSBoundParameters.Remove("AsJob")
+
+        # **CRITICAL: Remove HTTP pipeline parameters that can't be serialized**
+        $pipelineParams = @('HttpPipelinePrepend', 'HttpPipelineAppend', 'Proxy', 'ProxyCredential', 'ProxyUseDefaultCredentials', 'Break')
+        foreach ($param in $pipelineParams) {
+            if ($PSBoundParameters.ContainsKey($param)) {
+                $null = $PSBoundParameters.Remove($param)
+            }
+        }
+
+        # Save context to a temp file for the job to import
+        $contextFilePath = [System.IO.Path]::GetTempFileName()
+        $null = Save-AzContext -Path $contextFilePath -Force
+
+        # ScriptBlock for Start-Job to call, it does the necessary env setup required to run the cmdlet in a fresh powershell process
+        $scriptCmd = {
+            param($InputParameters, $ScriptRoot, $ContextFilePath)
+
+            # Load the main module which handles Az.Accounts integration and proper initialization
+            $mainModulePath = Join-Path $ScriptRoot '..\Az.PolicyInsights.psd1'
+            if(Test-Path $mainModulePath) {
+                $null = Import-Module -Name $mainModulePath -Force
+            }
+
+            # Restore the Azure context in the job
+            $null = Import-AzContext -Path $ContextFilePath
+
+            # Clean up the temp file
+            Remove-Item -Path $ContextFilePath -Force -ErrorAction SilentlyContinue
+
+            & Start-AzPolicyRemediation @InputParameters
+        }
+
+        $parametersHashtable = [hashtable]$PSBoundParameters
+
+        $output = Start-Job -ScriptBlock $scriptCmd -ArgumentList $parametersHashtable, $PSScriptRoot, $contextFilePath
+
+        return $output
     }
 
     # if NoWait is present, call the internal cmdlet and return that output immediately

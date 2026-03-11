@@ -59,43 +59,43 @@ function Get-AzPolicyAttestation {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IAttestation])]
 [CmdletBinding(DefaultParameterSetName='List', PositionalBinding=$false)]
 param(
-    [Parameter(ParameterSetName='Get', Mandatory)]
-    [Parameter(ParameterSetName='Get1', Mandatory)]
-    [Parameter(ParameterSetName='Get2', Mandatory)]
-    [Parameter(ParameterSetName='ScopeAndName', Mandatory)]
+    [Parameter(ParameterSetName='Get', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Get1', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Get2', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='ScopeAndName', Mandatory, ValueFromPipelineByPropertyName)]
     [Alias('AttestationName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the attestation.
     ${Name},
 
-    [Parameter(ParameterSetName='Get')]
-    [Parameter(ParameterSetName='Get1')]
-    [Parameter(ParameterSetName='List')]
-    [Parameter(ParameterSetName='List1')]
+    [Parameter(ParameterSetName='Get', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Get1', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='List', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='List1', ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String[]]
     # The ID of the target subscription.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='Get1', Mandatory)]
-    [Parameter(ParameterSetName='List1', Mandatory)]
+    [Parameter(ParameterSetName='Get1', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='List1', Mandatory, ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the resource group.
     # The name is case insensitive.
     ${ResourceGroupName},
 
-    [Parameter(ParameterSetName='Get2', Mandatory)]
-    [Parameter(ParameterSetName='List2', Mandatory)]
+    [Parameter(ParameterSetName='Get2', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='List2', Mandatory, ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource ID.
     ${ResourceId},
 
-    [Parameter(ParameterSetName='ScopeAndName', Mandatory)]
-    [Parameter(ParameterSetName='ScopeList', Mandatory)]
+    [Parameter(ParameterSetName='ScopeAndName', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='ScopeList', Mandatory, ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Scope of the resource. E.g. 'subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
@@ -107,10 +107,10 @@ param(
     # Identity Parameter
     ${InputObject},
 
-    [Parameter(ParameterSetName='List')]
-    [Parameter(ParameterSetName='List1')]
-    [Parameter(ParameterSetName='List2')]
-    [Parameter(ParameterSetName='ScopeList')]
+    [Parameter(ParameterSetName='List', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='List1', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='List2', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='ScopeList', ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
     # OData filter expression.
