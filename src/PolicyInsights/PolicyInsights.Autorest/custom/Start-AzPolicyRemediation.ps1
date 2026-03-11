@@ -244,6 +244,10 @@ param(
     ${ProxyUseDefaultCredentials}
 )
 
+# okay! changes were pushed from this working branch
+# so now we can fuck it up! lmao 
+# but fr, just wanna see if there's a way to make this work without fully removing this params :)
+
 process {
 
     # Generated code can't parse which scope of InputObject is being passed in so it's easiest to parse it into other parameters 
@@ -293,9 +297,9 @@ process {
     {
         $null = $PSBoundParameters.Remove("AsJob")
 
-        # **CRITICAL: Remove HTTP pipeline parameters that can't be serialized**
-        $pipelineParams = @('HttpPipelinePrepend', 'HttpPipelineAppend', 'Proxy', 'ProxyCredential', 'ProxyUseDefaultCredentials', 'Break')
-        foreach ($param in $pipelineParams) {
+        # Remove HTTP pipeline parameters that can't be serialized
+        $nonSerializableParams = @('HttpPipelinePrepend', 'HttpPipelineAppend', 'Break')
+        foreach ($param in $nonSerializableParams) {
             if ($PSBoundParameters.ContainsKey($param)) {
                 $null = $PSBoundParameters.Remove($param)
             }

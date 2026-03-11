@@ -252,9 +252,9 @@ process {
     {
         $null = $PSBoundParameters.Remove("AsJob")
 
-        # **CRITICAL: Remove HTTP pipeline parameters that can't be serialized**
-        $pipelineParams = @('HttpPipelinePrepend', 'HttpPipelineAppend', 'Proxy', 'ProxyCredential', 'ProxyUseDefaultCredentials', 'Break')
-        foreach ($param in $pipelineParams) {
+        # Remove HTTP pipeline parameters that can't be serialized
+        $nonSerializableParams = @('HttpPipelinePrepend', 'HttpPipelineAppend', 'Break')
+        foreach ($param in $nonSerializableParams) {
             if ($PSBoundParameters.ContainsKey($param)) {
                 $null = $PSBoundParameters.Remove($param)
             }
