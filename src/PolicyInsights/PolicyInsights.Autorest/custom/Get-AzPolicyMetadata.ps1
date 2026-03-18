@@ -33,16 +33,17 @@ function Get-AzPolicyMetadata {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyMetadata])]
 [CmdletBinding(DefaultParameterSetName='List', PositionalBinding=$false)]
 param(
-    [Parameter()]
+    [Parameter(ParameterSetName='List')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.Int32]
     # Maximum number of records to return.
     ${Top},
 
-    [Parameter(ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='GetByName', Mandatory)]
+    [Alias('ResourceName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
-    # The name of the policy metadata resource.
+    # The name of the policy metadata resource. Returns additional information about the specified policy metadata resource.
     ${Name},
 
     [Parameter()]
@@ -94,19 +95,13 @@ param(
     ${ProxyUseDefaultCredentials}
 )
 
-# Future pass:
-# - separate Top and Name parameter sets? ... pretty sure they're mutually exclusive lol
-# - implement partial class of list class so that we can implement overrideOnOk and check if 'Top' amount has been returned!!! 
-
 process {
 
     $output = $null
 
     if($PSBoundParameters.ContainsKey("Name"))
     {
-        # remove Name from the PSBoundParameters, add ResourceName to the PSBoundParameters and call Get-AzPolicyMetadataResource
-        $null = $PSBoundParameters.Remove("Name")
-        $null = $PSBoundParameters.Add("ResourceName", $Name)
+        Write-Verbose "Making a call for the specificed policy metadata resource with name: $Name"
         $output = Az.PolicyInsights.internal\Get-AzPolicyMetadataResource @PSBoundParameters
     } 
     elseif($PSBoundParameters.ContainsKey("Top"))

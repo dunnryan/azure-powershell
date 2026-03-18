@@ -25,113 +25,10 @@ Summarizes policy states for the resources under the management group.
 {{ Add code here }}
 
 .Inputs
-Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
 .Outputs
 Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.ISummary
 .Notes
 COMPLEX PARAMETER PROPERTIES
-
-To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
-
-INPUTOBJECT <IPolicyInsightsIdentity>: Identity Parameter
-  [AttestationName <String>]: The name of the attestation.
-  [AuthorizationNamespace <String>]: The namespace for Microsoft Authorization resource provider; only "Microsoft.Authorization" is allowed.
-  [Id <String>]: Resource identity path
-  [ManagementGroupId <String>]: Management group ID.
-  [ManagementGroupName <String>]: Management group name.
-  [ManagementGroupsNamespace <String>]: The namespace for Microsoft Management RP; only "Microsoft.Management" is allowed.
-  [NextLink <String>]: Next link for list operation.
-  [PolicyAssignmentName <String>]: Policy assignment name.
-  [PolicyDefinitionName <String>]: Policy definition name.
-  [PolicyEventsResource <String>]: The name of the virtual resource under PolicyEvents resource type; only "default" is allowed.
-  [PolicySetDefinitionName <String>]: Policy set definition name.
-  [PolicyStatesResource <String>]: The virtual resource under PolicyStates resource type. In a given time range, 'latest' represents the latest policy state(s), whereas 'default' represents all policy state(s).
-  [PolicyStatesSummaryResource <String>]: The virtual resource under PolicyStates resource type for summarize action. In a given time range, 'latest' represents the latest policy state(s) and is the only allowed value.
-  [RemediationName <String>]: The name of the remediation.
-  [ResourceGroupName <String>]: The name of the resource group. The name is case insensitive.
-  [ResourceId <String>]: Resource ID.
-  [ResourceName <String>]: The name of the policy metadata resource.
-  [SubscriptionId <String>]: The ID of the target subscription.
-
-SUBSCRIPTION1INPUTOBJECT <IPolicyInsightsIdentity>: Identity Parameter
-  [AttestationName <String>]: The name of the attestation.
-  [AuthorizationNamespace <String>]: The namespace for Microsoft Authorization resource provider; only "Microsoft.Authorization" is allowed.
-  [Id <String>]: Resource identity path
-  [ManagementGroupId <String>]: Management group ID.
-  [ManagementGroupName <String>]: Management group name.
-  [ManagementGroupsNamespace <String>]: The namespace for Microsoft Management RP; only "Microsoft.Management" is allowed.
-  [NextLink <String>]: Next link for list operation.
-  [PolicyAssignmentName <String>]: Policy assignment name.
-  [PolicyDefinitionName <String>]: Policy definition name.
-  [PolicyEventsResource <String>]: The name of the virtual resource under PolicyEvents resource type; only "default" is allowed.
-  [PolicySetDefinitionName <String>]: Policy set definition name.
-  [PolicyStatesResource <String>]: The virtual resource under PolicyStates resource type. In a given time range, 'latest' represents the latest policy state(s), whereas 'default' represents all policy state(s).
-  [PolicyStatesSummaryResource <String>]: The virtual resource under PolicyStates resource type for summarize action. In a given time range, 'latest' represents the latest policy state(s) and is the only allowed value.
-  [RemediationName <String>]: The name of the remediation.
-  [ResourceGroupName <String>]: The name of the resource group. The name is case insensitive.
-  [ResourceId <String>]: Resource ID.
-  [ResourceName <String>]: The name of the policy metadata resource.
-  [SubscriptionId <String>]: The ID of the target subscription.
-
-SUBSCRIPTION2INPUTOBJECT <IPolicyInsightsIdentity>: Identity Parameter
-  [AttestationName <String>]: The name of the attestation.
-  [AuthorizationNamespace <String>]: The namespace for Microsoft Authorization resource provider; only "Microsoft.Authorization" is allowed.
-  [Id <String>]: Resource identity path
-  [ManagementGroupId <String>]: Management group ID.
-  [ManagementGroupName <String>]: Management group name.
-  [ManagementGroupsNamespace <String>]: The namespace for Microsoft Management RP; only "Microsoft.Management" is allowed.
-  [NextLink <String>]: Next link for list operation.
-  [PolicyAssignmentName <String>]: Policy assignment name.
-  [PolicyDefinitionName <String>]: Policy definition name.
-  [PolicyEventsResource <String>]: The name of the virtual resource under PolicyEvents resource type; only "default" is allowed.
-  [PolicySetDefinitionName <String>]: Policy set definition name.
-  [PolicyStatesResource <String>]: The virtual resource under PolicyStates resource type. In a given time range, 'latest' represents the latest policy state(s), whereas 'default' represents all policy state(s).
-  [PolicyStatesSummaryResource <String>]: The virtual resource under PolicyStates resource type for summarize action. In a given time range, 'latest' represents the latest policy state(s) and is the only allowed value.
-  [RemediationName <String>]: The name of the remediation.
-  [ResourceGroupName <String>]: The name of the resource group. The name is case insensitive.
-  [ResourceId <String>]: Resource ID.
-  [ResourceName <String>]: The name of the policy metadata resource.
-  [SubscriptionId <String>]: The ID of the target subscription.
-
-SUBSCRIPTION3INPUTOBJECT <IPolicyInsightsIdentity>: Identity Parameter
-  [AttestationName <String>]: The name of the attestation.
-  [AuthorizationNamespace <String>]: The namespace for Microsoft Authorization resource provider; only "Microsoft.Authorization" is allowed.
-  [Id <String>]: Resource identity path
-  [ManagementGroupId <String>]: Management group ID.
-  [ManagementGroupName <String>]: Management group name.
-  [ManagementGroupsNamespace <String>]: The namespace for Microsoft Management RP; only "Microsoft.Management" is allowed.
-  [NextLink <String>]: Next link for list operation.
-  [PolicyAssignmentName <String>]: Policy assignment name.
-  [PolicyDefinitionName <String>]: Policy definition name.
-  [PolicyEventsResource <String>]: The name of the virtual resource under PolicyEvents resource type; only "default" is allowed.
-  [PolicySetDefinitionName <String>]: Policy set definition name.
-  [PolicyStatesResource <String>]: The virtual resource under PolicyStates resource type. In a given time range, 'latest' represents the latest policy state(s), whereas 'default' represents all policy state(s).
-  [PolicyStatesSummaryResource <String>]: The virtual resource under PolicyStates resource type for summarize action. In a given time range, 'latest' represents the latest policy state(s) and is the only allowed value.
-  [RemediationName <String>]: The name of the remediation.
-  [ResourceGroupName <String>]: The name of the resource group. The name is case insensitive.
-  [ResourceId <String>]: Resource ID.
-  [ResourceName <String>]: The name of the policy metadata resource.
-  [SubscriptionId <String>]: The ID of the target subscription.
-
-SUBSCRIPTIONINPUTOBJECT <IPolicyInsightsIdentity>: Identity Parameter
-  [AttestationName <String>]: The name of the attestation.
-  [AuthorizationNamespace <String>]: The namespace for Microsoft Authorization resource provider; only "Microsoft.Authorization" is allowed.
-  [Id <String>]: Resource identity path
-  [ManagementGroupId <String>]: Management group ID.
-  [ManagementGroupName <String>]: Management group name.
-  [ManagementGroupsNamespace <String>]: The namespace for Microsoft Management RP; only "Microsoft.Management" is allowed.
-  [NextLink <String>]: Next link for list operation.
-  [PolicyAssignmentName <String>]: Policy assignment name.
-  [PolicyDefinitionName <String>]: Policy definition name.
-  [PolicyEventsResource <String>]: The name of the virtual resource under PolicyEvents resource type; only "default" is allowed.
-  [PolicySetDefinitionName <String>]: Policy set definition name.
-  [PolicyStatesResource <String>]: The virtual resource under PolicyStates resource type. In a given time range, 'latest' represents the latest policy state(s), whereas 'default' represents all policy state(s).
-  [PolicyStatesSummaryResource <String>]: The virtual resource under PolicyStates resource type for summarize action. In a given time range, 'latest' represents the latest policy state(s) and is the only allowed value.
-  [RemediationName <String>]: The name of the remediation.
-  [ResourceGroupName <String>]: The name of the resource group. The name is case insensitive.
-  [ResourceId <String>]: Resource ID.
-  [ResourceName <String>]: The name of the policy metadata resource.
-  [SubscriptionId <String>]: The ID of the target subscription.
 .Link
 https://learn.microsoft.com/powershell/module/az.policyinsights/get-azpolicystatesummary
 #>
@@ -139,110 +36,70 @@ function Get-AzPolicyStateSummary {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.ISummary])]
 [CmdletBinding(DefaultParameterSetName='Summarize1', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
-    [Parameter(ParameterSetName='Summarize', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Summarize', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Management group name.
     ${ManagementGroupName},
 
-    [Parameter(ParameterSetName='Summarize1', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='Summarize2', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='Summarize4', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='Summarize5', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='Summarize6', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='Summarize7', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Summarize1')]
+    [Parameter(ParameterSetName='Summarize2')]
+    [Parameter(ParameterSetName='Summarize4')]
+    [Parameter(ParameterSetName='Summarize5')]
+    [Parameter(ParameterSetName='Summarize6')]
+    [Parameter(ParameterSetName='Summarize7')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
     # Microsoft Azure subscription ID.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='Summarize2', Mandatory, ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='Summarize7', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Summarize2', Mandatory)]
+    [Parameter(ParameterSetName='Summarize7', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource group name.
     ${ResourceGroupName},
 
-    [Parameter(ParameterSetName='Summarize3', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Summarize3', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource ID.
     ${ResourceId},
 
-    [Parameter(ParameterSetName='Summarize4', Mandatory, ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='SummarizeViaIdentitySubscription', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Summarize4', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Policy set definition name.
     ${PolicySetDefinitionName},
 
-    [Parameter(ParameterSetName='Summarize5', Mandatory, ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='SummarizeViaIdentitySubscription1', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Summarize5', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Policy definition name.
     ${PolicyDefinitionName},
 
-    [Parameter(ParameterSetName='Summarize6', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Summarize6', Mandatory)]
     [Parameter(ParameterSetName='Summarize7', Mandatory)]
-    [Parameter(ParameterSetName='SummarizeViaIdentitySubscription2', Mandatory, ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='SummarizeViaIdentitySubscription3', Mandatory, ValueFromPipelineByPropertyName)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Policy assignment name.
     ${PolicyAssignmentName},
 
-    [Parameter(ParameterSetName='SummarizeViaIdentity', Mandatory, ValueFromPipeline)]
-    [Parameter(ParameterSetName='SummarizeViaIdentity1', Mandatory, ValueFromPipeline)]
-    [Parameter(ParameterSetName='SummarizeViaIdentity2', Mandatory, ValueFromPipeline)]
-    [Parameter(ParameterSetName='SummarizeViaIdentity3', Mandatory, ValueFromPipeline)]
-    [Parameter(ParameterSetName='SummarizeViaIdentity4', Mandatory, ValueFromPipeline)]
-    [Parameter(ParameterSetName='SummarizeViaIdentity5', Mandatory, ValueFromPipeline)]
-    [Parameter(ParameterSetName='SummarizeViaIdentity6', Mandatory, ValueFromPipeline)]
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity]
-    # Identity Parameter
-    ${InputObject},
-
-    [Parameter(ParameterSetName='SummarizeViaIdentitySubscription', Mandatory, ValueFromPipeline)]
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity]
-    # Identity Parameter
-    ${SubscriptionInputObject},
-
-    [Parameter(ParameterSetName='SummarizeViaIdentitySubscription1', Mandatory, ValueFromPipeline)]
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity]
-    # Identity Parameter
-    ${Subscription1InputObject},
-
-    [Parameter(ParameterSetName='SummarizeViaIdentitySubscription2', Mandatory, ValueFromPipeline)]
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity]
-    # Identity Parameter
-    ${Subscription2InputObject},
-
-    [Parameter(ParameterSetName='SummarizeViaIdentitySubscription3', Mandatory, ValueFromPipeline)]
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity]
-    # Identity Parameter
-    ${Subscription3InputObject},
-
-    [Parameter(ValueFromPipelineByPropertyName)]
+    [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
     # OData filter expression.
     ${Filter},
 
-    [Parameter(ValueFromPipelineByPropertyName)]
+    [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.DateTime]
     # ISO 8601 formatted timestamp specifying the start time of the interval to query.
     # When not specified, the service uses ($to - 1-day).
     ${From},
 
-    [Parameter(ValueFromPipelineByPropertyName)]
+    [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.DateTime]
     # ISO 8601 formatted timestamp specifying the end time of the interval to query.
@@ -303,12 +160,6 @@ param(
     # Use the default credentials for the proxy
     ${ProxyUseDefaultCredentials}
 )
-
-
-# creating custom cmdlet in order to return a different type; the type is the only property that has relevant information to the user
-
-# I'm pretty sure the extra parameter sets are due to the post aspect
-
 
 process {
     # call the generated cmdlet with the parameters passed to this cmdlet

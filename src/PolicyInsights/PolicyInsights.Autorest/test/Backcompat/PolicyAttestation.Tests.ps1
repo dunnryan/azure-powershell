@@ -24,8 +24,6 @@ Describe 'Attestation-CRUD' {
 
 
     It 'Attestation-SubscriptionScope-Crud' {
-        # Import-Module "C:\One\azure-powershell\artifacts\Debug\Az.PolicyInsights\Az.PolicyInsights.psm1"
-        #region Minimal Attestation CRUD
         # Create a new attestation with minimal properties
         $policyAssignmentId = $env.attestationSubPolicyAssignmentId
         $attestationName = "Attestation-SubscriptionScope-Crud"
@@ -84,9 +82,8 @@ Describe 'Attestation-CRUD' {
            -expectedComplianceState $NonCompliant `
            -expectedComment $comment `
            -expectedExpiresOn $expiresOn
-        #endregion
 
-        #region Attestations All Properties CRUD
+        # Attestations All Properties CRUD
         $attestationName = "Attestation-Sub-Full"
         $policyInitiativeAssignmentId = $env.attestationSetSubPolicyAssignmentId
         $policyDefinitionReferenceId = $env.attestationSetSubPolicyRefId
@@ -251,14 +248,11 @@ Describe 'Attestation-CRUD' {
 
         # Get all attestations at the scope
         $attestations = Get-AzPolicyAttestation
-        Assert-AreEqual 0 $attestations.Count
-
-        #endregion
+        Assert-AreEqual 0 $attestations.Count     
     }
 
     It 'Attestation-ResourceGroupScope-Crud' {
-        # Import-Module "C:\One\azure-powershell\artifacts\Debug\Az.PolicyInsights\Az.PolicyInsights.psm1"
-        #region Minimal Attestation CRUD
+        # Minimal Attestation CRUD
         # Create a new attestation with minimal properties
         $policyAssignmentId = $env.attestationRgPolicyAssignmentId
         $attestationName = "Attestation-RGScope-Crud"
@@ -318,9 +312,8 @@ Describe 'Attestation-CRUD' {
            -expectedComplianceState $NonCompliant `
            -expectedComment $comment `
            -expectedExpiresOn $expiresOn
-        #endregion
 
-        #region Attestations All Properties CRUD
+        # Attestations All Properties CRUD
         $attestationName = "Attestation-RG-Full"
         $policyInitiativeAssignmentId = $env.attestationSetRgPolicyAssignmentId
         $policyDefinitionReferenceId = $env.attestationSetRgPolicyRefId
@@ -491,14 +484,11 @@ Describe 'Attestation-CRUD' {
         $attestations = Get-AzPolicyAttestation -ResourceGroupName $RGName
         Assert-AreEqual 0 $attestations.Count
 
-        #endregion
-
         Remove-Item ".\AttestationMetadata.json" -Force
     }
 
     It 'Attestation-ResourceScope-Crud' {
-        # Import-Module "C:\One\azure-powershell\artifacts\Debug\Az.PolicyInsights\Az.PolicyInsights.psm1"
-        #region Minimal Attestation CRUD
+        # Minimal Attestation CRUD
         # Create a new attestation with minimal properties
         $policyAssignmentId = $env.attestationResourcePolicyAssignmentId
         $attestationName = "Attestation-ResourceScope-Crud"
@@ -562,9 +552,8 @@ Describe 'Attestation-CRUD' {
            -expectedComplianceState $NonCompliant `
            -expectedComment $comment `
            -expectedExpiresOn $expiresOn
-        #endregion
 
-        #region Attestations All Properties CRUD
+        # Attestations All Properties CRUD
         $attestationName = "Attestation-Resource-Full"
         $policyInitiativeAssignmentId = $env.attestationSetResourcePolicyAssignmentId
         $policyDefinitionReferenceId = $env.attestationSetResourcePolicyRefId
@@ -708,8 +697,8 @@ Describe 'Attestation-CRUD' {
         Assert-NotNullorEmpty $attestations
         Assert-AreEqual 2 $attestations.Count
 
-        # Delete one attestation
-        $result = ($minimalAttestation | Remove-AzPolicyAttestation -PassThru)
+        # Delete one attestation by resource id 
+        $result = Remove-AzPolicyAttestation -Id $minimalAttestation.Id -PassThru
         Assert-AreEqual $true $result
 
         # Get all attestations at the scope
@@ -723,8 +712,6 @@ Describe 'Attestation-CRUD' {
         # Get all attestations at the scope
         $attestations = Get-AzPolicyAttestation -Scope $scope
         Assert-AreEqual 0 $attestations.Count
-
-        #endregion
     }
 
     It 'Attestation-GetCollection' {
@@ -825,7 +812,7 @@ Describe 'Attestation-CRUD' {
     }
 
     It 'Attestation-Error-Handling' {
-        #region Attestation CRUD Error No Compliance Results
+        # Attestation CRUD Error No Compliance Results
         # Create a new attestation with minimal properties
         $policyAssignmentId = $env.attestationSubPolicyAssignmentId
         $attestationName = "Attestation-Error-Crud"
@@ -851,6 +838,5 @@ Describe 'Attestation-CRUD' {
         }
 
         throw "No Error occurred"
-        #endregion
     }
 }

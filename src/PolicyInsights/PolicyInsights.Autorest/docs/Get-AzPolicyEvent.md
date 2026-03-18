@@ -15,58 +15,57 @@ Queries policy events for the resources under the management group.
 ### List1 (Default)
 ```
 Get-AzPolicyEvent [-SubscriptionId <String[]>] [-Apply <String>] [-Filter <String>] [-From <DateTime>]
- [-OrderBy <String>] [-Select <String>] [-SkipToken <String>] [-To <DateTime>] [-Top <Int32>]
- [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>]
+ [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### List
 ```
 Get-AzPolicyEvent -ManagementGroupName <String> [-Apply <String>] [-Filter <String>] [-From <DateTime>]
- [-OrderBy <String>] [-Select <String>] [-SkipToken <String>] [-To <DateTime>] [-Top <Int32>]
- [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>]
+ [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### List2
 ```
 Get-AzPolicyEvent -ResourceGroupName <String> [-SubscriptionId <String[]>] [-Apply <String>]
- [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-SkipToken <String>]
- [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
+ [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### List3
 ```
 Get-AzPolicyEvent -ResourceId <String> [-Apply <String>] [-Expand <String>] [-Filter <String>]
- [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-SkipToken <String>] [-To <DateTime>]
- [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
+ [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### List4
 ```
 Get-AzPolicyEvent -PolicySetDefinitionName <String> [-SubscriptionId <String[]>] [-Apply <String>]
- [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-SkipToken <String>]
- [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
+ [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### List5
 ```
 Get-AzPolicyEvent -PolicyDefinitionName <String> [-SubscriptionId <String[]>] [-Apply <String>]
- [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-SkipToken <String>]
- [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
+ [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### List6
 ```
 Get-AzPolicyEvent -PolicyAssignmentName <String> [-SubscriptionId <String[]>] [-Apply <String>]
- [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-SkipToken <String>]
- [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
+ [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### List7
 ```
 Get-AzPolicyEvent -PolicyAssignmentName <String> -ResourceGroupName <String> [-SubscriptionId <String[]>]
  [-Apply <String>] [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>]
- [-SkipToken <String>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf]
- [<CommonParameters>]
+ [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -287,21 +286,6 @@ Accept wildcard characters: False
 Select expression using OData notation.
 Limits the columns on each record to just those requested, e.g.
 "$select=PolicyAssignmentId, ResourceId".
-
-```yaml
-Type: System.String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -SkipToken
-Skiptoken is only provided if a previous response returned a partial result as a part of nextLink element.
 
 ```yaml
 Type: System.String

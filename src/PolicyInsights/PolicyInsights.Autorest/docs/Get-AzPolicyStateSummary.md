@@ -65,76 +65,6 @@ Get-AzPolicyStateSummary -PolicyAssignmentName <String> -ResourceGroupName <Stri
  [-WhatIf] [<CommonParameters>]
 ```
 
-### SummarizeViaIdentity
-```
-Get-AzPolicyStateSummary -InputObject <IPolicyInsightsIdentity> [-Filter <String>] [-From <DateTime>]
- [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### SummarizeViaIdentity1
-```
-Get-AzPolicyStateSummary -InputObject <IPolicyInsightsIdentity> [-Filter <String>] [-From <DateTime>]
- [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### SummarizeViaIdentity2
-```
-Get-AzPolicyStateSummary -InputObject <IPolicyInsightsIdentity> [-Filter <String>] [-From <DateTime>]
- [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### SummarizeViaIdentity3
-```
-Get-AzPolicyStateSummary -InputObject <IPolicyInsightsIdentity> [-Filter <String>] [-From <DateTime>]
- [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### SummarizeViaIdentity4
-```
-Get-AzPolicyStateSummary -InputObject <IPolicyInsightsIdentity> [-Filter <String>] [-From <DateTime>]
- [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### SummarizeViaIdentity5
-```
-Get-AzPolicyStateSummary -InputObject <IPolicyInsightsIdentity> [-Filter <String>] [-From <DateTime>]
- [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### SummarizeViaIdentity6
-```
-Get-AzPolicyStateSummary -InputObject <IPolicyInsightsIdentity> [-Filter <String>] [-From <DateTime>]
- [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### SummarizeViaIdentitySubscription
-```
-Get-AzPolicyStateSummary -PolicySetDefinitionName <String> -SubscriptionInputObject <IPolicyInsightsIdentity>
- [-Filter <String>] [-From <DateTime>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm]
- [-WhatIf] [<CommonParameters>]
-```
-
-### SummarizeViaIdentitySubscription1
-```
-Get-AzPolicyStateSummary -PolicyDefinitionName <String> -Subscription1InputObject <IPolicyInsightsIdentity>
- [-Filter <String>] [-From <DateTime>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm]
- [-WhatIf] [<CommonParameters>]
-```
-
-### SummarizeViaIdentitySubscription2
-```
-Get-AzPolicyStateSummary -PolicyAssignmentName <String> -Subscription2InputObject <IPolicyInsightsIdentity>
- [-Filter <String>] [-From <DateTime>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm]
- [-WhatIf] [<CommonParameters>]
-```
-
-### SummarizeViaIdentitySubscription3
-```
-Get-AzPolicyStateSummary -PolicyAssignmentName <String> -Subscription3InputObject <IPolicyInsightsIdentity>
- [-Filter <String>] [-From <DateTime>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm]
- [-WhatIf] [<CommonParameters>]
-```
-
 ## DESCRIPTION
 Summarizes policy states for the resources under the management group.
 
@@ -191,7 +121,7 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -207,22 +137,7 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -InputObject
-Identity Parameter
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-Parameter Sets: SummarizeViaIdentity, SummarizeViaIdentity1, SummarizeViaIdentity2, SummarizeViaIdentity3, SummarizeViaIdentity4, SummarizeViaIdentity5, SummarizeViaIdentity6
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -246,7 +161,7 @@ Policy assignment name.
 
 ```yaml
 Type: System.String
-Parameter Sets: Summarize6, Summarize7, SummarizeViaIdentitySubscription2, SummarizeViaIdentitySubscription3
+Parameter Sets: Summarize6, Summarize7
 Aliases:
 
 Required: True
@@ -261,7 +176,7 @@ Policy definition name.
 
 ```yaml
 Type: System.String
-Parameter Sets: Summarize5, SummarizeViaIdentitySubscription1
+Parameter Sets: Summarize5
 Aliases:
 
 Required: True
@@ -276,7 +191,7 @@ Policy set definition name.
 
 ```yaml
 Type: System.String
-Parameter Sets: Summarize4, SummarizeViaIdentitySubscription
+Parameter Sets: Summarize4
 Aliases:
 
 Required: True
@@ -316,51 +231,6 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -Subscription1InputObject
-Identity Parameter
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-Parameter Sets: SummarizeViaIdentitySubscription1
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
-### -Subscription2InputObject
-Identity Parameter
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-Parameter Sets: SummarizeViaIdentitySubscription2
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
-### -Subscription3InputObject
-Identity Parameter
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-Parameter Sets: SummarizeViaIdentitySubscription3
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
 ### -SubscriptionId
 Microsoft Azure subscription ID.
 
@@ -376,21 +246,6 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -SubscriptionInputObject
-Identity Parameter
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-Parameter Sets: SummarizeViaIdentitySubscription
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
 ### -To
 ISO 8601 formatted timestamp specifying the end time of the interval to query.
 When not specified, the service uses request time.
@@ -403,7 +258,7 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -457,10 +312,6 @@ Accept wildcard characters: False
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
-
-### Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-
-### System.DateTime
 
 ### System.String
 

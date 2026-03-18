@@ -59,39 +59,39 @@ function Remove-AzPolicyAttestation {
 [OutputType([System.Boolean])]
 [CmdletBinding(DefaultParameterSetName='Delete', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
-    [Parameter(ParameterSetName='Delete', Mandatory, ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='Delete1', Mandatory, ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='Delete2', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='DeleteScope', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Delete', Mandatory)]
+    [Parameter(ParameterSetName='Delete1', Mandatory)]
+    [Parameter(ParameterSetName='Delete2')]
+    [Parameter(ParameterSetName='DeleteScope', Mandatory)]
     [Alias('AttestationName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the attestation.
     ${Name},
 
-    [Parameter(ParameterSetName='Delete', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='Delete1', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Delete')]
+    [Parameter(ParameterSetName='Delete1')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
     # The ID of the target subscription.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='Delete1', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Delete1', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the resource group.
     # The name is case insensitive.
     ${ResourceGroupName},
 
-    [Parameter(ParameterSetName='Delete2', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Delete2', Mandatory)]
     [Alias('Id')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource ID.
     ${ResourceId},
 
-    [Parameter(ParameterSetName='DeleteScope', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='DeleteScope', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Scope of the resource. E.g. '/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.

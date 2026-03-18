@@ -90,6 +90,9 @@ directive:
   - from: swagger-document
     where: $.definitions.AttestationProperties.properties.metadata
     transform: $['additionalProperties'] = true
+  - from: swagger-document
+    where: $.definitions.PolicyMetadataSlimProperties.properties.metadata
+    transform: $['additionalProperties'] = true
 
 # Directives to disable long-running operation, which will remove AsJob and NoWait behavior in Attestation creation cmdlets
   - from: swagger-document
@@ -203,6 +206,11 @@ directive:
       parameter-name: ResourceId
     set:
       alias: Id
+  - where:
+      subject: PolicyMetadataResource
+      parameter-name: ResourceName
+    set:
+      alias: Name
 
 # Policy Insights specific cmdlet directives 
   # Hide Get-AzPolicyStateQueryResult, will be called by Get-AzPolicyState
@@ -217,6 +225,11 @@ directive:
       subject: PolicyEventQueryResult
     set:
       subject: PolicyEvent
+
+  # Hide any SkipToken parameters
+  - where:
+      parameter-name: SkipToken
+    hide: true 
 
   # Hiding Get-AzPolicyMetadata so that custom one can be used
   - where:

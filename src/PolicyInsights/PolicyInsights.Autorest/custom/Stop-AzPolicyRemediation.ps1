@@ -59,40 +59,40 @@ function Stop-AzPolicyRemediation {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IRemediation])]
 [CmdletBinding(DefaultParameterSetName='Cancel1', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
-    [Parameter(ParameterSetName='Cancel', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Cancel', Mandatory)]
     [Alias('ManagementGroupName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Management group ID.
     ${ManagementGroupId},
 
-    [Parameter(ParameterSetName='Cancel', Mandatory, ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='Cancel1', Mandatory, ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='Cancel2', Mandatory, ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='Cancel3', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='CancelScope', Mandatory, ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='CancelViaIdentityManagementGroup', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Cancel', Mandatory)]
+    [Parameter(ParameterSetName='Cancel1', Mandatory)]
+    [Parameter(ParameterSetName='Cancel2', Mandatory)]
+    [Parameter(ParameterSetName='Cancel3')]
+    [Parameter(ParameterSetName='CancelScope', Mandatory)]
+    [Parameter(ParameterSetName='CancelViaIdentityManagementGroup', Mandatory)]
     [Alias('RemediationName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the remediation.
     ${Name},
 
-    [Parameter(ParameterSetName='Cancel1', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='Cancel2', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Cancel1')]
+    [Parameter(ParameterSetName='Cancel2')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
     # The ID of the target subscription.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='Cancel2', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Cancel2', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource group name.
     ${ResourceGroupName},
 
-    [Parameter(ParameterSetName='Cancel3', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Cancel3', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource ID.
@@ -118,7 +118,7 @@ param(
     # Run the command as a job, which completes when the remediation finishes being cancelled.
     ${AsJob},
 
-    [Parameter(ParameterSetName='CancelScope', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='CancelScope', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Scope of the resource. E.g. '/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.

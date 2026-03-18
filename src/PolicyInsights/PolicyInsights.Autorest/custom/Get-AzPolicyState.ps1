@@ -33,76 +33,76 @@ function Get-AzPolicyState {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyState])]
 [CmdletBinding(DefaultParameterSetName='List1', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
-    [Parameter(ParameterSetName='List', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='List', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Management group name.
     ${ManagementGroupName},
 
-    [Parameter(ParameterSetName='List1', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='List2', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='List4', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='List5', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='List6', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='List7', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='List1')]
+    [Parameter(ParameterSetName='List2')]
+    [Parameter(ParameterSetName='List4')]
+    [Parameter(ParameterSetName='List5')]
+    [Parameter(ParameterSetName='List6')]
+    [Parameter(ParameterSetName='List7')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String[]]
     # Microsoft Azure subscription ID.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='List2', Mandatory, ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='List7', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='List2', Mandatory)]
+    [Parameter(ParameterSetName='List7', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource group name.
     ${ResourceGroupName},
 
-    [Parameter(ParameterSetName='List3', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='List3', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource ID.
     ${ResourceId},
 
-    [Parameter(ParameterSetName='List4', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='List4', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Policy set definition name.
     ${PolicySetDefinitionName},
 
-    [Parameter(ParameterSetName='List5', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='List5', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Policy definition name.
     ${PolicyDefinitionName},
 
-    [Parameter(ParameterSetName='List6', Mandatory, ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='List7', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='List6', Mandatory)]
+    [Parameter(ParameterSetName='List7', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Policy assignment name.
     ${PolicyAssignmentName},
 
-    [Parameter(ValueFromPipelineByPropertyName)]
+    [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
     # OData apply expression for aggregations.
     ${Apply},
 
-    [Parameter(ValueFromPipelineByPropertyName)]
+    [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
     # OData filter expression.
     ${Filter},
 
-    [Parameter(ValueFromPipelineByPropertyName)]
+    [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.DateTime]
     # ISO 8601 formatted timestamp specifying the start time of the interval to query.
     # When not specified, the service uses ($to - 1-day).
     ${From},
 
-    [Parameter(ValueFromPipelineByPropertyName)]
+    [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
     # Ordering expression using OData notation.
@@ -110,7 +110,7 @@ param(
     # "$orderby=PolicyAssignmentId, ResourceId asc".
     ${OrderBy},
 
-    [Parameter(ValueFromPipelineByPropertyName)]
+    [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
     # Select expression using OData notation.
@@ -118,7 +118,7 @@ param(
     # "$select=PolicyAssignmentId, ResourceId".
     ${Select},
 
-    [Parameter(ValueFromPipelineByPropertyName)]
+    [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.DateTime]
     # ISO 8601 formatted timestamp specifying the end time of the interval to query.
@@ -131,7 +131,7 @@ param(
     # Maximum number of records to return.
     ${Top},
 
-    [Parameter(ParameterSetName='List3', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='List3')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
     # The $expand query parameter.

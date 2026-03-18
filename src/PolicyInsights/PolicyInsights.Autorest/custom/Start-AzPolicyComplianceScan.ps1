@@ -59,14 +59,14 @@ function Start-AzPolicyComplianceScan {
 [OutputType([System.Boolean])]
 [CmdletBinding(DefaultParameterSetName='SubscriptionScope', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
-    [Parameter(ParameterSetName='SubscriptionScope', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='SubscriptionScope')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
     # Microsoft Azure subscription ID.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='ResourceGroupScope', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='ResourceGroupScope')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource group name.

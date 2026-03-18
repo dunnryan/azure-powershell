@@ -59,43 +59,43 @@ function Get-AzPolicyAttestation {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IAttestation])]
 [CmdletBinding(DefaultParameterSetName='List', PositionalBinding=$false)]
 param(
-    [Parameter(ParameterSetName='Get', Mandatory, ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='Get1', Mandatory, ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='Get2', Mandatory, ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='ScopeAndName', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Get', Mandatory)]
+    [Parameter(ParameterSetName='Get1', Mandatory)]
+    [Parameter(ParameterSetName='Get2')]
+    [Parameter(ParameterSetName='ScopeAndName', Mandatory)]
     [Alias('AttestationName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the attestation.
     ${Name},
 
-    [Parameter(ParameterSetName='Get', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='Get1', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='List', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='List1', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Get')]
+    [Parameter(ParameterSetName='Get1')]
+    [Parameter(ParameterSetName='List')]
+    [Parameter(ParameterSetName='List1')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String[]]
     # The ID of the target subscription.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='Get1', Mandatory, ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='List1', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Get1', Mandatory)]
+    [Parameter(ParameterSetName='List1', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the resource group.
     # The name is case insensitive.
     ${ResourceGroupName},
 
-    [Parameter(ParameterSetName='Get2', Mandatory, ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='List2', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='Get2', Mandatory)]
+    [Parameter(ParameterSetName='List2', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource ID.
     ${ResourceId},
 
-    [Parameter(ParameterSetName='ScopeAndName', Mandatory, ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='ScopeList', Mandatory, ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='ScopeAndName', Mandatory)]
+    [Parameter(ParameterSetName='ScopeList', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Scope of the resource. E.g. 'subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
@@ -107,10 +107,10 @@ param(
     # Identity Parameter
     ${InputObject},
 
-    [Parameter(ParameterSetName='List', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='List1', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='List2', ValueFromPipelineByPropertyName)]
-    [Parameter(ParameterSetName='ScopeList', ValueFromPipelineByPropertyName)]
+    [Parameter(ParameterSetName='List')]
+    [Parameter(ParameterSetName='List1')]
+    [Parameter(ParameterSetName='List2')]
+    [Parameter(ParameterSetName='ScopeList')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
     # OData filter expression.
@@ -176,10 +176,44 @@ param(
 
 process {
 
+    # We want to support the ResourceId parameter being provided as the full attestation ResourceId
+    # so the below section handles that possibility 
+    if($PSBoundParameters.ContainsKey("ResourceId"))
+    {
+        $resourceIdContainsName = $ResourceId -like '*/providers/microsoft.policyinsights/attestations/*'
+        if($resourceIdContainsName)
+        {
+            $idSplit = $ResourceId -split '/providers/microsoft.policyinsights/attestations/'
+            $attestationName = $idSplit[1]
+            $PSBoundParameters["ResourceId"] = $idSplit[0]
+
+            # if the ResourceId contains the name, it must match the Name parameter if provided
+            if($PSBoundParameters.ContainsKey("Name"))
+            {
+                if($attestationName -ne $Name)
+                {
+                    throw "The provided ResourceId '$ResourceId' contains attestation name '$attestationName' which does not match the provided Name parameter '$Name'. Please correct the parameters."
+                }
+            }
+            else
+            {
+                # if the Name was not provided, add it to the Parameters from the ResourceId
+                $null = $PSBoundParameters.Add("Name", $attestationName)
+            }
+        }
+        else
+        {
+            if(!$PSBoundParameters.ContainsKey("Name"))
+            {
+                throw "The provided ResourceId '$ResourceId' does not contain an attestation name, and no Name parameter was provided. Please provide a ResourceId that includes the attestation name or provide a Name parameter."
+            }
+        }
+    }
+
     # pre process the "Scope" parameter into other parameters if it's present
     if($PSBoundParameters.ContainsKey("Scope"))
     {
-        # processing the Scope parameter with a helper method
+        Write-Verbose "Parsing the Scope parameter to extract SubscriptionId, ResourceGroupName, and/or ResourceId as applicable."
         $scopeObject = ParseScope $Scope 
 
         switch ($scopeObject.ScopeType) {
