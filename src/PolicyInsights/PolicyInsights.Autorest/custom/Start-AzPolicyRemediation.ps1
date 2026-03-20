@@ -57,7 +57,7 @@ https://learn.microsoft.com/powershell/module/az.policyinsights/start-azpolicyre
 #>
 function Start-AzPolicyRemediation {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IRemediation])]
-[CmdletBinding(DefaultParameterSetName='CreateExpanded1', PositionalBinding=$false, ConfirmImpact='Medium')]
+[CmdletBinding(DefaultParameterSetName='CreateExpanded1', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
     [Parameter(ParameterSetName='CreateExpanded', Mandatory)]
     [Parameter(ParameterSetName='CreateExpandedScope')]
@@ -243,10 +243,6 @@ param(
     # Use the default credentials for the proxy
     ${ProxyUseDefaultCredentials}
 )
-
-# okay! changes were pushed from this working branch
-# so now we can fuck it up! lmao 
-# but fr, just wanna see if there's a way to make this work without fully removing this params :)
 
 process {
 

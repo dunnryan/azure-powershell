@@ -1,4 +1,3 @@
-
 # ----------------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,28 +29,6 @@ Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
 System.Boolean
 .Notes
 COMPLEX PARAMETER PROPERTIES
-
-To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
-
-INPUTOBJECT <IPolicyInsightsIdentity>: Identity Parameter
-  [AttestationName <String>]: The name of the attestation.
-  [AuthorizationNamespace <String>]: The namespace for Microsoft Authorization resource provider; only "Microsoft.Authorization" is allowed.
-  [Id <String>]: Resource identity path
-  [ManagementGroupId <String>]: Management group ID.
-  [ManagementGroupName <String>]: Management group name.
-  [ManagementGroupsNamespace <String>]: The namespace for Microsoft Management RP; only "Microsoft.Management" is allowed.
-  [NextLink <String>]: Next link for list operation.
-  [PolicyAssignmentName <String>]: Policy assignment name.
-  [PolicyDefinitionName <String>]: Policy definition name.
-  [PolicyEventsResource <String>]: The name of the virtual resource under PolicyEvents resource type; only "default" is allowed.
-  [PolicySetDefinitionName <String>]: Policy set definition name.
-  [PolicyStatesResource <String>]: The virtual resource under PolicyStates resource type. In a given time range, 'latest' represents the latest policy state(s), whereas 'default' represents all policy state(s).
-  [PolicyStatesSummaryResource <String>]: The virtual resource under PolicyStates resource type for summarize action. In a given time range, 'latest' represents the latest policy state(s) and is the only allowed value.
-  [RemediationName <String>]: The name of the remediation.
-  [ResourceGroupName <String>]: The name of the resource group. The name is case insensitive.
-  [ResourceId <String>]: Resource ID.
-  [ResourceName <String>]: The name of the policy metadata resource.
-  [SubscriptionId <String>]: The ID of the target subscription.
 .Link
 https://learn.microsoft.com/powershell/module/az.policyinsights/start-azpolicycompliancescan
 #>
@@ -71,12 +48,6 @@ param(
     [System.String]
     # Resource group name.
     ${ResourceGroupName},
-
-    [Parameter(ParameterSetName='TriggerViaIdentity', Mandatory, ValueFromPipeline)]
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity]
-    # Identity Parameter
-    ${InputObject},
 
     [Parameter()]
     [Alias('AzureRMContext', 'AzureCredential')]
@@ -145,31 +116,17 @@ param(
     ${ProxyUseDefaultCredentials}
 )
 
-# Customization is required to combine the two generated evaluation cmdlets
-
-# Future pass:
-# - PassThru, NoWait, AsJob separate sets? I don't understand how they can be combined
-# - can 'confirm' messages be modified? 
-
-# ---------------- ADD RG SUPPORT!!!!
-
 process {
-    # if ResourceGroupName is present then we'll make the RG call using splatting
-    # if not, we'll make the sub call using splatting 
 
-    if ($PSBoundParameters.ContainsKey("ResourceGroupName"))
-    {
-        # call the RG evaluation cmdlet
-        Az.PolicyInsights.internal\Start-AzPolicyStateResourceGroupEvaluation @PSBoundParameters
+    switch ($PSCmdlet.ParameterSetName) {
+        'ResourceGroupScope' {
+            # call the RG evaluation cmdlet
+            Az.PolicyInsights.internal\Start-AzPolicyStateResourceGroupEvaluation @PSBoundParameters
+        }
+        'SubscriptionScope' {
+            # call the sub evaluation cmdlet
+            Az.PolicyInsights.internal\Start-AzPolicyStateSubscriptionEvaluation @PSBoundParameters
+        }
     }
-
-    if (!$PSBoundParameters.ContainsKey("ResourceGroupName"))
-    {
-        # remove RG name 
-        $null = $PSBoundParameters.Remove("ResourceGroupName")
-
-        # call the sub evaluation cmdlet
-        Az.PolicyInsights.internal\Start-AzPolicyStateSubscriptionEvaluation @PSBoundParameters
-    }
-    }
+}
 }

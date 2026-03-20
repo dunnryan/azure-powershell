@@ -193,11 +193,6 @@ param(
     ${ProxyUseDefaultCredentials}
 )
 
-# customization required to:
-# - rename cmdlet to Get-AzPolicyState
-# - use a SwitchParameter 'All' to determine how to set PolicyStatesResource when calling the internal cmdlet
-# - removing the SkipToken parameter
-
 process {
     
     if($PSBoundParameters.ContainsKey("All"))

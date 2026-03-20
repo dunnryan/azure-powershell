@@ -17,7 +17,8 @@ Create a remediation at management group scope.
 Start-AzPolicyRemediation -Name <String> [-SubscriptionId <String>] [-FailureThresholdPercentage <Single>]
  [-FilterLocation <String[]>] [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>]
  [-PolicyAssignmentId <String>] [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>]
- [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
+ [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
+ [<CommonParameters>]
 ```
 
 ### CreateExpanded
@@ -25,7 +26,8 @@ Start-AzPolicyRemediation -Name <String> [-SubscriptionId <String>] [-FailureThr
 Start-AzPolicyRemediation -ManagementGroupId <String> -Name <String> [-FailureThresholdPercentage <Single>]
  [-FilterLocation <String[]>] [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>]
  [-PolicyAssignmentId <String>] [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>]
- [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
+ [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
+ [<CommonParameters>]
 ```
 
 ### CreateExpanded2
@@ -34,7 +36,7 @@ Start-AzPolicyRemediation -Name <String> -ResourceGroupName <String> [-Subscript
  [-FailureThresholdPercentage <Single>] [-FilterLocation <String[]>] [-FilterResourceId <String[]>]
  [-ParallelDeployment <Int32>] [-PolicyAssignmentId <String>] [-PolicyDefinitionReferenceId <String>]
  [-ResourceCount <Int32>] [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait]
- [<CommonParameters>]
+ [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### CreateExpanded3
@@ -42,7 +44,8 @@ Start-AzPolicyRemediation -Name <String> -ResourceGroupName <String> [-Subscript
 Start-AzPolicyRemediation -Name <String> -ResourceId <String> [-FailureThresholdPercentage <Single>]
  [-FilterLocation <String[]>] [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>]
  [-PolicyAssignmentId <String>] [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>]
- [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
+ [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
+ [<CommonParameters>]
 ```
 
 ### CreateExpandedScope
@@ -51,7 +54,7 @@ Start-AzPolicyRemediation -Name <String> -PolicyAssignmentId <String> -Scope <St
  [-ManagementGroupId <String>] [-ResourceGroupName <String>] [-FailureThresholdPercentage <Single>]
  [-FilterLocation <String[]>] [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>]
  [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>] [-ResourceDiscoveryMode <String>]
- [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
+ [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### CreateViaIdentityExpanded1
@@ -59,7 +62,8 @@ Start-AzPolicyRemediation -Name <String> -PolicyAssignmentId <String> -Scope <St
 Start-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-FailureThresholdPercentage <Single>]
  [-FilterLocation <String[]>] [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>]
  [-PolicyAssignmentId <String>] [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>]
- [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
+ [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
+ [<CommonParameters>]
 ```
 
 ### CreateViaIdentityExpanded2
@@ -67,7 +71,7 @@ Start-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-FailureThresh
 Start-AzPolicyRemediation [-FailureThresholdPercentage <Single>] [-FilterLocation <String[]>]
  [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>] [-PolicyAssignmentId <String>]
  [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>] [-ResourceDiscoveryMode <String>]
- [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
+ [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### CreateViaIdentityExpanded3
@@ -75,7 +79,7 @@ Start-AzPolicyRemediation [-FailureThresholdPercentage <Single>] [-FilterLocatio
 Start-AzPolicyRemediation [-FailureThresholdPercentage <Single>] [-FilterLocation <String[]>]
  [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>] [-PolicyAssignmentId <String>]
  [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>] [-ResourceDiscoveryMode <String>]
- [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
+ [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ### CreateViaIdentityManagementGroupExpanded
@@ -83,7 +87,7 @@ Start-AzPolicyRemediation [-FailureThresholdPercentage <Single>] [-FilterLocatio
 Start-AzPolicyRemediation -Name <String> [-FailureThresholdPercentage <Single>] [-FilterLocation <String[]>]
  [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>] [-PolicyAssignmentId <String>]
  [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>] [-ResourceDiscoveryMode <String>]
- [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
+ [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -160,7 +164,7 @@ Aliases: FailureThreshold
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -175,7 +179,7 @@ Aliases: LocationFilter
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -192,7 +196,7 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -222,7 +226,7 @@ Aliases: ManagementGroupName
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -237,7 +241,7 @@ Aliases: RemediationName
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -269,7 +273,7 @@ Aliases: ParallelDeploymentCount
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -284,7 +288,7 @@ Aliases:
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -300,7 +304,7 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -316,7 +320,7 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -332,7 +336,7 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -347,7 +351,7 @@ Aliases:
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -362,7 +366,7 @@ Aliases: Id
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -379,7 +383,7 @@ Aliases:
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -394,7 +398,38 @@ Aliases:
 Required: False
 Position: Named
 Default value: (Get-AzContext).Subscription.Id
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -404,14 +439,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-
-### System.Int32
-
-### System.Single
-
-### System.String
-
-### System.String[]
 
 ## OUTPUTS
 
