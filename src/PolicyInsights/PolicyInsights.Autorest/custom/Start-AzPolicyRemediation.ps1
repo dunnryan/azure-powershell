@@ -343,15 +343,8 @@ process {
     # since NoWait isn't present, we'll start the remediation and poll it until it's reached a terminal state
     $remediation = Az.PolicyInsights.internal\New-AzPolicyRemediation @PSBoundParameters
 
-    # setup dictionary of scope and name parameters to use for Get
-    $scopeKeys = @('ResourceGroupName', 'SubscriptionId', 'ResourceId', 'ManagementGroupId')
-    $scopeParams = @{}
-    foreach ($key in $scopeKeys) {
-        if ($PSBoundParameters.ContainsKey($key)) {
-            $scopeParams[$key] = $PSBoundParameters[$key]
-        }
-    }
-    $scopeParams['Name'] = $Name
+    # Remove parameters that can't be passed to Get-AzPolicyRemediation in the polling loop
+    $scopeParams = RemoveNonIdentifyingParameters -InputParameterDictionary $PSBoundParameters
 
     $remediationStatus = $remediation.ProvisioningState
     $terminalStates = @("Succeeded", "Failed", "Canceled", "Complete")

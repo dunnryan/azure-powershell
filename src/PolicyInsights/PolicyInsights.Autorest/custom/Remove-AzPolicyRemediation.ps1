@@ -298,14 +298,7 @@ process {
     }
     
     # setup dictionary of scope and name parameters to use for Get and Stop
-    $scopeKeys = @('ResourceGroupName', 'SubscriptionId', 'ResourceId', 'ManagementGroupId')
-    $scopeParams = @{}
-    foreach ($key in $scopeKeys) {
-        if ($PSBoundParameters.ContainsKey($key)) {
-            $scopeParams[$key] = $PSBoundParameters[$key]
-        }
-    }
-    $scopeParams['Name'] = $PSBoundParameters['Name']
+    $scopeParams = RemoveNonIdentifyingParameters -InputParameterDictionary $PSBoundParameters
 
     $remediation = $null
 

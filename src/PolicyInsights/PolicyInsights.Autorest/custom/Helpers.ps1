@@ -333,3 +333,34 @@ function ResolvePolicyMetadataParameter {
 
     throw "Unrecognized metadata format - value: [$($metadataValue)], type: [$($metadataValue.GetType())]"
 }
+
+# Returns a subset of the given parameters, copying scope, name, and common parameters into a new hashtable
+function RemoveNonIdentifyingParameters {
+    [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.DoNotExportAttribute()]
+    param(
+        $InputParameterDictionary
+    )
+
+    $outputParameterDictionary = @{}
+
+    # transfer name parameter
+    $outputParameterDictionary['Name'] = $InputParameterDictionary['Name']
+
+    # transfer scope parameters
+    $scopeParams = @('ResourceGroupName', 'SubscriptionId', 'ResourceId', 'ManagementGroupId')
+    foreach ($param in $scopeParams) {
+        if ($InputParameterDictionary.ContainsKey($param)) {
+            $outputParameterDictionary[$param] = $InputParameterDictionary[$param]
+        }
+    }
+
+    # transfer common parameters
+    $commonParams = @('Verbose', 'Debug', 'ErrorAction', 'WarningAction', 'InformationAction', 'ErrorVariable', 'WarningVariable', 'InformationVariable', 'OutVariable', 'OutBuffer', 'PipelineVariable')
+    foreach ($param in $commonParams) {
+        if ($InputParameterDictionary.ContainsKey($param)) {
+            $outputParameterDictionary[$param] = $InputParameterDictionary[$param]
+        }
+    }
+
+    return $outputParameterDictionary
+}
