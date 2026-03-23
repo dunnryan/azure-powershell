@@ -12,57 +12,57 @@ Summarizes policy states for the resources under the management group.
 
 ## SYNTAX
 
-### Summarize1 (Default)
+### SummarizeBySubscriptionId (Default)
 ```
 Get-AzPolicyStateSummary [-SubscriptionId <String>] [-Filter <String>] [-From <DateTime>] [-To <DateTime>]
  [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### Summarize
+### SummarizeByManagementGroup
 ```
 Get-AzPolicyStateSummary -ManagementGroupName <String> [-Filter <String>] [-From <DateTime>] [-To <DateTime>]
  [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### Summarize2
-```
-Get-AzPolicyStateSummary -ResourceGroupName <String> [-SubscriptionId <String>] [-Filter <String>]
- [-From <DateTime>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf]
- [<CommonParameters>]
-```
-
-### Summarize3
-```
-Get-AzPolicyStateSummary -ResourceId <String> [-Filter <String>] [-From <DateTime>] [-To <DateTime>]
- [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### Summarize4
-```
-Get-AzPolicyStateSummary -PolicySetDefinitionName <String> [-SubscriptionId <String>] [-Filter <String>]
- [-From <DateTime>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf]
- [<CommonParameters>]
-```
-
-### Summarize5
-```
-Get-AzPolicyStateSummary -PolicyDefinitionName <String> [-SubscriptionId <String>] [-Filter <String>]
- [-From <DateTime>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf]
- [<CommonParameters>]
-```
-
-### Summarize6
+### SummarizeByPolicyAssignment
 ```
 Get-AzPolicyStateSummary -PolicyAssignmentName <String> [-SubscriptionId <String>] [-Filter <String>]
  [-From <DateTime>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf]
  [<CommonParameters>]
 ```
 
-### Summarize7
+### SummarizeByPolicyAssignmentAndResourceGroup
 ```
 Get-AzPolicyStateSummary -PolicyAssignmentName <String> -ResourceGroupName <String> [-SubscriptionId <String>]
  [-Filter <String>] [-From <DateTime>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm]
  [-WhatIf] [<CommonParameters>]
+```
+
+### SummarizeByPolicyDefinition
+```
+Get-AzPolicyStateSummary -PolicyDefinitionName <String> [-SubscriptionId <String>] [-Filter <String>]
+ [-From <DateTime>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf]
+ [<CommonParameters>]
+```
+
+### SummarizeByPolicySetDefinition
+```
+Get-AzPolicyStateSummary -PolicySetDefinitionName <String> [-SubscriptionId <String>] [-Filter <String>]
+ [-From <DateTime>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf]
+ [<CommonParameters>]
+```
+
+### SummarizeByResourceGroup
+```
+Get-AzPolicyStateSummary -ResourceGroupName <String> [-SubscriptionId <String>] [-Filter <String>]
+ [-From <DateTime>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf]
+ [<CommonParameters>]
+```
+
+### SummarizeByResourceId
+```
+Get-AzPolicyStateSummary -ResourceId <String> [-Filter <String>] [-From <DateTime>] [-To <DateTime>]
+ [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -146,7 +146,7 @@ Management group name.
 
 ```yaml
 Type: System.String
-Parameter Sets: Summarize
+Parameter Sets: SummarizeByManagementGroup
 Aliases:
 
 Required: True
@@ -161,7 +161,7 @@ Policy assignment name.
 
 ```yaml
 Type: System.String
-Parameter Sets: Summarize6, Summarize7
+Parameter Sets: SummarizeByPolicyAssignment, SummarizeByPolicyAssignmentAndResourceGroup
 Aliases:
 
 Required: True
@@ -176,7 +176,7 @@ Policy definition name.
 
 ```yaml
 Type: System.String
-Parameter Sets: Summarize5
+Parameter Sets: SummarizeByPolicyDefinition
 Aliases:
 
 Required: True
@@ -191,7 +191,7 @@ Policy set definition name.
 
 ```yaml
 Type: System.String
-Parameter Sets: Summarize4
+Parameter Sets: SummarizeByPolicySetDefinition
 Aliases:
 
 Required: True
@@ -206,7 +206,7 @@ Resource group name.
 
 ```yaml
 Type: System.String
-Parameter Sets: Summarize2, Summarize7
+Parameter Sets: SummarizeByPolicyAssignmentAndResourceGroup, SummarizeByResourceGroup
 Aliases:
 
 Required: True
@@ -221,7 +221,7 @@ Resource ID.
 
 ```yaml
 Type: System.String
-Parameter Sets: Summarize3
+Parameter Sets: SummarizeByResourceId
 Aliases:
 
 Required: True
@@ -236,7 +236,7 @@ Microsoft Azure subscription ID.
 
 ```yaml
 Type: System.String
-Parameter Sets: Summarize1, Summarize2, Summarize4, Summarize5, Summarize6, Summarize7
+Parameter Sets: SummarizeByPolicyAssignment, SummarizeByPolicyAssignmentAndResourceGroup, SummarizeByPolicyDefinition, SummarizeByPolicySetDefinition, SummarizeByResourceGroup, SummarizeBySubscriptionId
 Aliases:
 
 Required: False

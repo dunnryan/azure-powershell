@@ -12,7 +12,7 @@ Update an attestation at resource scope.
 
 ## SYNTAX
 
-### UpdateExpanded (Default)
+### UpdateBySubscriptionId (Default)
 ```
 Update-AzPolicyAttestation -Name <String> [-SubscriptionId <String>] [-AssessmentDate <DateTime>]
  [-Comment <String>] [-ComplianceState <String>] [-Evidence <IAttestationEvidence[]>] [-ExpiresOn <DateTime>]
@@ -20,7 +20,7 @@ Update-AzPolicyAttestation -Name <String> [-SubscriptionId <String>] [-Assessmen
  [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### UpdateExpanded1
+### UpdateByResourceGroup
 ```
 Update-AzPolicyAttestation -Name <String> -ResourceGroupName <String> [-SubscriptionId <String>]
  [-AssessmentDate <DateTime>] [-Comment <String>] [-ComplianceState <String>]
@@ -29,7 +29,7 @@ Update-AzPolicyAttestation -Name <String> -ResourceGroupName <String> [-Subscrip
  [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### UpdateExpanded2
+### UpdateByResourceId
 ```
 Update-AzPolicyAttestation -ResourceId <String> [-Name <String>] [-AssessmentDate <DateTime>]
  [-Comment <String>] [-ComplianceState <String>] [-Evidence <IAttestationEvidence[]>] [-ExpiresOn <DateTime>]
@@ -37,7 +37,7 @@ Update-AzPolicyAttestation -ResourceId <String> [-Name <String>] [-AssessmentDat
  [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### UpdateScope
+### UpdateByScope
 ```
 Update-AzPolicyAttestation -Name <String> -Scope <String> [-AssessmentDate <DateTime>] [-Comment <String>]
  [-ComplianceState <String>] [-Evidence <IAttestationEvidence[]>] [-ExpiresOn <DateTime>] [-Metadata <String>]
@@ -45,7 +45,7 @@ Update-AzPolicyAttestation -Name <String> -Scope <String> [-AssessmentDate <Date
  [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### UpdateViaIdentityExpanded
+### UpdateViaIdentity
 ```
 Update-AzPolicyAttestation -InputObject <IPolicyInsightsIdentity> [-AssessmentDate <DateTime>]
  [-Comment <String>] [-ComplianceState <String>] [-Evidence <IAttestationEvidence[]>] [-ExpiresOn <DateTime>]
@@ -178,7 +178,7 @@ Identity Parameter
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-Parameter Sets: UpdateViaIdentityExpanded
+Parameter Sets: UpdateViaIdentity
 Aliases:
 
 Required: True
@@ -208,7 +208,7 @@ The name of the attestation.
 
 ```yaml
 Type: System.String
-Parameter Sets: UpdateExpanded, UpdateExpanded1, UpdateExpanded2, UpdateScope
+Parameter Sets: UpdateByResourceGroup, UpdateByResourceId, UpdateByScope, UpdateBySubscriptionId
 Aliases: AttestationName
 
 Required: True
@@ -271,7 +271,7 @@ The name is case insensitive.
 
 ```yaml
 Type: System.String
-Parameter Sets: UpdateExpanded1
+Parameter Sets: UpdateByResourceGroup
 Aliases:
 
 Required: True
@@ -286,7 +286,7 @@ Resource ID.
 
 ```yaml
 Type: System.String
-Parameter Sets: UpdateExpanded2
+Parameter Sets: UpdateByResourceId
 Aliases: Id
 
 Required: True
@@ -303,7 +303,7 @@ E.g.
 
 ```yaml
 Type: System.String
-Parameter Sets: UpdateScope
+Parameter Sets: UpdateByScope
 Aliases:
 
 Required: True
@@ -318,7 +318,7 @@ The ID of the target subscription.
 
 ```yaml
 Type: System.String
-Parameter Sets: UpdateExpanded, UpdateExpanded1
+Parameter Sets: UpdateByResourceGroup, UpdateBySubscriptionId
 Aliases:
 
 Required: False

@@ -225,6 +225,11 @@ directive:
       subject: PolicyEventQueryResult
     set:
       subject: PolicyEvent
+  # Hide Get-AzPolicyEvent, will be called by custom Get-AzPolicyEvent
+  - where:
+      verb: Get
+      subject: PolicyEvent
+    hide: true
 
   # Hide any SkipToken parameters
   - where:

@@ -12,31 +12,31 @@ Cancels a remediation at management group scope.
 
 ## SYNTAX
 
-### Cancel1 (Default)
+### CancelBySubscriptionId (Default)
 ```
 Stop-AzPolicyRemediation -Name <String> [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-AsJob]
  [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### Cancel
+### CancelByManagementGroup
 ```
 Stop-AzPolicyRemediation -ManagementGroupId <String> -Name <String> [-DefaultProfile <PSObject>] [-AsJob]
  [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### Cancel2
+### CancelByResourceGroup
 ```
 Stop-AzPolicyRemediation -Name <String> -ResourceGroupName <String> [-SubscriptionId <String>]
  [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### Cancel3
+### CancelByResourceId
 ```
 Stop-AzPolicyRemediation -ResourceId <String> [-Name <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait]
  [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### CancelScope
+### CancelByScope
 ```
 Stop-AzPolicyRemediation -Name <String> -Scope <String> [-DefaultProfile <PSObject>] [-AsJob] [-NoWait]
  [-Confirm] [-WhatIf] [<CommonParameters>]
@@ -46,12 +46,6 @@ Stop-AzPolicyRemediation -Name <String> -Scope <String> [-DefaultProfile <PSObje
 ```
 Stop-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-DefaultProfile <PSObject>] [-AsJob]
  [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### CancelViaIdentityManagementGroup
-```
-Stop-AzPolicyRemediation -Name <String> [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
- [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -134,7 +128,7 @@ Management group ID.
 
 ```yaml
 Type: System.String
-Parameter Sets: Cancel
+Parameter Sets: CancelByManagementGroup
 Aliases: ManagementGroupName
 
 Required: True
@@ -149,7 +143,7 @@ The name of the remediation.
 
 ```yaml
 Type: System.String
-Parameter Sets: Cancel, Cancel1, Cancel2, Cancel3, CancelScope, CancelViaIdentityManagementGroup
+Parameter Sets: CancelByManagementGroup, CancelByResourceGroup, CancelByResourceId, CancelByScope, CancelBySubscriptionId
 Aliases: RemediationName
 
 Required: True
@@ -179,7 +173,7 @@ Resource group name.
 
 ```yaml
 Type: System.String
-Parameter Sets: Cancel2
+Parameter Sets: CancelByResourceGroup
 Aliases:
 
 Required: True
@@ -194,7 +188,7 @@ Resource ID.
 
 ```yaml
 Type: System.String
-Parameter Sets: Cancel3
+Parameter Sets: CancelByResourceId
 Aliases:
 
 Required: True
@@ -211,7 +205,7 @@ E.g.
 
 ```yaml
 Type: System.String
-Parameter Sets: CancelScope
+Parameter Sets: CancelByScope
 Aliases:
 
 Required: True
@@ -226,7 +220,7 @@ The ID of the target subscription.
 
 ```yaml
 Type: System.String
-Parameter Sets: Cancel1, Cancel2
+Parameter Sets: CancelByResourceGroup, CancelBySubscriptionId
 Aliases:
 
 Required: False

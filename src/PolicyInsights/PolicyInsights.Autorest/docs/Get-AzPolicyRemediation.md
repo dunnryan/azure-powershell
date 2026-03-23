@@ -12,33 +12,39 @@ Gets an existing remediation at management group scope.
 
 ## SYNTAX
 
-### List1 (Default)
+### ListBySubscriptionId (Default)
 ```
 Get-AzPolicyRemediation [-SubscriptionId <String[]>] [-Filter <String>] [-Top <Int32>]
  [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
-### Get
+### GetByManagementGroup
 ```
 Get-AzPolicyRemediation -ManagementGroupId <String> -Name <String> [-Top <Int32>] [-IncludeDetail]
  [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
-### Get1
-```
-Get-AzPolicyRemediation -Name <String> [-SubscriptionId <String[]>] [-Top <Int32>] [-IncludeDetail]
- [-DefaultProfile <PSObject>] [<CommonParameters>]
-```
-
-### Get2
+### GetByResourceGroup
 ```
 Get-AzPolicyRemediation -Name <String> -ResourceGroupName <String> [-SubscriptionId <String[]>] [-Top <Int32>]
  [-IncludeDetail] [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
-### Get3
+### GetByResourceId
 ```
 Get-AzPolicyRemediation -Name <String> -ResourceId <String> [-Top <Int32>] [-IncludeDetail]
+ [-DefaultProfile <PSObject>] [<CommonParameters>]
+```
+
+### GetByScope
+```
+Get-AzPolicyRemediation -Name <String> -Scope <String> [-Top <Int32>] [-IncludeDetail]
+ [-DefaultProfile <PSObject>] [<CommonParameters>]
+```
+
+### GetBySubscriptionId
+```
+Get-AzPolicyRemediation -Name <String> [-SubscriptionId <String[]>] [-Top <Int32>] [-IncludeDetail]
  [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
@@ -48,31 +54,25 @@ Get-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-DefaultProfile 
  [<CommonParameters>]
 ```
 
-### List
+### ListByManagementGroup
 ```
 Get-AzPolicyRemediation -ManagementGroupId <String> [-Filter <String>] [-Top <Int32>]
  [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
-### List2
+### ListByResourceGroup
 ```
 Get-AzPolicyRemediation -ResourceGroupName <String> [-SubscriptionId <String[]>] [-Filter <String>]
  [-Top <Int32>] [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
-### List3
+### ListByResourceId
 ```
 Get-AzPolicyRemediation -ResourceId <String> [-Filter <String>] [-Top <Int32>] [-DefaultProfile <PSObject>]
  [<CommonParameters>]
 ```
 
-### ScopeAndName
-```
-Get-AzPolicyRemediation -Name <String> -Scope <String> [-Top <Int32>] [-IncludeDetail]
- [-DefaultProfile <PSObject>] [<CommonParameters>]
-```
-
-### ScopeList
+### ListByScope
 ```
 Get-AzPolicyRemediation -Scope <String> [-Filter <String>] [-Top <Int32>] [-DefaultProfile <PSObject>]
  [<CommonParameters>]
@@ -128,7 +128,7 @@ OData filter expression.
 
 ```yaml
 Type: System.String
-Parameter Sets: List, List1, List2, List3, ScopeList
+Parameter Sets: ListByManagementGroup, ListByResourceGroup, ListByResourceId, ListByScope, ListBySubscriptionId
 Aliases:
 
 Required: False
@@ -143,7 +143,7 @@ Include details of the deployments created by the remediation.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
-Parameter Sets: Get, Get1, Get2, Get3, ScopeAndName
+Parameter Sets: GetByManagementGroup, GetByResourceGroup, GetByResourceId, GetByScope, GetBySubscriptionId
 Aliases:
 
 Required: False
@@ -173,7 +173,7 @@ Management group ID.
 
 ```yaml
 Type: System.String
-Parameter Sets: Get, List
+Parameter Sets: GetByManagementGroup, ListByManagementGroup
 Aliases: ManagementGroupName
 
 Required: True
@@ -188,7 +188,7 @@ The name of the remediation.
 
 ```yaml
 Type: System.String
-Parameter Sets: Get, Get1, Get2, Get3, ScopeAndName
+Parameter Sets: GetByManagementGroup, GetByResourceGroup, GetByResourceId, GetByScope, GetBySubscriptionId
 Aliases: RemediationName
 
 Required: True
@@ -203,7 +203,7 @@ Resource group name.
 
 ```yaml
 Type: System.String
-Parameter Sets: Get2, List2
+Parameter Sets: GetByResourceGroup, ListByResourceGroup
 Aliases:
 
 Required: True
@@ -218,7 +218,7 @@ Resource ID.
 
 ```yaml
 Type: System.String
-Parameter Sets: Get3, List3
+Parameter Sets: GetByResourceId, ListByResourceId
 Aliases:
 
 Required: True
@@ -235,7 +235,7 @@ E.g.
 
 ```yaml
 Type: System.String
-Parameter Sets: ScopeAndName, ScopeList
+Parameter Sets: GetByScope, ListByScope
 Aliases:
 
 Required: True
@@ -250,7 +250,7 @@ The ID of the target subscription.
 
 ```yaml
 Type: System.String[]
-Parameter Sets: Get1, Get2, List1, List2
+Parameter Sets: GetByResourceGroup, GetBySubscriptionId, ListByResourceGroup, ListBySubscriptionId
 Aliases:
 
 Required: False
@@ -266,7 +266,7 @@ When IncludeDetail is specified, this parameter applies to the amount of deploym
 
 ```yaml
 Type: System.Int32
-Parameter Sets: Get, Get1, Get2, Get3, List, List1, List2, List3, ScopeAndName, ScopeList
+Parameter Sets: GetByManagementGroup, GetByResourceGroup, GetByResourceId, GetByScope, GetBySubscriptionId, ListByManagementGroup, ListByResourceGroup, ListByResourceId, ListByScope, ListBySubscriptionId
 Aliases:
 
 Required: False

@@ -12,27 +12,32 @@ Gets an existing attestation at subscription scope.
 
 ## SYNTAX
 
-### List (Default)
+### ListBySubscriptionId (Default)
 ```
 Get-AzPolicyAttestation [-SubscriptionId <String[]>] [-Filter <String>] [-Top <Int32>]
  [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
-### Get
-```
-Get-AzPolicyAttestation -Name <String> [-SubscriptionId <String[]>] [-DefaultProfile <PSObject>]
- [<CommonParameters>]
-```
-
-### Get1
+### GetByResourceGroup
 ```
 Get-AzPolicyAttestation -Name <String> -ResourceGroupName <String> [-SubscriptionId <String[]>]
  [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
-### Get2
+### GetByResourceId
 ```
 Get-AzPolicyAttestation -ResourceId <String> [-Name <String>] [-DefaultProfile <PSObject>]
+ [<CommonParameters>]
+```
+
+### GetByScope
+```
+Get-AzPolicyAttestation -Name <String> -Scope <String> [-DefaultProfile <PSObject>] [<CommonParameters>]
+```
+
+### GetBySubscriptionId
+```
+Get-AzPolicyAttestation -Name <String> [-SubscriptionId <String[]>] [-DefaultProfile <PSObject>]
  [<CommonParameters>]
 ```
 
@@ -42,21 +47,16 @@ Get-AzPolicyAttestation -InputObject <IPolicyInsightsIdentity> [-DefaultProfile 
  [<CommonParameters>]
 ```
 
-### List1
+### ListByResourceGroup
 ```
 Get-AzPolicyAttestation -ResourceGroupName <String> [-SubscriptionId <String[]>] [-Filter <String>]
  [-Top <Int32>] [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
-### List2
+### ListByResourceId
 ```
 Get-AzPolicyAttestation -ResourceId <String> [-Filter <String>] [-Top <Int32>] [-DefaultProfile <PSObject>]
  [<CommonParameters>]
-```
-
-### ScopeAndName
-```
-Get-AzPolicyAttestation -Name <String> -Scope <String> [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
 ### ScopeList
@@ -115,7 +115,7 @@ OData filter expression.
 
 ```yaml
 Type: System.String
-Parameter Sets: List, List1, List2, ScopeList
+Parameter Sets: ListByResourceGroup, ListByResourceId, ListBySubscriptionId, ScopeList
 Aliases:
 
 Required: False
@@ -145,7 +145,7 @@ The name of the attestation.
 
 ```yaml
 Type: System.String
-Parameter Sets: Get, Get1, Get2, ScopeAndName
+Parameter Sets: GetByResourceGroup, GetByResourceId, GetByScope, GetBySubscriptionId
 Aliases: AttestationName
 
 Required: True
@@ -161,7 +161,7 @@ The name is case insensitive.
 
 ```yaml
 Type: System.String
-Parameter Sets: Get1, List1
+Parameter Sets: GetByResourceGroup, ListByResourceGroup
 Aliases:
 
 Required: True
@@ -176,7 +176,7 @@ Resource ID.
 
 ```yaml
 Type: System.String
-Parameter Sets: Get2, List2
+Parameter Sets: GetByResourceId, ListByResourceId
 Aliases:
 
 Required: True
@@ -193,7 +193,7 @@ E.g.
 
 ```yaml
 Type: System.String
-Parameter Sets: ScopeAndName, ScopeList
+Parameter Sets: GetByScope, ScopeList
 Aliases:
 
 Required: True
@@ -208,7 +208,7 @@ The ID of the target subscription.
 
 ```yaml
 Type: System.String[]
-Parameter Sets: Get, Get1, List, List1
+Parameter Sets: GetByResourceGroup, GetBySubscriptionId, ListByResourceGroup, ListBySubscriptionId
 Aliases:
 
 Required: False
@@ -223,7 +223,7 @@ Maximum number of records to return.
 
 ```yaml
 Type: System.Int32
-Parameter Sets: List, List1, List2, ScopeList
+Parameter Sets: ListByResourceGroup, ListByResourceId, ListBySubscriptionId, ScopeList
 Aliases:
 
 Required: False

@@ -12,61 +12,61 @@ Queries policy states for the resources under the management group.
 
 ## SYNTAX
 
-### List1 (Default)
+### ListBySubscriptionId (Default)
 ```
 Get-AzPolicyState [-All] [-SubscriptionId <String[]>] [-Apply <String>] [-Filter <String>] [-From <DateTime>]
  [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>]
  [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### List
+### ListByManagementGroup
 ```
 Get-AzPolicyState -ManagementGroupName <String> [-All] [-Apply <String>] [-Filter <String>] [-From <DateTime>]
  [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>]
  [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### List2
-```
-Get-AzPolicyState -ResourceGroupName <String> [-All] [-SubscriptionId <String[]>] [-Apply <String>]
- [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
- [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### List3
-```
-Get-AzPolicyState -ResourceId <String> [-All] [-Apply <String>] [-Expand <String>] [-Filter <String>]
- [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
- [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### List4
-```
-Get-AzPolicyState -PolicySetDefinitionName <String> [-All] [-SubscriptionId <String[]>] [-Apply <String>]
- [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
- [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### List5
-```
-Get-AzPolicyState -PolicyDefinitionName <String> [-All] [-SubscriptionId <String[]>] [-Apply <String>]
- [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
- [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### List6
+### ListByPolicyAssignment
 ```
 Get-AzPolicyState -PolicyAssignmentName <String> [-All] [-SubscriptionId <String[]>] [-Apply <String>]
  [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
  [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### List7
+### ListByPolicyAssignmentAndResourceGroup
 ```
 Get-AzPolicyState -PolicyAssignmentName <String> -ResourceGroupName <String> [-All]
  [-SubscriptionId <String[]>] [-Apply <String>] [-Filter <String>] [-From <DateTime>] [-OrderBy <String>]
  [-Select <String>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf]
  [<CommonParameters>]
+```
+
+### ListByPolicyDefinition
+```
+Get-AzPolicyState -PolicyDefinitionName <String> [-All] [-SubscriptionId <String[]>] [-Apply <String>]
+ [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
+ [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
+```
+
+### ListByPolicySetDefinition
+```
+Get-AzPolicyState -PolicySetDefinitionName <String> [-All] [-SubscriptionId <String[]>] [-Apply <String>]
+ [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
+ [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
+```
+
+### ListByResourceGroup
+```
+Get-AzPolicyState -ResourceGroupName <String> [-All] [-SubscriptionId <String[]>] [-Apply <String>]
+ [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
+ [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
+```
+
+### ListByResourceId
+```
+Get-AzPolicyState -ResourceId <String> [-All] [-Apply <String>] [-Expand <String>] [-Filter <String>]
+ [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
+ [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -150,7 +150,7 @@ For example, to expand components use $expand=components
 
 ```yaml
 Type: System.String
-Parameter Sets: List3
+Parameter Sets: ListByResourceId
 Aliases:
 
 Required: False
@@ -196,7 +196,7 @@ Management group name.
 
 ```yaml
 Type: System.String
-Parameter Sets: List
+Parameter Sets: ListByManagementGroup
 Aliases:
 
 Required: True
@@ -228,7 +228,7 @@ Policy assignment name.
 
 ```yaml
 Type: System.String
-Parameter Sets: List6, List7
+Parameter Sets: ListByPolicyAssignment, ListByPolicyAssignmentAndResourceGroup
 Aliases:
 
 Required: True
@@ -243,7 +243,7 @@ Policy definition name.
 
 ```yaml
 Type: System.String
-Parameter Sets: List5
+Parameter Sets: ListByPolicyDefinition
 Aliases:
 
 Required: True
@@ -258,7 +258,7 @@ Policy set definition name.
 
 ```yaml
 Type: System.String
-Parameter Sets: List4
+Parameter Sets: ListByPolicySetDefinition
 Aliases:
 
 Required: True
@@ -273,7 +273,7 @@ Resource group name.
 
 ```yaml
 Type: System.String
-Parameter Sets: List2, List7
+Parameter Sets: ListByPolicyAssignmentAndResourceGroup, ListByResourceGroup
 Aliases:
 
 Required: True
@@ -288,7 +288,7 @@ Resource ID.
 
 ```yaml
 Type: System.String
-Parameter Sets: List3
+Parameter Sets: ListByResourceId
 Aliases:
 
 Required: True
@@ -320,7 +320,7 @@ Microsoft Azure subscription ID.
 
 ```yaml
 Type: System.String[]
-Parameter Sets: List1, List2, List4, List5, List6, List7
+Parameter Sets: ListByPolicyAssignment, ListByPolicyAssignmentAndResourceGroup, ListByPolicyDefinition, ListByPolicySetDefinition, ListByResourceGroup, ListBySubscriptionId
 Aliases:
 
 Required: False

@@ -12,25 +12,25 @@ Deletes an existing attestation at subscription scope.
 
 ## SYNTAX
 
-### Delete (Default)
+### DeleteBySubscriptionId (Default)
 ```
 Remove-AzPolicyAttestation -Name <String> [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-PassThru]
  [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### Delete1
+### DeleteByResourceGroup
 ```
 Remove-AzPolicyAttestation -Name <String> -ResourceGroupName <String> [-SubscriptionId <String>]
  [-DefaultProfile <PSObject>] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### Delete2
+### DeleteByResourceId
 ```
 Remove-AzPolicyAttestation -ResourceId <String> [-Name <String>] [-DefaultProfile <PSObject>] [-PassThru]
  [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### DeleteScope
+### DeleteByScope
 ```
 Remove-AzPolicyAttestation -Name <String> -Scope <String> [-DefaultProfile <PSObject>] [-PassThru] [-Confirm]
  [-WhatIf] [<CommonParameters>]
@@ -107,7 +107,7 @@ The name of the attestation.
 
 ```yaml
 Type: System.String
-Parameter Sets: Delete, Delete1, Delete2, DeleteScope
+Parameter Sets: DeleteByResourceGroup, DeleteByResourceId, DeleteByScope, DeleteBySubscriptionId
 Aliases: AttestationName
 
 Required: True
@@ -138,7 +138,7 @@ The name is case insensitive.
 
 ```yaml
 Type: System.String
-Parameter Sets: Delete1
+Parameter Sets: DeleteByResourceGroup
 Aliases:
 
 Required: True
@@ -153,7 +153,7 @@ Resource ID.
 
 ```yaml
 Type: System.String
-Parameter Sets: Delete2
+Parameter Sets: DeleteByResourceId
 Aliases: Id
 
 Required: True
@@ -170,7 +170,7 @@ E.g.
 
 ```yaml
 Type: System.String
-Parameter Sets: DeleteScope
+Parameter Sets: DeleteByScope
 Aliases:
 
 Required: True
@@ -185,7 +185,7 @@ The ID of the target subscription.
 
 ```yaml
 Type: System.String
-Parameter Sets: Delete, Delete1
+Parameter Sets: DeleteByResourceGroup, DeleteBySubscriptionId
 Aliases:
 
 Required: False

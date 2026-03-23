@@ -12,82 +12,58 @@ Create a remediation at management group scope.
 
 ## SYNTAX
 
-### CreateExpanded1 (Default)
+### CreateBySubscriptionId (Default)
 ```
-Start-AzPolicyRemediation -Name <String> [-SubscriptionId <String>] [-FailureThresholdPercentage <Single>]
- [-FilterLocation <String[]>] [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>]
- [-PolicyAssignmentId <String>] [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>]
- [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
- [<CommonParameters>]
-```
-
-### CreateExpanded
-```
-Start-AzPolicyRemediation -ManagementGroupId <String> -Name <String> [-FailureThresholdPercentage <Single>]
- [-FilterLocation <String[]>] [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>]
- [-PolicyAssignmentId <String>] [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>]
- [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
- [<CommonParameters>]
-```
-
-### CreateExpanded2
-```
-Start-AzPolicyRemediation -Name <String> -ResourceGroupName <String> [-SubscriptionId <String>]
+Start-AzPolicyRemediation -Name <String> -PolicyAssignmentId <String> [-SubscriptionId <String>]
  [-FailureThresholdPercentage <Single>] [-FilterLocation <String[]>] [-FilterResourceId <String[]>]
- [-ParallelDeployment <Int32>] [-PolicyAssignmentId <String>] [-PolicyDefinitionReferenceId <String>]
+ [-ParallelDeployment <Int32>] [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>]
+ [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
+ [<CommonParameters>]
+```
+
+### CreateByManagementGroup
+```
+Start-AzPolicyRemediation -ManagementGroupId <String> -Name <String> -PolicyAssignmentId <String>
+ [-FailureThresholdPercentage <Single>] [-FilterLocation <String[]>] [-FilterResourceId <String[]>]
+ [-ParallelDeployment <Int32>] [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>]
+ [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
+ [<CommonParameters>]
+```
+
+### CreateByResourceGroup
+```
+Start-AzPolicyRemediation -Name <String> -ResourceGroupName <String> -PolicyAssignmentId <String>
+ [-SubscriptionId <String>] [-FailureThresholdPercentage <Single>] [-FilterLocation <String[]>]
+ [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>] [-PolicyDefinitionReferenceId <String>]
  [-ResourceCount <Int32>] [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait]
  [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### CreateExpanded3
+### CreateByResourceId
 ```
-Start-AzPolicyRemediation -Name <String> -ResourceId <String> [-FailureThresholdPercentage <Single>]
- [-FilterLocation <String[]>] [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>]
- [-PolicyAssignmentId <String>] [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>]
+Start-AzPolicyRemediation -Name <String> -ResourceId <String> -PolicyAssignmentId <String>
+ [-FailureThresholdPercentage <Single>] [-FilterLocation <String[]>] [-FilterResourceId <String[]>]
+ [-ParallelDeployment <Int32>] [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>]
  [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
  [<CommonParameters>]
 ```
 
-### CreateExpandedScope
+### CreateByScope
 ```
 Start-AzPolicyRemediation -Name <String> -PolicyAssignmentId <String> -Scope <String>
- [-ManagementGroupId <String>] [-ResourceGroupName <String>] [-FailureThresholdPercentage <Single>]
- [-FilterLocation <String[]>] [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>]
- [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>] [-ResourceDiscoveryMode <String>]
- [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
+ [-FailureThresholdPercentage <Single>] [-FilterLocation <String[]>] [-FilterResourceId <String[]>]
+ [-ParallelDeployment <Int32>] [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>]
+ [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
+ [<CommonParameters>]
 ```
 
-### CreateViaIdentityExpanded1
+### CreateViaIdentity
 ```
 Start-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-FailureThresholdPercentage <Single>]
  [-FilterLocation <String[]>] [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>]
  [-PolicyAssignmentId <String>] [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>]
  [-ResourceDiscoveryMode <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
  [<CommonParameters>]
-```
-
-### CreateViaIdentityExpanded2
-```
-Start-AzPolicyRemediation [-FailureThresholdPercentage <Single>] [-FilterLocation <String[]>]
- [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>] [-PolicyAssignmentId <String>]
- [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>] [-ResourceDiscoveryMode <String>]
- [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### CreateViaIdentityExpanded3
-```
-Start-AzPolicyRemediation [-FailureThresholdPercentage <Single>] [-FilterLocation <String[]>]
- [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>] [-PolicyAssignmentId <String>]
- [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>] [-ResourceDiscoveryMode <String>]
- [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### CreateViaIdentityManagementGroupExpanded
-```
-Start-AzPolicyRemediation -Name <String> [-FailureThresholdPercentage <Single>] [-FilterLocation <String[]>]
- [-FilterResourceId <String[]>] [-ParallelDeployment <Int32>] [-PolicyAssignmentId <String>]
- [-PolicyDefinitionReferenceId <String>] [-ResourceCount <Int32>] [-ResourceDiscoveryMode <String>]
- [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -205,7 +181,7 @@ Identity Parameter
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-Parameter Sets: CreateViaIdentityExpanded1
+Parameter Sets: CreateViaIdentity
 Aliases:
 
 Required: True
@@ -220,7 +196,7 @@ Management group ID.
 
 ```yaml
 Type: System.String
-Parameter Sets: CreateExpanded, CreateExpandedScope
+Parameter Sets: CreateByManagementGroup
 Aliases: ManagementGroupName
 
 Required: True
@@ -235,7 +211,7 @@ The name of the remediation.
 
 ```yaml
 Type: System.String
-Parameter Sets: CreateExpanded, CreateExpanded1, CreateExpanded2, CreateExpanded3, CreateExpandedScope, CreateViaIdentityManagementGroupExpanded
+Parameter Sets: CreateByManagementGroup, CreateByResourceGroup, CreateByResourceId, CreateByScope, CreateBySubscriptionId
 Aliases: RemediationName
 
 Required: True
@@ -345,7 +321,7 @@ Resource group name.
 
 ```yaml
 Type: System.String
-Parameter Sets: CreateExpanded2, CreateExpandedScope
+Parameter Sets: CreateByResourceGroup
 Aliases:
 
 Required: True
@@ -360,7 +336,7 @@ Resource ID.
 
 ```yaml
 Type: System.String
-Parameter Sets: CreateExpanded3
+Parameter Sets: CreateByResourceId
 Aliases: Id
 
 Required: True
@@ -377,7 +353,7 @@ E.g.
 
 ```yaml
 Type: System.String
-Parameter Sets: CreateExpandedScope
+Parameter Sets: CreateByScope
 Aliases:
 
 Required: True
@@ -392,7 +368,7 @@ The ID of the target subscription.
 
 ```yaml
 Type: System.String
-Parameter Sets: CreateExpanded1, CreateExpanded2
+Parameter Sets: CreateByResourceGroup, CreateBySubscriptionId
 Aliases:
 
 Required: False

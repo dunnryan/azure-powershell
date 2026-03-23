@@ -12,31 +12,31 @@ Deletes an existing remediation at management group scope.
 
 ## SYNTAX
 
-### Delete1 (Default)
+### DeleteBySubscriptionId (Default)
 ```
 Remove-AzPolicyRemediation -Name <String> [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-AllowStop]
  [-AsJob] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### Delete
+### DeleteByManagementGroup
 ```
 Remove-AzPolicyRemediation -ManagementGroupId <String> -Name <String> [-DefaultProfile <PSObject>]
  [-AllowStop] [-AsJob] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### Delete2
+### DeleteByResourceGroup
 ```
 Remove-AzPolicyRemediation -Name <String> -ResourceGroupName <String> [-SubscriptionId <String>]
  [-DefaultProfile <PSObject>] [-AllowStop] [-AsJob] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### Delete3
+### DeleteByResourceId
 ```
 Remove-AzPolicyRemediation -ResourceId <String> [-Name <String>] [-DefaultProfile <PSObject>] [-AllowStop]
  [-AsJob] [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### DeleteScope
+### DeleteByScope
 ```
 Remove-AzPolicyRemediation -Name <String> -Scope <String> [-DefaultProfile <PSObject>] [-AllowStop] [-AsJob]
  [-PassThru] [-Confirm] [-WhatIf] [<CommonParameters>]
@@ -144,7 +144,7 @@ Management group ID.
 
 ```yaml
 Type: System.String
-Parameter Sets: Delete
+Parameter Sets: DeleteByManagementGroup
 Aliases: ManagementGroupName
 
 Required: True
@@ -159,7 +159,7 @@ The name of the remediation.
 
 ```yaml
 Type: System.String
-Parameter Sets: Delete, Delete1, Delete2, Delete3, DeleteScope
+Parameter Sets: DeleteByManagementGroup, DeleteByResourceGroup, DeleteByResourceId, DeleteByScope, DeleteBySubscriptionId
 Aliases: RemediationName
 
 Required: True
@@ -189,7 +189,7 @@ Resource group name.
 
 ```yaml
 Type: System.String
-Parameter Sets: Delete2
+Parameter Sets: DeleteByResourceGroup
 Aliases:
 
 Required: True
@@ -204,7 +204,7 @@ Resource ID.
 
 ```yaml
 Type: System.String
-Parameter Sets: Delete3
+Parameter Sets: DeleteByResourceId
 Aliases:
 
 Required: True
@@ -221,7 +221,7 @@ E.g.
 
 ```yaml
 Type: System.String
-Parameter Sets: DeleteScope
+Parameter Sets: DeleteByScope
 Aliases:
 
 Required: True
@@ -236,7 +236,7 @@ The ID of the target subscription.
 
 ```yaml
 Type: System.String
-Parameter Sets: Delete1, Delete2
+Parameter Sets: DeleteByResourceGroup, DeleteBySubscriptionId
 Aliases:
 
 Required: False

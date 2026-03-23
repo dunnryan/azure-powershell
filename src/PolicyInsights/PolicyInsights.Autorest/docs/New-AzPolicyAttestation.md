@@ -12,7 +12,7 @@ Create an attestation at subscription scope.
 
 ## SYNTAX
 
-### CreateExpanded (Default)
+### CreateBySubscriptionId (Default)
 ```
 New-AzPolicyAttestation -Name <String> -PolicyAssignmentId <String> [-SubscriptionId <String>]
  [-AssessmentDate <DateTime>] [-Comment <String>] [-ComplianceState <String>]
@@ -21,7 +21,7 @@ New-AzPolicyAttestation -Name <String> -PolicyAssignmentId <String> [-Subscripti
  [<CommonParameters>]
 ```
 
-### CreateExpanded1
+### CreateByResourceGroup
 ```
 New-AzPolicyAttestation -Name <String> -ResourceGroupName <String> -PolicyAssignmentId <String>
  [-SubscriptionId <String>] [-AssessmentDate <DateTime>] [-Comment <String>] [-ComplianceState <String>]
@@ -30,7 +30,7 @@ New-AzPolicyAttestation -Name <String> -ResourceGroupName <String> -PolicyAssign
  [<CommonParameters>]
 ```
 
-### CreateExpanded2
+### CreateByResourceId
 ```
 New-AzPolicyAttestation -Name <String> -ResourceId <String> -PolicyAssignmentId <String>
  [-AssessmentDate <DateTime>] [-Comment <String>] [-ComplianceState <String>]
@@ -39,7 +39,7 @@ New-AzPolicyAttestation -Name <String> -ResourceId <String> -PolicyAssignmentId 
  [<CommonParameters>]
 ```
 
-### CreateScope
+### CreateByScope
 ```
 New-AzPolicyAttestation -Name <String> -Scope <String> -PolicyAssignmentId <String>
  [-AssessmentDate <DateTime>] [-Comment <String>] [-ComplianceState <String>]
@@ -48,7 +48,7 @@ New-AzPolicyAttestation -Name <String> -Scope <String> -PolicyAssignmentId <Stri
  [<CommonParameters>]
 ```
 
-### CreateViaIdentityExpanded1
+### CreateViaIdentity
 ```
 New-AzPolicyAttestation -InputObject <IPolicyInsightsIdentity> -PolicyAssignmentId <String>
  [-AssessmentDate <DateTime>] [-Comment <String>] [-ComplianceState <String>]
@@ -182,7 +182,7 @@ Identity Parameter
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
-Parameter Sets: CreateViaIdentityExpanded1
+Parameter Sets: CreateViaIdentity
 Aliases:
 
 Required: True
@@ -212,7 +212,7 @@ The name of the attestation.
 
 ```yaml
 Type: System.String
-Parameter Sets: CreateExpanded, CreateExpanded1, CreateExpanded2, CreateScope
+Parameter Sets: CreateByResourceGroup, CreateByResourceId, CreateByScope, CreateBySubscriptionId
 Aliases: AttestationName
 
 Required: True
@@ -275,7 +275,7 @@ The name is case insensitive.
 
 ```yaml
 Type: System.String
-Parameter Sets: CreateExpanded1
+Parameter Sets: CreateByResourceGroup
 Aliases:
 
 Required: True
@@ -290,7 +290,7 @@ Resource ID.
 
 ```yaml
 Type: System.String
-Parameter Sets: CreateExpanded2
+Parameter Sets: CreateByResourceId
 Aliases: Id
 
 Required: True
@@ -307,7 +307,7 @@ E.g.
 
 ```yaml
 Type: System.String
-Parameter Sets: CreateScope
+Parameter Sets: CreateByScope
 Aliases:
 
 Required: True
@@ -322,7 +322,7 @@ The ID of the target subscription.
 
 ```yaml
 Type: System.String
-Parameter Sets: CreateExpanded, CreateExpanded1
+Parameter Sets: CreateByResourceGroup, CreateBySubscriptionId
 Aliases:
 
 Required: False
