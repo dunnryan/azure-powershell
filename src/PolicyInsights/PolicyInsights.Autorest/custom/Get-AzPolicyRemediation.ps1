@@ -58,53 +58,53 @@ https://learn.microsoft.com/powershell/module/az.policyinsights/get-azpolicyreme
 #>
 function Get-AzPolicyRemediation {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IRemediation])]
-[CmdletBinding(DefaultParameterSetName='List1', PositionalBinding=$false)]
+[CmdletBinding(DefaultParameterSetName='ListBySubscriptionId', PositionalBinding=$false)]
 param(
-    [Parameter(ParameterSetName='Get', Mandatory)]
-    [Parameter(ParameterSetName='List', Mandatory)]
+    [Parameter(ParameterSetName='GetByManagementGroup', Mandatory)]
+    [Parameter(ParameterSetName='ListByManagementGroup', Mandatory)]
     [Alias('ManagementGroupName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Management group ID.
     ${ManagementGroupId},
 
-    [Parameter(ParameterSetName='Get', Mandatory)]
-    [Parameter(ParameterSetName='Get1', Mandatory)]
-    [Parameter(ParameterSetName='Get2', Mandatory)]
-    [Parameter(ParameterSetName='Get3', Mandatory)]
-    [Parameter(ParameterSetName='ScopeAndName', Mandatory)]
+    [Parameter(ParameterSetName='GetByManagementGroup', Mandatory)]
+    [Parameter(ParameterSetName='GetBySubscriptionId', Mandatory)]
+    [Parameter(ParameterSetName='GetByResourceGroup', Mandatory)]
+    [Parameter(ParameterSetName='GetByResourceId', Mandatory)]
+    [Parameter(ParameterSetName='GetByScope', Mandatory)]
     [Alias('RemediationName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the remediation.
     ${Name},
 
-    [Parameter(ParameterSetName='Get1')]
-    [Parameter(ParameterSetName='Get2')]
-    [Parameter(ParameterSetName='List1')]
-    [Parameter(ParameterSetName='List2')]
+    [Parameter(ParameterSetName='GetBySubscriptionId')]
+    [Parameter(ParameterSetName='GetByResourceGroup')]
+    [Parameter(ParameterSetName='ListBySubscriptionId')]
+    [Parameter(ParameterSetName='ListByResourceGroup')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String[]]
     # The ID of the target subscription.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='Get2', Mandatory)]
-    [Parameter(ParameterSetName='List2', Mandatory)]
+    [Parameter(ParameterSetName='GetByResourceGroup', Mandatory)]
+    [Parameter(ParameterSetName='ListByResourceGroup', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource group name.
     ${ResourceGroupName},
 
-    [Parameter(ParameterSetName='Get3', Mandatory)]
-    [Parameter(ParameterSetName='List3', Mandatory)]
+    [Parameter(ParameterSetName='GetByResourceId', Mandatory)]
+    [Parameter(ParameterSetName='ListByResourceId', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource ID.
     ${ResourceId},
 
-    [Parameter(ParameterSetName='ScopeAndName', Mandatory)]
-    [Parameter(ParameterSetName='ScopeList', Mandatory)]
+    [Parameter(ParameterSetName='GetByScope', Mandatory)]
+    [Parameter(ParameterSetName='ListByScope', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Scope of the resource. E.g. '/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
@@ -116,36 +116,36 @@ param(
     # Identity Parameter
     ${InputObject},
 
-    [Parameter(ParameterSetName='List')]
-    [Parameter(ParameterSetName='List1')]
-    [Parameter(ParameterSetName='List2')]
-    [Parameter(ParameterSetName='List3')]
-    [Parameter(ParameterSetName='ScopeList')]
+    [Parameter(ParameterSetName='ListByManagementGroup')]
+    [Parameter(ParameterSetName='ListBySubscriptionId')]
+    [Parameter(ParameterSetName='ListByResourceGroup')]
+    [Parameter(ParameterSetName='ListByResourceId')]
+    [Parameter(ParameterSetName='ListByScope')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
     # OData filter expression.
     ${Filter},
 
-    [Parameter(ParameterSetName='List')]
-    [Parameter(ParameterSetName='List1')]
-    [Parameter(ParameterSetName='List2')]
-    [Parameter(ParameterSetName='List3')]
-    [Parameter(ParameterSetName='ScopeList')]
-    [Parameter(ParameterSetName='Get')]
-    [Parameter(ParameterSetName='Get1')]
-    [Parameter(ParameterSetName='Get2')]
-    [Parameter(ParameterSetName='Get3')]
-    [Parameter(ParameterSetName='ScopeAndName')]
+    [Parameter(ParameterSetName='ListByManagementGroup')]
+    [Parameter(ParameterSetName='ListBySubscriptionId')]
+    [Parameter(ParameterSetName='ListByResourceGroup')]
+    [Parameter(ParameterSetName='ListByResourceId')]
+    [Parameter(ParameterSetName='ListByScope')]
+    [Parameter(ParameterSetName='GetByManagementGroup')]
+    [Parameter(ParameterSetName='GetBySubscriptionId')]
+    [Parameter(ParameterSetName='GetByResourceGroup')]
+    [Parameter(ParameterSetName='GetByResourceId')]
+    [Parameter(ParameterSetName='GetByScope')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.Int32]
     # Maximum number of records to return. When IncludeDetail is specified, this parameter applies to the amount of deployments returned.
     ${Top},
 
-    [Parameter(ParameterSetName='Get')]
-    [Parameter(ParameterSetName='Get1')]
-    [Parameter(ParameterSetName='Get2')]
-    [Parameter(ParameterSetName='Get3')]
-    [Parameter(ParameterSetName='ScopeAndName')]
+    [Parameter(ParameterSetName='GetByManagementGroup')]
+    [Parameter(ParameterSetName='GetBySubscriptionId')]
+    [Parameter(ParameterSetName='GetByResourceGroup')]
+    [Parameter(ParameterSetName='GetByResourceId')]
+    [Parameter(ParameterSetName='GetByScope')]
     [System.Management.Automation.SwitchParameter]
     # Include details of the deployments created by the remediation.
     ${IncludeDetail},

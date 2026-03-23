@@ -34,53 +34,53 @@ https://learn.microsoft.com/powershell/module/az.policyinsights/get-azpolicystat
 #>
 function Get-AzPolicyStateSummary {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.ISummary])]
-[CmdletBinding(DefaultParameterSetName='Summarize1', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+[CmdletBinding(DefaultParameterSetName='SummarizeBySubscriptionId', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
-    [Parameter(ParameterSetName='Summarize', Mandatory)]
+    [Parameter(ParameterSetName='SummarizeByManagementGroup', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Management group name.
     ${ManagementGroupName},
 
-    [Parameter(ParameterSetName='Summarize1')]
-    [Parameter(ParameterSetName='Summarize2')]
-    [Parameter(ParameterSetName='Summarize4')]
-    [Parameter(ParameterSetName='Summarize5')]
-    [Parameter(ParameterSetName='Summarize6')]
-    [Parameter(ParameterSetName='Summarize7')]
+    [Parameter(ParameterSetName='SummarizeBySubscriptionId')]
+    [Parameter(ParameterSetName='SummarizeByResourceGroup')]
+    [Parameter(ParameterSetName='SummarizeByPolicySetDefinition')]
+    [Parameter(ParameterSetName='SummarizeByPolicyDefinition')]
+    [Parameter(ParameterSetName='SummarizeByPolicyAssignment')]
+    [Parameter(ParameterSetName='SummarizeByPolicyAssignmentAndResourceGroup')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
     # Microsoft Azure subscription ID.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='Summarize2', Mandatory)]
-    [Parameter(ParameterSetName='Summarize7', Mandatory)]
+    [Parameter(ParameterSetName='SummarizeByResourceGroup', Mandatory)]
+    [Parameter(ParameterSetName='SummarizeByPolicyAssignmentAndResourceGroup', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource group name.
     ${ResourceGroupName},
 
-    [Parameter(ParameterSetName='Summarize3', Mandatory)]
+    [Parameter(ParameterSetName='SummarizeByResourceId', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource ID.
     ${ResourceId},
 
-    [Parameter(ParameterSetName='Summarize4', Mandatory)]
+    [Parameter(ParameterSetName='SummarizeByPolicySetDefinition', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Policy set definition name.
     ${PolicySetDefinitionName},
 
-    [Parameter(ParameterSetName='Summarize5', Mandatory)]
+    [Parameter(ParameterSetName='SummarizeByPolicyDefinition', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Policy definition name.
     ${PolicyDefinitionName},
 
-    [Parameter(ParameterSetName='Summarize6', Mandatory)]
-    [Parameter(ParameterSetName='Summarize7', Mandatory)]
+    [Parameter(ParameterSetName='SummarizeByPolicyAssignment', Mandatory)]
+    [Parameter(ParameterSetName='SummarizeByPolicyAssignmentAndResourceGroup', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Policy assignment name.

@@ -57,51 +57,48 @@ https://learn.microsoft.com/powershell/module/az.policyinsights/start-azpolicyre
 #>
 function Start-AzPolicyRemediation {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IRemediation])]
-[CmdletBinding(DefaultParameterSetName='CreateExpanded1', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+[CmdletBinding(DefaultParameterSetName='CreateBySubscriptionId', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
-    [Parameter(ParameterSetName='CreateExpanded', Mandatory)]
-    [Parameter(ParameterSetName='CreateExpandedScope')]
+    [Parameter(ParameterSetName='CreateByManagementGroup', Mandatory)]
     [Alias('ManagementGroupName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Management group ID.
     ${ManagementGroupId},
 
-    [Parameter(ParameterSetName='CreateExpanded', Mandatory)]
-    [Parameter(ParameterSetName='CreateExpanded1', Mandatory)]
-    [Parameter(ParameterSetName='CreateExpanded2', Mandatory)]
-    [Parameter(ParameterSetName='CreateExpanded3', Mandatory)]
-    [Parameter(ParameterSetName='CreateExpandedScope', Mandatory)]
-    [Parameter(ParameterSetName='CreateViaIdentityManagementGroupExpanded', Mandatory)]
+    [Parameter(ParameterSetName='CreateByManagementGroup', Mandatory)]
+    [Parameter(ParameterSetName='CreateBySubscriptionId', Mandatory)]
+    [Parameter(ParameterSetName='CreateByResourceGroup', Mandatory)]
+    [Parameter(ParameterSetName='CreateByResourceId', Mandatory)]
+    [Parameter(ParameterSetName='CreateByScope', Mandatory)]
     [Alias('RemediationName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the remediation.
     ${Name},
 
-    [Parameter(ParameterSetName='CreateExpanded1')]
-    [Parameter(ParameterSetName='CreateExpanded2')]
+    [Parameter(ParameterSetName='CreateBySubscriptionId')]
+    [Parameter(ParameterSetName='CreateByResourceGroup')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
     # The ID of the target subscription.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='CreateExpanded2', Mandatory)]
-    [Parameter(ParameterSetName='CreateExpandedScope')]
+    [Parameter(ParameterSetName='CreateByResourceGroup', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource group name.
     ${ResourceGroupName},
 
-    [Parameter(ParameterSetName='CreateExpanded3', Mandatory)]
+    [Parameter(ParameterSetName='CreateByResourceId', Mandatory)]
     [Alias('Id')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource ID.
     ${ResourceId},
 
-    [Parameter(ParameterSetName='CreateViaIdentityExpanded1', Mandatory, ValueFromPipeline)]
+    [Parameter(ParameterSetName='CreateViaIdentity', Mandatory, ValueFromPipeline)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity]
     # Identity Parameter
@@ -142,15 +139,12 @@ param(
     # If not provided, the default parallel deployments value is used.
     ${ParallelDeployment},
 
-    [Parameter(ParameterSetName='CreateExpanded')]
-    [Parameter(ParameterSetName='CreateExpanded1')]
-    [Parameter(ParameterSetName='CreateExpanded2')]
-    [Parameter(ParameterSetName='CreateExpanded3')]
-    [Parameter(ParameterSetName='CreateExpandedScope', Mandatory)]
-    [Parameter(ParameterSetName='CreateViaIdentityExpanded1')]
-    [Parameter(ParameterSetName='CreateViaIdentityExpanded2')]
-    [Parameter(ParameterSetName='CreateViaIdentityExpanded3')]
-    [Parameter(ParameterSetName='CreateViaIdentityManagementGroupExpanded')]
+    [Parameter(ParameterSetName='CreateByManagementGroup', Mandatory)]
+    [Parameter(ParameterSetName='CreateBySubscriptionId', Mandatory)]
+    [Parameter(ParameterSetName='CreateByResourceGroup', Mandatory)]
+    [Parameter(ParameterSetName='CreateByResourceId', Mandatory)]
+    [Parameter(ParameterSetName='CreateByScope', Mandatory)]
+    [Parameter(ParameterSetName='CreateViaIdentity')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.String]
     # The resource ID of the policy assignment that should be remediated.
@@ -178,7 +172,7 @@ param(
     # Defaults to ExistingNonCompliant if not specified.
     ${ResourceDiscoveryMode},
 
-    [Parameter(ParameterSetName='CreateExpandedScope', Mandatory)]
+    [Parameter(ParameterSetName='CreateByScope', Mandatory)]
     [System.String]
     # Scope of the resource. E.g. '/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
     ${Scope},

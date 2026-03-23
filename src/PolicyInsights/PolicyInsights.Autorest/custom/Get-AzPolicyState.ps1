@@ -31,53 +31,53 @@ https://learn.microsoft.com/powershell/module/az.policyinsights/get-azpolicystat
 #>
 function Get-AzPolicyState {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyState])]
-[CmdletBinding(DefaultParameterSetName='List1', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+[CmdletBinding(DefaultParameterSetName='ListBySubscriptionId', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
-    [Parameter(ParameterSetName='List', Mandatory)]
+    [Parameter(ParameterSetName='ListByManagementGroup', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Management group name.
     ${ManagementGroupName},
 
-    [Parameter(ParameterSetName='List1')]
-    [Parameter(ParameterSetName='List2')]
-    [Parameter(ParameterSetName='List4')]
-    [Parameter(ParameterSetName='List5')]
-    [Parameter(ParameterSetName='List6')]
-    [Parameter(ParameterSetName='List7')]
+    [Parameter(ParameterSetName='ListBySubscriptionId')]
+    [Parameter(ParameterSetName='ListByResourceGroup')]
+    [Parameter(ParameterSetName='ListByPolicySetDefinition')]
+    [Parameter(ParameterSetName='ListByPolicyDefinition')]
+    [Parameter(ParameterSetName='ListByPolicyAssignment')]
+    [Parameter(ParameterSetName='ListByPolicyAssignmentAndResourceGroup')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String[]]
     # Microsoft Azure subscription ID.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='List2', Mandatory)]
-    [Parameter(ParameterSetName='List7', Mandatory)]
+    [Parameter(ParameterSetName='ListByResourceGroup', Mandatory)]
+    [Parameter(ParameterSetName='ListByPolicyAssignmentAndResourceGroup', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource group name.
     ${ResourceGroupName},
 
-    [Parameter(ParameterSetName='List3', Mandatory)]
+    [Parameter(ParameterSetName='ListByResourceId', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource ID.
     ${ResourceId},
 
-    [Parameter(ParameterSetName='List4', Mandatory)]
+    [Parameter(ParameterSetName='ListByPolicySetDefinition', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Policy set definition name.
     ${PolicySetDefinitionName},
 
-    [Parameter(ParameterSetName='List5', Mandatory)]
+    [Parameter(ParameterSetName='ListByPolicyDefinition', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Policy definition name.
     ${PolicyDefinitionName},
 
-    [Parameter(ParameterSetName='List6', Mandatory)]
-    [Parameter(ParameterSetName='List7', Mandatory)]
+    [Parameter(ParameterSetName='ListByPolicyAssignment', Mandatory)]
+    [Parameter(ParameterSetName='ListByPolicyAssignmentAndResourceGroup', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Policy assignment name.
@@ -131,7 +131,7 @@ param(
     # Maximum number of records to return.
     ${Top},
 
-    [Parameter(ParameterSetName='List3')]
+    [Parameter(ParameterSetName='ListByResourceId')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
     # The $expand query parameter.

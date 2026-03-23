@@ -57,44 +57,44 @@ https://learn.microsoft.com/powershell/module/az.policyinsights/get-azpolicyatte
 #>
 function Get-AzPolicyAttestation {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IAttestation])]
-[CmdletBinding(DefaultParameterSetName='List', PositionalBinding=$false)]
+[CmdletBinding(DefaultParameterSetName='ListBySubscriptionId', PositionalBinding=$false)]
 param(
-    [Parameter(ParameterSetName='Get', Mandatory)]
-    [Parameter(ParameterSetName='Get1', Mandatory)]
-    [Parameter(ParameterSetName='Get2')]
-    [Parameter(ParameterSetName='ScopeAndName', Mandatory)]
+    [Parameter(ParameterSetName='GetBySubscriptionId', Mandatory)]
+    [Parameter(ParameterSetName='GetByResourceGroup', Mandatory)]
+    [Parameter(ParameterSetName='GetByResourceId')]
+    [Parameter(ParameterSetName='GetByScope', Mandatory)]
     [Alias('AttestationName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the attestation.
     ${Name},
 
-    [Parameter(ParameterSetName='Get')]
-    [Parameter(ParameterSetName='Get1')]
-    [Parameter(ParameterSetName='List')]
-    [Parameter(ParameterSetName='List1')]
+    [Parameter(ParameterSetName='GetBySubscriptionId')]
+    [Parameter(ParameterSetName='GetByResourceGroup')]
+    [Parameter(ParameterSetName='ListBySubscriptionId')]
+    [Parameter(ParameterSetName='ListByResourceGroup')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String[]]
     # The ID of the target subscription.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='Get1', Mandatory)]
-    [Parameter(ParameterSetName='List1', Mandatory)]
+    [Parameter(ParameterSetName='GetByResourceGroup', Mandatory)]
+    [Parameter(ParameterSetName='ListByResourceGroup', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the resource group.
     # The name is case insensitive.
     ${ResourceGroupName},
 
-    [Parameter(ParameterSetName='Get2', Mandatory)]
-    [Parameter(ParameterSetName='List2', Mandatory)]
+    [Parameter(ParameterSetName='GetByResourceId', Mandatory)]
+    [Parameter(ParameterSetName='ListByResourceId', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource ID.
     ${ResourceId},
 
-    [Parameter(ParameterSetName='ScopeAndName', Mandatory)]
+    [Parameter(ParameterSetName='GetByScope', Mandatory)]
     [Parameter(ParameterSetName='ScopeList', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
@@ -107,18 +107,18 @@ param(
     # Identity Parameter
     ${InputObject},
 
-    [Parameter(ParameterSetName='List')]
-    [Parameter(ParameterSetName='List1')]
-    [Parameter(ParameterSetName='List2')]
+    [Parameter(ParameterSetName='ListBySubscriptionId')]
+    [Parameter(ParameterSetName='ListByResourceGroup')]
+    [Parameter(ParameterSetName='ListByResourceId')]
     [Parameter(ParameterSetName='ScopeList')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
     # OData filter expression.
     ${Filter},
 
-    [Parameter(ParameterSetName='List')]
-    [Parameter(ParameterSetName='List1')]
-    [Parameter(ParameterSetName='List2')]
+    [Parameter(ParameterSetName='ListBySubscriptionId')]
+    [Parameter(ParameterSetName='ListByResourceGroup')]
+    [Parameter(ParameterSetName='ListByResourceId')]
     [Parameter(ParameterSetName='ScopeList')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.Int32]

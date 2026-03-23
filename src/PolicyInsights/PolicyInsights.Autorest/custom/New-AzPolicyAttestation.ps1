@@ -61,47 +61,47 @@ https://learn.microsoft.com/powershell/module/az.policyinsights/new-azpolicyatte
 #>
 function New-AzPolicyAttestation {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IAttestation])]
-[CmdletBinding(DefaultParameterSetName='CreateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+[CmdletBinding(DefaultParameterSetName='CreateBySubscriptionId', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
-    [Parameter(ParameterSetName='CreateExpanded', Mandatory)]
-    [Parameter(ParameterSetName='CreateExpanded1', Mandatory)]
-    [Parameter(ParameterSetName='CreateExpanded2', Mandatory)]
-    [Parameter(ParameterSetName='CreateScope', Mandatory)]
+    [Parameter(ParameterSetName='CreateBySubscriptionId', Mandatory)]
+    [Parameter(ParameterSetName='CreateByResourceGroup', Mandatory)]
+    [Parameter(ParameterSetName='CreateByResourceId', Mandatory)]
+    [Parameter(ParameterSetName='CreateByScope', Mandatory)]
     [Alias('AttestationName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the attestation.
     ${Name},
 
-    [Parameter(ParameterSetName='CreateExpanded')]
-    [Parameter(ParameterSetName='CreateExpanded1')]
+    [Parameter(ParameterSetName='CreateBySubscriptionId')]
+    [Parameter(ParameterSetName='CreateByResourceGroup')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
     # The ID of the target subscription.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='CreateExpanded1', Mandatory)]
+    [Parameter(ParameterSetName='CreateByResourceGroup', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the resource group.
     # The name is case insensitive.
     ${ResourceGroupName},
 
-    [Parameter(ParameterSetName='CreateExpanded2', Mandatory)]
+    [Parameter(ParameterSetName='CreateByResourceId', Mandatory)]
     [Alias('Id')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource ID.
     ${ResourceId},
 
-    [Parameter(ParameterSetName='CreateScope', Mandatory)]
+    [Parameter(ParameterSetName='CreateByScope', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Scope of the resource. E.g. '/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
     ${Scope},
 
-    [Parameter(ParameterSetName='CreateViaIdentityExpanded1', Mandatory, ValueFromPipeline)]
+    [Parameter(ParameterSetName='CreateViaIdentity', Mandatory, ValueFromPipeline)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity]
     # Identity Parameter

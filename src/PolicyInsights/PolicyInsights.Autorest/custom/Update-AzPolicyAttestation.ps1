@@ -61,48 +61,48 @@ https://learn.microsoft.com/powershell/module/az.policyinsights/update-azpolicya
 #>
 function Update-AzPolicyAttestation {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IAttestation])]
-[CmdletBinding(DefaultParameterSetName='UpdateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+[CmdletBinding(DefaultParameterSetName='UpdateBySubscriptionId', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 [Alias('Set-AzPolicyAttestation')]
 param(
-    [Parameter(ParameterSetName='UpdateExpanded', Mandatory)]
-    [Parameter(ParameterSetName='UpdateExpanded1', Mandatory)]
-    [Parameter(ParameterSetName='UpdateExpanded2')]
-    [Parameter(ParameterSetName='UpdateScope', Mandatory)]
+    [Parameter(ParameterSetName='UpdateBySubscriptionId', Mandatory)]
+    [Parameter(ParameterSetName='UpdateByResourceGroup', Mandatory)]
+    [Parameter(ParameterSetName='UpdateByResourceId')]
+    [Parameter(ParameterSetName='UpdateByScope', Mandatory)]
     [Alias('AttestationName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the attestation.
     ${Name},
 
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Parameter(ParameterSetName='UpdateExpanded1')]
+    [Parameter(ParameterSetName='UpdateBySubscriptionId')]
+    [Parameter(ParameterSetName='UpdateByResourceGroup')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
     # The ID of the target subscription.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='UpdateExpanded1', Mandatory)]
+    [Parameter(ParameterSetName='UpdateByResourceGroup', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the resource group.
     # The name is case insensitive.
     ${ResourceGroupName},
 
-    [Parameter(ParameterSetName='UpdateExpanded2', Mandatory)]
+    [Parameter(ParameterSetName='UpdateByResourceId', Mandatory)]
     [Alias('Id')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource ID.
     ${ResourceId},
 
-    [Parameter(ParameterSetName='UpdateScope', Mandatory)]
+    [Parameter(ParameterSetName='UpdateByScope', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Scope of the resource. E.g. '/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
     ${Scope},
 
-    [Parameter(ParameterSetName='UpdateViaIdentityExpanded', Mandatory, ValueFromPipeline)]
+    [Parameter(ParameterSetName='UpdateViaIdentity', Mandatory, ValueFromPipeline)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity]
     # Identity Parameter

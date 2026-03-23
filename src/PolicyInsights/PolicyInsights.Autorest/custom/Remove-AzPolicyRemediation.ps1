@@ -57,47 +57,47 @@ https://learn.microsoft.com/powershell/module/az.policyinsights/remove-azpolicyr
 #>
 function Remove-AzPolicyRemediation {
 [OutputType([System.Boolean])]
-[CmdletBinding(DefaultParameterSetName='Delete1', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+[CmdletBinding(DefaultParameterSetName='DeleteBySubscriptionId', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
-    [Parameter(ParameterSetName='Delete', Mandatory)]
+    [Parameter(ParameterSetName='DeleteByManagementGroup', Mandatory)]
     [Alias('ManagementGroupName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Management group ID.
     ${ManagementGroupId},
 
-    [Parameter(ParameterSetName='Delete', Mandatory)]
-    [Parameter(ParameterSetName='Delete1', Mandatory)]
-    [Parameter(ParameterSetName='Delete2', Mandatory)]
-    [Parameter(ParameterSetName='Delete3')]
-    [Parameter(ParameterSetName='DeleteScope', Mandatory)]
+    [Parameter(ParameterSetName='DeleteByManagementGroup', Mandatory)]
+    [Parameter(ParameterSetName='DeleteBySubscriptionId', Mandatory)]
+    [Parameter(ParameterSetName='DeleteByResourceGroup', Mandatory)]
+    [Parameter(ParameterSetName='DeleteByResourceId')]
+    [Parameter(ParameterSetName='DeleteByScope', Mandatory)]
     [Alias('RemediationName')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # The name of the remediation.
     ${Name},
 
-    [Parameter(ParameterSetName='Delete1')]
-    [Parameter(ParameterSetName='Delete2')]
+    [Parameter(ParameterSetName='DeleteBySubscriptionId')]
+    [Parameter(ParameterSetName='DeleteByResourceGroup')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
     # The ID of the target subscription.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='Delete2', Mandatory)]
+    [Parameter(ParameterSetName='DeleteByResourceGroup', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource group name.
     ${ResourceGroupName},
 
-    [Parameter(ParameterSetName='Delete3', Mandatory)]
+    [Parameter(ParameterSetName='DeleteByResourceId', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Resource ID.
     ${ResourceId},
 
-    [Parameter(ParameterSetName='DeleteScope', Mandatory)]
+    [Parameter(ParameterSetName='DeleteByScope', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
     # Scope of the resource. E.g. '/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
