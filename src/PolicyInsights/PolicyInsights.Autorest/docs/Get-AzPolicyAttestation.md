@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-AzPolicyAttestation
 
 ## SYNOPSIS
-Gets an existing attestation at subscription scope.
+Gets policy attestations.
 
 ## SYNTAX
 
@@ -66,7 +66,7 @@ Get-AzPolicyAttestation -Scope <String> [-Filter <String>] [-Top <Int32>] [-Defa
 ```
 
 ## DESCRIPTION
-Gets an existing attestation at subscription scope.
+The **Get-AzPolicyAttestation** cmdlet gets all policy attestations in a scope or a particular attestation.
 
 ## EXAMPLES
 
@@ -111,7 +111,7 @@ Accept wildcard characters: False
 ```
 
 ### -Filter
-OData filter expression.
+Filter expression using OData notation.
 
 ```yaml
 Type: System.String
@@ -172,7 +172,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceId
-Resource ID.
+ID of the resource that an attestation or attestations were made against.
 
 ```yaml
 Type: System.String
@@ -189,7 +189,7 @@ Accept wildcard characters: False
 ### -Scope
 Scope of the resource.
 E.g.
-'subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
+'subscriptions/\{subscriptionId}/resourceGroups/\{rgName}'.
 
 ```yaml
 Type: System.String
@@ -205,6 +205,7 @@ Accept wildcard characters: False
 
 ### -SubscriptionId
 The ID of the target subscription.
+Uses current subscription if one isn't provided.
 
 ```yaml
 Type: System.String[]
@@ -220,6 +221,7 @@ Accept wildcard characters: False
 
 ### -Top
 Maximum number of records to return.
+If not provided, the maximum number of records returned is determined by the Azure Policy service (currently 1000).
 
 ```yaml
 Type: System.Int32

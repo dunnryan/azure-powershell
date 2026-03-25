@@ -182,30 +182,6 @@ function Validate-PolicyStateSummary {
    }
 }
 
-# I'm not sure if the below function is necessary anymore
-
-<#
-.SYNOPSIS
-Validates a summary results
-#>
-function Validate-SummaryResults {
-   param([Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.ISummaryResults] $results,
-      [switch]$nonCompliantPoliciesAssertNull = $true
-   )
-
-   Assert-NotNull $results.NonCompliantResources
-   if ($nonCompliantPoliciesAssertNull) {
-      Assert-Null $results.NonCompliantPolicies
-   }
-   else {
-      Assert-NotNull $results.NonCompliantPolicies
-   }
-   Assert-NotNull $results.ResourceDetails
-   Assert-NotNull $results.PolicyDetails
-   Assert-True { $results.PolicyDetails.Count -gt 0 }
-   Assert-NotNull $results.PolicyGroupDetails
-}
-
 <#
 .SYNOPSIS
 Validates a remediation

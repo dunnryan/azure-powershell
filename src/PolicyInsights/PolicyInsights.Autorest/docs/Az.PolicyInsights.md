@@ -12,19 +12,19 @@ Microsoft Azure PowerShell: PolicyInsights cmdlets
 
 ## Az.PolicyInsights Cmdlets
 ### [Get-AzPolicyAttestation](Get-AzPolicyAttestation.md)
-Gets an existing attestation at subscription scope.
+Gets policy attestations.
 
 ### [Get-AzPolicyEvent](Get-AzPolicyEvent.md)
-Queries policy events for the resources under the management group.
+Gets policy evaluation events generated as resources are created or updated.
 
 ### [Get-AzPolicyMetadata](Get-AzPolicyMetadata.md)
-Get a list of the policy metadata resources.
+Gets Policy Metadata resources.
 
 ### [Get-AzPolicyRemediation](Get-AzPolicyRemediation.md)
-Gets an existing remediation at management group scope.
+Gets policy remediations.
 
 ### [Get-AzPolicyState](Get-AzPolicyState.md)
-Queries policy states for the resources under the management group.
+Gets policy compliance states for resources.
 
 ### [Get-AzPolicyStateSummary](Get-AzPolicyStateSummary.md)
 Summarizes policy states for the resources under the management group.

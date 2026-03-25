@@ -8,68 +8,72 @@ schema: 2.0.0
 # Get-AzPolicyEvent
 
 ## SYNOPSIS
-Queries policy events for the resources under the management group.
+Gets policy evaluation events generated as resources are created or updated.
 
 ## SYNTAX
 
-### List1 (Default)
+### ListBySubscriptionId (Default)
 ```
 Get-AzPolicyEvent [-SubscriptionId <String[]>] [-Apply <String>] [-Filter <String>] [-From <DateTime>]
  [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>]
  [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### List
+### ListByManagementGroup
 ```
 Get-AzPolicyEvent -ManagementGroupName <String> [-Apply <String>] [-Filter <String>] [-From <DateTime>]
  [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>]
  [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### List2
-```
-Get-AzPolicyEvent -ResourceGroupName <String> [-SubscriptionId <String[]>] [-Apply <String>]
- [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
- [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### List3
-```
-Get-AzPolicyEvent -ResourceId <String> [-Apply <String>] [-Expand <String>] [-Filter <String>]
- [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
- [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### List4
-```
-Get-AzPolicyEvent -PolicySetDefinitionName <String> [-SubscriptionId <String[]>] [-Apply <String>]
- [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
- [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### List5
-```
-Get-AzPolicyEvent -PolicyDefinitionName <String> [-SubscriptionId <String[]>] [-Apply <String>]
- [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
- [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### List6
+### ListByPolicyAssignment
 ```
 Get-AzPolicyEvent -PolicyAssignmentName <String> [-SubscriptionId <String[]>] [-Apply <String>]
  [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
  [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
-### List7
+### ListByPolicyAssignmentAndResourceGroup
 ```
 Get-AzPolicyEvent -PolicyAssignmentName <String> -ResourceGroupName <String> [-SubscriptionId <String[]>]
  [-Apply <String>] [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>]
  [-To <DateTime>] [-Top <Int32>] [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
+### ListByPolicyDefinition
+```
+Get-AzPolicyEvent -PolicyDefinitionName <String> [-SubscriptionId <String[]>] [-Apply <String>]
+ [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
+ [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
+```
+
+### ListByPolicySetDefinition
+```
+Get-AzPolicyEvent -PolicySetDefinitionName <String> [-SubscriptionId <String[]>] [-Apply <String>]
+ [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
+ [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
+```
+
+### ListByResourceGroup
+```
+Get-AzPolicyEvent -ResourceGroupName <String> [-SubscriptionId <String[]>] [-Apply <String>]
+ [-Filter <String>] [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
+ [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
+```
+
+### ListByResourceId
+```
+Get-AzPolicyEvent -ResourceId <String> [-Apply <String>] [-Expand <String>] [-Filter <String>]
+ [-From <DateTime>] [-OrderBy <String>] [-Select <String>] [-To <DateTime>] [-Top <Int32>]
+ [-DefaultProfile <PSObject>] [-Confirm] [-WhatIf] [<CommonParameters>]
+```
+
 ## DESCRIPTION
-Queries policy events for the resources under the management group.
+The **Get-AzPolicyEvent** cmdlet gets policy evaluation events generated as resources are created or updated.
+
+Policy event records can be queried at various scopes based on the time interval specified (defaults to last day).
+
+Results can be filtered, grouped, and group aggregations can be computed.
 
 ## EXAMPLES
 
@@ -98,7 +102,7 @@ Queries policy events for the resources under the management group.
 ## PARAMETERS
 
 ### -Apply
-OData apply expression for aggregations.
+Apply expression for aggregations using OData notation.
 
 ```yaml
 Type: System.String
@@ -134,7 +138,7 @@ For example, to expand components use $expand=components
 
 ```yaml
 Type: System.String
-Parameter Sets: List3
+Parameter Sets: ListByResourceId
 Aliases:
 
 Required: False
@@ -145,7 +149,7 @@ Accept wildcard characters: False
 ```
 
 ### -Filter
-OData filter expression.
+Filter expression using OData notation.
 
 ```yaml
 Type: System.String
@@ -180,7 +184,7 @@ Management group name.
 
 ```yaml
 Type: System.String
-Parameter Sets: List
+Parameter Sets: ListByManagementGroup
 Aliases:
 
 Required: True
@@ -212,7 +216,7 @@ Policy assignment name.
 
 ```yaml
 Type: System.String
-Parameter Sets: List6, List7
+Parameter Sets: ListByPolicyAssignment, ListByPolicyAssignmentAndResourceGroup
 Aliases:
 
 Required: True
@@ -227,7 +231,7 @@ Policy definition name.
 
 ```yaml
 Type: System.String
-Parameter Sets: List5
+Parameter Sets: ListByPolicyDefinition
 Aliases:
 
 Required: True
@@ -242,7 +246,7 @@ Policy set definition name.
 
 ```yaml
 Type: System.String
-Parameter Sets: List4
+Parameter Sets: ListByPolicySetDefinition
 Aliases:
 
 Required: True
@@ -257,7 +261,7 @@ Resource group name.
 
 ```yaml
 Type: System.String
-Parameter Sets: List2, List7
+Parameter Sets: ListByPolicyAssignmentAndResourceGroup, ListByResourceGroup
 Aliases:
 
 Required: True
@@ -272,7 +276,7 @@ Resource ID.
 
 ```yaml
 Type: System.String
-Parameter Sets: List3
+Parameter Sets: ListByResourceId
 Aliases:
 
 Required: True
@@ -284,6 +288,7 @@ Accept wildcard characters: False
 
 ### -Select
 Select expression using OData notation.
+One or more comma-separated column names.
 Limits the columns on each record to just those requested, e.g.
 "$select=PolicyAssignmentId, ResourceId".
 
@@ -300,11 +305,12 @@ Accept wildcard characters: False
 ```
 
 ### -SubscriptionId
-Microsoft Azure subscription ID.
+The ID of the target subscription.
+Uses current subscription if one isn't provided.
 
 ```yaml
 Type: System.String[]
-Parameter Sets: List1, List2, List4, List5, List6, List7
+Parameter Sets: ListByPolicyAssignment, ListByPolicyAssignmentAndResourceGroup, ListByPolicyDefinition, ListByPolicySetDefinition, ListByResourceGroup, ListBySubscriptionId
 Aliases:
 
 Required: False

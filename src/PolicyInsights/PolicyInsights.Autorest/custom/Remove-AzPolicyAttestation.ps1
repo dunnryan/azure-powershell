@@ -16,18 +16,17 @@
 
 <#
 .Synopsis
-Deletes an existing attestation at subscription scope.
+Deletes a policy attestation.
+
 .Description
-Deletes an existing attestation at subscription scope.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
+The **Remove-AzPolicyAttestation** cmdlet deletes a policy attestation, with no return value by default.
 
 .Inputs
 Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
+
 .Outputs
 System.Boolean
+
 .Notes
 COMPLEX PARAMETER PROPERTIES
 
@@ -52,6 +51,7 @@ INPUTOBJECT <IPolicyInsightsIdentity>: Identity Parameter
   [ResourceId <String>]: Resource ID.
   [ResourceName <String>]: The name of the policy metadata resource.
   [SubscriptionId <String>]: The ID of the target subscription.
+
 .Link
 https://learn.microsoft.com/powershell/module/az.policyinsights/remove-azpolicyattestation
 #>
@@ -74,7 +74,7 @@ param(
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
-    # The ID of the target subscription.
+    # The ID of the target subscription. Uses current subscription if one isn't provided.
     ${SubscriptionId},
 
     [Parameter(ParameterSetName='DeleteByResourceGroup', Mandatory)]
@@ -88,13 +88,13 @@ param(
     [Alias('Id')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
-    # Resource ID.
+    # ID of the resource that the attestation was made against or full Resource ID of the attestation.
     ${ResourceId},
 
     [Parameter(ParameterSetName='DeleteByScope', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
-    # Scope of the resource. E.g. '/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
+    # Scope of the resource. E.g. '/subscriptions/\{subscriptionId}/resourceGroups/\{rgName}'.
     ${Scope},
 
     [Parameter(ParameterSetName='DeleteViaInputObject', Mandatory, ValueFromPipeline)]

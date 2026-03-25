@@ -16,16 +16,17 @@
 
 <#
 .Synopsis
-Queries policy states for the resources under the management group.
+Gets policy compliance states for resources.
+
 .Description
-Queries policy states for the resources under the management group.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
+The **Get-AzPolicyState** cmdlet gets policy compliance states for resources. 
+Policy state records can be queried at various scopes and time intervals specified, with a default to the last day. 
+Either latest policy states or all policy state transitions can be queried, with a default to only return the latest states for resources. 
+Results can be filtered, grouped, and group aggregations can be computed.
 
 .Outputs
 Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyState
+
 .Link
 https://learn.microsoft.com/powershell/module/az.policyinsights/get-azpolicystate
 #>
@@ -48,7 +49,7 @@ param(
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String[]]
-    # Microsoft Azure subscription ID.
+    # The ID of the target subscription. Uses current subscription if one isn't provided.
     ${SubscriptionId},
 
     [Parameter(ParameterSetName='ListByResourceGroup', Mandatory)]
@@ -67,32 +68,37 @@ param(
     [Parameter(ParameterSetName='ListByPolicySetDefinition', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
-    # Policy set definition name.
+    # The name of a policy set definition. This policy set definition must exist in the subscription being queried.
+    # It cannot be a management group scope policy set definition.
     ${PolicySetDefinitionName},
 
     [Parameter(ParameterSetName='ListByPolicyDefinition', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
-    # Policy definition name.
+    # The name of a policy definition. This policy definition must exist in the subscription being queried.
+    # It cannot be a management group scope policy definition.
     ${PolicyDefinitionName},
 
     [Parameter(ParameterSetName='ListByPolicyAssignment', Mandatory)]
     [Parameter(ParameterSetName='ListByPolicyAssignmentAndResourceGroup', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
-    # Policy assignment name.
+    # The name of a policy assignment. This policy assignment must have exactly the same scope as the parameter set.
+    # It cannot be a management group scope policy assignment.
+    # For example: if `-SubscriptionId` and `-ResourceGroupName` are specified, the policy assignment must be assigned to that resource group.
+    # If only `-SubscriptionId` is specified, then the policy assignment must be assigned to that subscription.
     ${PolicyAssignmentName},
 
     [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
-    # OData apply expression for aggregations.
+    # Apply expression for aggregations using OData notation.
     ${Apply},
 
     [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
-    # OData filter expression.
+    # Filter expression using OData notation.
     ${Filter},
 
     [Parameter()]
@@ -134,7 +140,7 @@ param(
     [Parameter(ParameterSetName='ListByResourceId')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
-    # The $expand query parameter.
+    # Expand expression using OData notation.
     # For example, to expand components use $expand=components
     ${Expand},
 
@@ -150,7 +156,7 @@ param(
     [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.Management.Automation.SwitchParameter]
-    # Get all states, not just the latest.
+    # Within the specified time interval, get all policy states for the resources in scope instead of the latest only for those resources.
     ${All},
 
     [Parameter(DontShow)]

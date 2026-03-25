@@ -16,16 +16,16 @@
 
 <#
 .Synopsis
-Queries policy events for the resources under the management group.
+Gets policy evaluation events generated as resources are created or updated.
+
 .Description
-Queries policy events for the resources under the management group.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
+The **Get-AzPolicyEvent** cmdlet gets policy evaluation events generated as resources are created or updated. 
+Policy event records can be queried at various scopes based on the time interval specified (defaults to last day). 
+Results can be filtered, grouped, and group aggregations can be computed.
 
 .Outputs
 Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyEvent
+
 .Link
 https://learn.microsoft.com/powershell/module/az.policyinsights/get-azpolicyevent
 #>
@@ -48,7 +48,7 @@ param(
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String[]]
-    # Microsoft Azure subscription ID.
+    # The ID of the target subscription. Uses current subscription if one isn't provided.
     ${SubscriptionId},
 
     [Parameter(ParameterSetName='ListByResourceGroup', Mandatory)]
@@ -86,13 +86,13 @@ param(
     [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
-    # OData apply expression for aggregations.
+    # Apply expression for aggregations using OData notation.
     ${Apply},
 
     [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
-    # OData filter expression.
+    # Filter expression using OData notation.
     ${Filter},
 
     [Parameter()]
@@ -113,7 +113,7 @@ param(
     [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
-    # Select expression using OData notation.
+    # Select expression using OData notation. One or more comma-separated column names.
     # Limits the columns on each record to just those requested, e.g.
     # "$select=PolicyAssignmentId, ResourceId".
     ${Select},

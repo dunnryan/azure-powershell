@@ -16,18 +16,17 @@
 
 <#
 .Synopsis
-Gets an existing attestation at subscription scope.
+Gets policy attestations.
+
 .Description
-Gets an existing attestation at subscription scope.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
+The **Get-AzPolicyAttestation** cmdlet gets all policy attestations in a scope or a particular attestation.
 
 .Inputs
 Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
+
 .Outputs
 Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IAttestation
+
 .Notes
 COMPLEX PARAMETER PROPERTIES
 
@@ -52,6 +51,7 @@ INPUTOBJECT <IPolicyInsightsIdentity>: Identity Parameter
   [ResourceId <String>]: Resource ID.
   [ResourceName <String>]: The name of the policy metadata resource.
   [SubscriptionId <String>]: The ID of the target subscription.
+
 .Link
 https://learn.microsoft.com/powershell/module/az.policyinsights/get-azpolicyattestation
 #>
@@ -76,29 +76,28 @@ param(
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String[]]
-    # The ID of the target subscription.
+    # The ID of the target subscription. Uses current subscription if one isn't provided.
     ${SubscriptionId},
 
     [Parameter(ParameterSetName='GetByResourceGroup', Mandatory)]
     [Parameter(ParameterSetName='ListByResourceGroup', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
-    # The name of the resource group.
-    # The name is case insensitive.
+    # The name of the resource group. The name is case insensitive.
     ${ResourceGroupName},
 
     [Parameter(ParameterSetName='GetByResourceId', Mandatory)]
     [Parameter(ParameterSetName='ListByResourceId', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
-    # Resource ID.
+    # ID of the resource that an attestation or attestations were made against.
     ${ResourceId},
 
     [Parameter(ParameterSetName='GetByScope', Mandatory)]
     [Parameter(ParameterSetName='ScopeList', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
-    # Scope of the resource. E.g. 'subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
+    # Scope of the resource. E.g. 'subscriptions/\{subscriptionId}/resourceGroups/\{rgName}'.
     ${Scope},
 
     [Parameter(ParameterSetName='GetViaIdentity', Mandatory, ValueFromPipeline)]
@@ -113,7 +112,7 @@ param(
     [Parameter(ParameterSetName='ScopeList')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
-    # OData filter expression.
+    # Filter expression using OData notation.
     ${Filter},
 
     [Parameter(ParameterSetName='ListBySubscriptionId')]
@@ -123,6 +122,7 @@ param(
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.Int32]
     # Maximum number of records to return.
+    # If not provided, the maximum number of records returned is determined by the Azure Policy service (currently 1000).
     ${Top},
 
     [Parameter()]

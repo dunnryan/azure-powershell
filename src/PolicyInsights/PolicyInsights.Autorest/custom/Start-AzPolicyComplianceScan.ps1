@@ -15,20 +15,15 @@
 
 <#
 .Synopsis
-Triggers a policy evaluation scan for all the resources under the subscription or resource group scope.
-.Description
-Triggers a policy evaluation scan for all the resources under the subscription or resource group scope.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
+Triggers a policy compliance evaluation for all resources in a subscription or resource group.
 
-.Inputs
-Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
+.Description
+The **Start-AzPolicyComplianceScan** cmdlet starts a policy compliance evaluation for a subscription or resource group. 
+All resources within that scope will have their compliance state evaluated against all assigned policies.
+
 .Outputs
 System.Boolean
-.Notes
-COMPLEX PARAMETER PROPERTIES
+
 .Link
 https://learn.microsoft.com/powershell/module/az.policyinsights/start-azpolicycompliancescan
 #>
@@ -40,7 +35,7 @@ param(
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
-    # Microsoft Azure subscription ID.
+    # The ID of the target subscription. Uses current subscription if one isn't provided.
     ${SubscriptionId},
 
     [Parameter(ParameterSetName='ResourceGroupScope')]
@@ -61,7 +56,7 @@ param(
     [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Runtime')]
     [System.Management.Automation.SwitchParameter]
-    # Run the command as a job
+    # Run the command as a job.
     ${AsJob},
 
     [Parameter(DontShow)]

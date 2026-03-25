@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-AzPolicyState
 
 ## SYNOPSIS
-Queries policy states for the resources under the management group.
+Gets policy compliance states for resources.
 
 ## SYNTAX
 
@@ -70,7 +70,13 @@ Get-AzPolicyState -ResourceId <String> [-All] [-Apply <String>] [-Expand <String
 ```
 
 ## DESCRIPTION
-Queries policy states for the resources under the management group.
+The **Get-AzPolicyState** cmdlet gets policy compliance states for resources.
+
+Policy state records can be queried at various scopes and time intervals specified, with a default to the last day.
+
+Either latest policy states or all policy state transitions can be queried, with a default to only return the latest states for resources.
+
+Results can be filtered, grouped, and group aggregations can be computed.
 
 ## EXAMPLES
 
@@ -99,7 +105,7 @@ Queries policy states for the resources under the management group.
 ## PARAMETERS
 
 ### -All
-Get all states, not just the latest.
+Within the specified time interval, get all policy states for the resources in scope instead of the latest only for those resources.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -114,7 +120,7 @@ Accept wildcard characters: False
 ```
 
 ### -Apply
-OData apply expression for aggregations.
+Apply expression for aggregations using OData notation.
 
 ```yaml
 Type: System.String
@@ -145,7 +151,7 @@ Accept wildcard characters: False
 ```
 
 ### -Expand
-The $expand query parameter.
+Expand expression using OData notation.
 For example, to expand components use $expand=components
 
 ```yaml
@@ -161,7 +167,7 @@ Accept wildcard characters: False
 ```
 
 ### -Filter
-OData filter expression.
+Filter expression using OData notation.
 
 ```yaml
 Type: System.String
@@ -224,7 +230,11 @@ Accept wildcard characters: False
 ```
 
 ### -PolicyAssignmentName
-Policy assignment name.
+The name of a policy assignment.
+This policy assignment must have exactly the same scope as the parameter set.
+It cannot be a management group scope policy assignment.
+For example: if `-SubscriptionId` and `-ResourceGroupName` are specified, the policy assignment must be assigned to that resource group.
+If only `-SubscriptionId` is specified, then the policy assignment must be assigned to that subscription.
 
 ```yaml
 Type: System.String
@@ -239,7 +249,9 @@ Accept wildcard characters: False
 ```
 
 ### -PolicyDefinitionName
-Policy definition name.
+The name of a policy definition.
+This policy definition must exist in the subscription being queried.
+It cannot be a management group scope policy definition.
 
 ```yaml
 Type: System.String
@@ -254,7 +266,9 @@ Accept wildcard characters: False
 ```
 
 ### -PolicySetDefinitionName
-Policy set definition name.
+The name of a policy set definition.
+This policy set definition must exist in the subscription being queried.
+It cannot be a management group scope policy set definition.
 
 ```yaml
 Type: System.String
@@ -316,7 +330,8 @@ Accept wildcard characters: False
 ```
 
 ### -SubscriptionId
-Microsoft Azure subscription ID.
+The ID of the target subscription.
+Uses current subscription if one isn't provided.
 
 ```yaml
 Type: System.String[]

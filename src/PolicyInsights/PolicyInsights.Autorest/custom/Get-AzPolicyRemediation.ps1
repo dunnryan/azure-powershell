@@ -16,18 +16,17 @@
 
 <#
 .Synopsis
-Gets an existing remediation at management group scope.
+Gets policy remediations.
+
 .Description
-Gets an existing remediation at management group scope.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
+The **Get-AzPolicyRemediation** cmdlet gets all policy remediations in a scope or a particular remediation.
 
 .Inputs
 Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
+
 .Outputs
 Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IRemediation
+
 .Notes
 COMPLEX PARAMETER PROPERTIES
 
@@ -86,7 +85,7 @@ param(
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String[]]
-    # The ID of the target subscription.
+    # The ID of the target subscription. Uses current subscription if one isn't provided.
     ${SubscriptionId},
 
     [Parameter(ParameterSetName='GetByResourceGroup', Mandatory)]
@@ -100,14 +99,14 @@ param(
     [Parameter(ParameterSetName='ListByResourceId', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
-    # Resource ID.
+    # ID of the resource that the remediation or remediations were made against.
     ${ResourceId},
 
     [Parameter(ParameterSetName='GetByScope', Mandatory)]
     [Parameter(ParameterSetName='ListByScope', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
-    # Scope of the resource. E.g. '/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
+    # Scope of the remediations. E.g. '/subscriptions/\{subscriptionId}/resourceGroups/\{rgName}'.
     ${Scope},
 
     [Parameter(ParameterSetName='GetViaIdentity', Mandatory, ValueFromPipeline)]
@@ -123,7 +122,7 @@ param(
     [Parameter(ParameterSetName='ListByScope')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
-    # OData filter expression.
+    # Filter expression using OData notation.
     ${Filter},
 
     [Parameter(ParameterSetName='ListByManagementGroup')]

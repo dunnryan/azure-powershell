@@ -16,18 +16,20 @@
 
 <#
 .Synopsis
-Update an attestation at resource scope.
+Modifies a policy attestation.
+
 .Description
-Update an attestation at resource scope.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
+The **Update-AzPolicyAttestation** cmdlet modifies a policy attestation.
+
+>**Note:**
+>An existing policy attestation's `policyAssignmentId` or `policyDefinitionReferenceId` cannot be modified.
 
 .Inputs
 Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
+
 .Outputs
 Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IAttestation
+
 .Notes
 COMPLEX PARAMETER PROPERTIES
 
@@ -56,6 +58,7 @@ INPUTOBJECT <IPolicyInsightsIdentity>: Identity Parameter
   [ResourceId <String>]: Resource ID.
   [ResourceName <String>]: The name of the policy metadata resource.
   [SubscriptionId <String>]: The ID of the target subscription.
+
 .Link
 https://learn.microsoft.com/powershell/module/az.policyinsights/update-azpolicyattestation
 #>
@@ -79,7 +82,7 @@ param(
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
-    # The ID of the target subscription.
+    # The ID of the target subscription. Uses current subscription if one isn't provided.
     ${SubscriptionId},
 
     [Parameter(ParameterSetName='UpdateByResourceGroup', Mandatory)]
@@ -93,13 +96,13 @@ param(
     [Alias('Id')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
-    # Resource ID.
+    # ID of the resource that the attestation was made against or the full Resource ID of the attestation.
     ${ResourceId},
 
     [Parameter(ParameterSetName='UpdateByScope', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
-    # Scope of the resource. E.g. '/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
+    # Scope of the resource. E.g. '/subscriptions/\{subscriptionId}/resourceGroups/\{rgName}'.
     ${Scope},
 
     [Parameter(ParameterSetName='UpdateViaIdentity', Mandatory, ValueFromPipeline)]
@@ -124,7 +127,7 @@ param(
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.PSArgumentCompleterAttribute("Compliant", "NonCompliant", "Unknown")]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.String]
-    # The compliance state that should be set on the resource.
+    # The Compliance State of the resource. E.g. 'Compliant', 'NonCompliant', 'Unknown'
     ${ComplianceState},
 
     [Parameter()]
@@ -150,13 +153,14 @@ param(
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.String]
     # The person responsible for setting the state of the resource.
-    # This value is typically an Azure Active Directory object ID.
+    # This value is typically a Microsoft Entra object ID.
     ${Owner},
 
     [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.String]
     # The resource ID of the policy assignment that the attestation is setting the state for.
+    # E.g. '/subscriptions/\{subscriptionId}/providers/Microsoft.Authorization/policyAssignments/\{assignmentName}'.
     ${PolicyAssignmentId},
 
     [Parameter()]

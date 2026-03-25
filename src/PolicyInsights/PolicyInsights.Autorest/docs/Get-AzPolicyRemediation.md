@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-AzPolicyRemediation
 
 ## SYNOPSIS
-Gets an existing remediation at management group scope.
+Gets policy remediations.
 
 ## SYNTAX
 
@@ -79,7 +79,7 @@ Get-AzPolicyRemediation -Scope <String> [-Filter <String>] [-Top <Int32>] [-Defa
 ```
 
 ## DESCRIPTION
-Gets an existing remediation at management group scope.
+The **Get-AzPolicyRemediation** cmdlet gets all policy remediations in a scope or a particular remediation.
 
 ## EXAMPLES
 
@@ -124,7 +124,7 @@ Accept wildcard characters: False
 ```
 
 ### -Filter
-OData filter expression.
+Filter expression using OData notation.
 
 ```yaml
 Type: System.String
@@ -214,7 +214,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceId
-Resource ID.
+ID of the resource that the remediation or remediations were made against.
 
 ```yaml
 Type: System.String
@@ -229,7 +229,7 @@ Accept wildcard characters: False
 ```
 
 ### -Scope
-Scope of the resource.
+Scope of the remediations.
 E.g.
 '/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
 
@@ -247,6 +247,7 @@ Accept wildcard characters: False
 
 ### -SubscriptionId
 The ID of the target subscription.
+Uses current subscription if one isn't provided.
 
 ```yaml
 Type: System.String[]

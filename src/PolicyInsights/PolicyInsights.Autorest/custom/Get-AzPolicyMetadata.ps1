@@ -16,16 +16,14 @@
 
 <#
 .Synopsis
-Get a list of the policy metadata resources.
+Gets Policy Metadata resources.
+
 .Description
-Get a list of the policy metadata resources.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
+The **Get-AzPolicyMetadata** cmdlet gets all policy metadata resources or a particular policy metadata resource.
 
 .Outputs
 Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyMetadata
+
 .Link
 https://learn.microsoft.com/powershell/module/az.policyinsights/get-azpolicymetadata
 #>

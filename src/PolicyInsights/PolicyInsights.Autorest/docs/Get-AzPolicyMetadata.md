@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-AzPolicyMetadata
 
 ## SYNOPSIS
-Get a list of the policy metadata resources.
+Gets Policy Metadata resources.
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Get-AzPolicyMetadata -Name <String> [-DefaultProfile <PSObject>] [<CommonParamet
 ```
 
 ## DESCRIPTION
-Get a list of the policy metadata resources.
+The **Get-AzPolicyMetadata** cmdlet gets all policy metadata resources or a particular policy metadata resource.
 
 ## EXAMPLES
 

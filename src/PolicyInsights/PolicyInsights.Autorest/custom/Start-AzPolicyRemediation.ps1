@@ -16,18 +16,20 @@
 
 <#
 .Synopsis
-Create a remediation at management group scope.
+Creates and starts a policy remediation for a policy assignment.
+
 .Description
-Create a remediation at management group scope.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
+The **Start-AzPolicyRemediation** cmdlet creates a policy remediation for a particular policy assignment. 
+All non-compliant resources at or below the remediation's scope will be remediated. 
+This cmdlet can also be used to restart a previously created Remediation that is in a terminal state. 
+Remediation is only supported for policies with the 'deployIfNotExists' and 'modify' effect.
 
 .Inputs
 Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
+
 .Outputs
 Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IRemediation
+
 .Notes
 COMPLEX PARAMETER PROPERTIES
 
@@ -52,6 +54,7 @@ INPUTOBJECT <IPolicyInsightsIdentity>: Identity Parameter
   [ResourceId <String>]: Resource ID.
   [ResourceName <String>]: The name of the policy metadata resource.
   [SubscriptionId <String>]: The ID of the target subscription.
+
 .Link
 https://learn.microsoft.com/powershell/module/az.policyinsights/start-azpolicyremediation
 #>
@@ -82,7 +85,7 @@ param(
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
-    # The ID of the target subscription.
+    # The ID of the target subscription. Uses current subscription if one isn't provided.
     ${SubscriptionId},
 
     [Parameter(ParameterSetName='CreateByResourceGroup', Mandatory)]
@@ -95,7 +98,7 @@ param(
     [Alias('Id')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
-    # Resource ID.
+    # ID of the resource that the remediation is being created for.
     ${ResourceId},
 
     [Parameter(ParameterSetName='CreateViaIdentity', Mandatory, ValueFromPipeline)]
@@ -118,7 +121,8 @@ param(
     [Alias('LocationFilter')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.String[]]
-    # The resource locations that will be remediated.
+    # The resource locations that should be included in the remediation. 
+    # Resources that don't reside in these locations will not be remediated.
     ${FilterLocation},
 
     [Parameter()]
@@ -127,7 +131,8 @@ param(
     [System.String[]]
     # The IDs of the resources that will be remediated.
     # Can specify at most 100 IDs.
-    # This filter cannot be used when ReEvaluateCompliance is set to ReEvaluateCompliance, and cannot be empty if provided.
+    # This filter cannot be used when ReEvaluateCompliance is set to ReEvaluateCompliance.
+    # This filter cannot be empty if provided, or the remediation won't target any resources.
     ${FilterResourceId},
 
     [Parameter()]
@@ -148,6 +153,7 @@ param(
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.String]
     # The resource ID of the policy assignment that should be remediated.
+    # E.g. '/subscriptions/\{subscriptionId}/providers/Microsoft.Authorization/policyAssignments/\{assignmentName}'.
     ${PolicyAssignmentId},
 
     [Parameter()]
@@ -160,7 +166,7 @@ param(
     [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.Int32]
-    # Determines the max number of resources that can be remediated by the remediation job.
+    # Determines the max number of non-compliant resources that can be remediated by the remediation job.
     # If not provided, the default resource count is used.
     ${ResourceCount},
 
@@ -168,25 +174,26 @@ param(
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.PSArgumentCompleterAttribute("ExistingNonCompliant", "ReEvaluateCompliance")]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Body')]
     [System.String]
-    # The way resources to remediate are discovered.
+    # Describes how the remediation task will discover resources that need to be remediated.
+    # ReEvaluateCompliance is not supported when remediating management group scopes.
     # Defaults to ExistingNonCompliant if not specified.
     ${ResourceDiscoveryMode},
 
     [Parameter(ParameterSetName='CreateByScope', Mandatory)]
     [System.String]
-    # Scope of the resource. E.g. '/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
+    # Scope of the resource. E.g. '/subscriptions/\{subscriptionId}/resourceGroups/\{rgName}'.
     ${Scope},
 
     [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Runtime')]
     [System.Management.Automation.SwitchParameter]
-    # Run cmdlet in the background. Runs until terminal state of Remediation is reached.
+    # Run cmdlet in the background.
     ${AsJob},
 
     [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Runtime')]
     [System.Management.Automation.SwitchParameter]
-    # Run the command asynchronously
+    # Run the command asynchronously.
     ${NoWait},
 
     [Parameter()]

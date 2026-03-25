@@ -16,18 +16,18 @@
 
 <#
 .Synopsis
-Cancels a remediation at management group scope.
+Cancels an in-progress policy remediation.
+
 .Description
-Cancels a remediation at management group scope.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
+The **Stop-AzPolicyRemediation** cmdlet cancels an in-progress policy remediation. 
+Active deployments will be canceled and no new deployments will be created.
 
 .Inputs
 Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
+
 .Outputs
 Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IRemediation
+
 .Notes
 COMPLEX PARAMETER PROPERTIES
 
@@ -52,6 +52,7 @@ INPUTOBJECT <IPolicyInsightsIdentity>: Identity Parameter
   [ResourceId <String>]: Resource ID.
   [ResourceName <String>]: The name of the policy metadata resource.
   [SubscriptionId <String>]: The ID of the target subscription.
+
 .Link
 https://learn.microsoft.com/powershell/module/az.policyinsights/stop-azpolicyremediation
 #>
@@ -82,7 +83,7 @@ param(
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
-    # The ID of the target subscription.
+    # The ID of the target subscription. Uses current subscription if one isn't provided.
     ${SubscriptionId},
 
     [Parameter(ParameterSetName='CancelByResourceGroup', Mandatory)]
@@ -94,7 +95,7 @@ param(
     [Parameter(ParameterSetName='CancelByResourceId', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
-    # Resource ID.
+    # ID of the resource that the remediation was made for or full Resource ID of the remediation.
     ${ResourceId},
 
     [Parameter(ParameterSetName='CancelViaIdentity', Mandatory, ValueFromPipeline)]
@@ -114,13 +115,13 @@ param(
 
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Runtime')]
     [System.Management.Automation.SwitchParameter]
-    # Run the command as a job, which completes when the remediation finishes being cancelled.
+    # Run the command as a job.
     ${AsJob},
 
     [Parameter(ParameterSetName='CancelByScope', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
-    # Scope of the resource. E.g. '/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
+    # Scope of the resource. E.g. '/subscriptions/\{subscriptionId}/resourceGroups/\{rgName}'.
     ${Scope},
 
     [Parameter(DontShow)]

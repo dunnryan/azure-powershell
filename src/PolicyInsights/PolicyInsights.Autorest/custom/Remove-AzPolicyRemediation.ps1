@@ -16,18 +16,19 @@
 
 <#
 .Synopsis
-Deletes an existing remediation at management group scope.
+Deletes a policy remediation.
+
 .Description
-Deletes an existing remediation at management group scope.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
+The **Remove-AzPolicyRemediation** cmdlet deletes a policy remediation. 
+The remediation must be in a terminal state in order to be deleted. 
+However, this cmdlet has a switch that allows it to force a remediation to stop if it's still in progress and then will proceed to delete it.
 
 .Inputs
 Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
+
 .Outputs
 System.Boolean
+
 .Notes
 COMPLEX PARAMETER PROPERTIES
 
@@ -52,6 +53,7 @@ INPUTOBJECT <IPolicyInsightsIdentity>: Identity Parameter
   [ResourceId <String>]: Resource ID.
   [ResourceName <String>]: The name of the policy metadata resource.
   [SubscriptionId <String>]: The ID of the target subscription.
+
 .Link
 https://learn.microsoft.com/powershell/module/az.policyinsights/remove-azpolicyremediation
 #>
@@ -82,7 +84,7 @@ param(
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
-    # The ID of the target subscription.
+    # The ID of the target subscription. Uses current subscription if one isn't provided.
     ${SubscriptionId},
 
     [Parameter(ParameterSetName='DeleteByResourceGroup', Mandatory)]
@@ -94,25 +96,26 @@ param(
     [Parameter(ParameterSetName='DeleteByResourceId', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
-    # Resource ID.
+    # ID of the resource that the remediation was made for or full Resource ID of the remediation.
     ${ResourceId},
 
     [Parameter(ParameterSetName='DeleteByScope', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [System.String]
-    # Scope of the resource. E.g. '/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
+    # Scope of the resource. E.g. '/subscriptions/\{subscriptionId}/resourceGroups/\{rgName}'.
     ${Scope},
 
     [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Runtime')]
     [System.Management.Automation.SwitchParameter]
-    # Run cmdlet in the background. Runs until request of deletion of Remediation is able to be made.
+    # Run cmdlet in the background.
     ${AsJob},
 
     [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Runtime')]
     [System.Management.Automation.SwitchParameter]
-    # Allow the remediation to be canceled if it is in-progress.
+    # Allow the remediation to be canceled if it is in-progress. Harmless if the remediation is already in a terminal state.
+    # Without this switch, the cmdlet will throw an error if the remediation is not in a terminal state.
     ${AllowStop},
 
     [Parameter(ParameterSetName='DeleteViaIdentity', Mandatory, ValueFromPipeline)]

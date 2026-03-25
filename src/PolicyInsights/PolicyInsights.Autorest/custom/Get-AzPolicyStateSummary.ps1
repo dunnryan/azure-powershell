@@ -16,19 +16,15 @@
 
 <#
 .Synopsis
-Summarizes policy states for the resources under the management group.
-.Description
-Summarizes policy states for the resources under the management group.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
+Gets latest policy compliance states summary for resources.
 
-.Inputs
+.Description
+The **Get-AzPolicyStateSummary** cmdlet gets a summary view of latest policy compliance state numbers at various scopes, broken down into policy assignments and policy definitions. 
+It includes mostly information on non-compliant policy states.
+
 .Outputs
 Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.ISummary
-.Notes
-COMPLEX PARAMETER PROPERTIES
+
 .Link
 https://learn.microsoft.com/powershell/module/az.policyinsights/get-azpolicystatesummary
 #>
@@ -51,7 +47,7 @@ param(
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String]
-    # Microsoft Azure subscription ID.
+    # The ID of the target subscription. Uses current subscription if one isn't provided.
     ${SubscriptionId},
 
     [Parameter(ParameterSetName='SummarizeByResourceGroup', Mandatory)]
@@ -89,7 +85,7 @@ param(
     [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Category('Query')]
     [System.String]
-    # OData filter expression.
+    # Filter expression using OData notation.
     ${Filter},
 
     [Parameter()]
