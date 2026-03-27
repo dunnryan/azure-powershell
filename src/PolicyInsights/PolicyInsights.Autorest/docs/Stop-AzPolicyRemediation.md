@@ -8,7 +8,7 @@ schema: 2.0.0
 # Stop-AzPolicyRemediation
 
 ## SYNOPSIS
-Cancels a remediation at management group scope.
+Cancels an in-progress policy remediation.
 
 ## SYNTAX
 
@@ -49,36 +49,31 @@ Stop-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-DefaultProfile
 ```
 
 ## DESCRIPTION
-Cancels a remediation at management group scope.
+The **Stop-AzPolicyRemediation** cmdlet cancels an in-progress policy remediation.
+
+Active deployments will be canceled and no new deployments will be created.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: Cancel a policy remediation at resource group scope
 ```powershell
-{{ Add code here }}
+Stop-AzPolicyRemediation -ResourceGroupName "myRG" -Name "remediation1"
 ```
 
-```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
-```
+This command cancels the remediation named 'remediation1' in resource group 'myRG'.
 
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
+### Example 2: Cancel a management group remediation via piping
 ```powershell
-{{ Add code here }}
+$remediation = Get-AzPolicyRemediation -ManagementGroupName "mg1" -Name "remediation1"
+$remediation | Stop-AzPolicyRemediation
 ```
 
-```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
-```
-
-{{ Add description here }}
+This command cancels the remediation named 'remediation1' in management group 'mg1'.
 
 ## PARAMETERS
 
 ### -AsJob
-Run the command as a job, which completes when the remediation finishes being cancelled.
+Run the command as a job.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -184,7 +179,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceId
-Resource ID.
+ID of the resource that the remediation was made for or full Resource ID of the remediation.
 
 ```yaml
 Type: System.String
@@ -201,7 +196,7 @@ Accept wildcard characters: False
 ### -Scope
 Scope of the resource.
 E.g.
-'/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
+'/subscriptions/\{subscriptionId}/resourceGroups/\{rgName}'.
 
 ```yaml
 Type: System.String
@@ -217,6 +212,7 @@ Accept wildcard characters: False
 
 ### -SubscriptionId
 The ID of the target subscription.
+Uses current subscription if one isn't provided.
 
 ```yaml
 Type: System.String

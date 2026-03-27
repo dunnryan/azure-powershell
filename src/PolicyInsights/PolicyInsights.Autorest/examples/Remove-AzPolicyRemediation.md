@@ -1,22 +1,22 @@
-### Example 1: {{ Add title here }}
+### Example 1: Delete a policy remediation at resource group scope
 ```powershell
-{{ Add code here }}
+Remove-AzPolicyRemediation -ResourceGroupName "myRG" -Name "remediation1"
 ```
 
-```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
-```
+This command deletes the remediation named 'remediation1' in resource group 'myRG'.
 
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
+### Example 2: Delete a management group remediation via piping
 ```powershell
-{{ Add code here }}
+$remediation = Get-AzPolicyRemediation -ManagementGroupId "mg1" -Name "remediation1"
+$remediation | Remove-AzPolicyRemediation -Confirm
 ```
 
-```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
+This command deletes the remediation named 'remediation1' from management group 'mg1'. A confirmation prompt will be presented before deleting the resource.
+
+### Example 3: Cancel and delete a policy remediation
+```powershell
+Remove-AzPolicyRemediation -ResourceGroupName "myRG" -Name "remediation1" -AllowStop
 ```
 
-{{ Add description here }}
+This command deletes the remediation named 'remediation1' in resource group 'myRG'. If the remediation is in-progress it will be canceled before being deleted.
 

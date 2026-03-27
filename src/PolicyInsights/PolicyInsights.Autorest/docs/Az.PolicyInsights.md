@@ -27,26 +27,26 @@ Gets policy remediations.
 Gets policy compliance states for resources.
 
 ### [Get-AzPolicyStateSummary](Get-AzPolicyStateSummary.md)
-Summarizes policy states for the resources under the management group.
+Gets latest policy compliance states summary for resources.
 
 ### [New-AzPolicyAttestation](New-AzPolicyAttestation.md)
-Create an attestation at subscription scope.
+Creates a new policy attestation for a policy assignment.
 
 ### [Remove-AzPolicyAttestation](Remove-AzPolicyAttestation.md)
-Deletes an existing attestation at subscription scope.
+Deletes a policy attestation.
 
 ### [Remove-AzPolicyRemediation](Remove-AzPolicyRemediation.md)
-Deletes an existing remediation at management group scope.
+Deletes a policy remediation.
 
 ### [Start-AzPolicyComplianceScan](Start-AzPolicyComplianceScan.md)
-Triggers a policy evaluation scan for all the resources under the subscription or resource group scope.
+Triggers a policy compliance evaluation for all resources in a subscription or resource group.
 
 ### [Start-AzPolicyRemediation](Start-AzPolicyRemediation.md)
-Create a remediation at management group scope.
+Creates and starts a policy remediation for a policy assignment.
 
 ### [Stop-AzPolicyRemediation](Stop-AzPolicyRemediation.md)
-Cancels a remediation at management group scope.
+Cancels an in-progress policy remediation.
 
 ### [Update-AzPolicyAttestation](Update-AzPolicyAttestation.md)
-Update an attestation at resource scope.
+Modifies a policy attestation.
 

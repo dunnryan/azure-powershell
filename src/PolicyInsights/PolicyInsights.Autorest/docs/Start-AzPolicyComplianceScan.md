@@ -8,7 +8,7 @@ schema: 2.0.0
 # Start-AzPolicyComplianceScan
 
 ## SYNOPSIS
-Triggers a policy evaluation scan for all the resources under the subscription or resource group scope.
+Triggers a policy compliance evaluation for all resources in a subscription or resource group.
 
 ## SYNTAX
 
@@ -25,36 +25,38 @@ Start-AzPolicyComplianceScan [-ResourceGroupName <String>] [-DefaultProfile <PSO
 ```
 
 ## DESCRIPTION
-Triggers a policy evaluation scan for all the resources under the subscription or resource group scope.
+The **Start-AzPolicyComplianceScan** cmdlet starts a policy compliance evaluation for a subscription or resource group.
+
+All resources within that scope will have their compliance state evaluated against all assigned policies.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: Start a compliance scan at subscription scope
 ```powershell
-{{ Add code here }}
+Start-AzPolicyComplianceScan
 ```
 
-```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
-```
+This command starts a policy compliance evaluation for the active subscription.
 
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
+### Example 2: Start a compliance scan at resource group scope
 ```powershell
-{{ Add code here }}
+Start-AzPolicyComplianceScan -ResourceGroupName "myRG"
 ```
 
-```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
+This command starts a policy compliance evaluation for the "myRG" resource group in the active subscription.
+
+### Example 3: Start a compliance scan and wait for it to complete in the background
+```powershell
+$job = Start-AzPolicyComplianceScan -AsJob
+$job | Wait-Job
 ```
 
-{{ Add description here }}
+This command starts a policy compliance evaluation for the active subscription as a job, then it waits for the scan to complete.
 
 ## PARAMETERS
 
 ### -AsJob
-Run the command as a job
+Run the command as a job.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -130,7 +132,8 @@ Accept wildcard characters: False
 ```
 
 ### -SubscriptionId
-Microsoft Azure subscription ID.
+The ID of the target subscription.
+Uses current subscription if one isn't provided.
 
 ```yaml
 Type: System.String
@@ -179,8 +182,6 @@ Accept wildcard characters: False
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
-
-### Microsoft.Azure.PowerShell.Cmdlets.PolicyInsights.Models.IPolicyInsightsIdentity
 
 ## OUTPUTS
 

@@ -1,22 +1,21 @@
-### Example 1: {{ Add title here }}
+### Example 1: Get all policy metadata resources
 ```powershell
-{{ Add code here }}
+Get-AzPolicyMetadata
 ```
 
-```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
-```
+This command gets all policy metadata resources.
 
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
+### Example 2: Get a collection of 10 policy metadata resources
 ```powershell
-{{ Add code here }}
+Get-AzPolicyMetadata -Top 10
 ```
 
-```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
+This command gets a collection of 10 policy metadata resources.
+
+### Example 3: Get a single policy metadata resource with the name 'ACF1348'
+```powershell
+Get-AzPolicyMetadata -Name ACF1348
 ```
 
-{{ Add description here }}
-
+This command gets a single policy metadata resource with the name 'ACF1348'. 
+It will include a bit more info about the resource than collection calls.

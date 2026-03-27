@@ -1,22 +1,28 @@
-### Example 1: {{ Add title here }}
+### Example 1: Delete a policy remediation by name at subscription scope.
 ```powershell
-{{ Add code here }}
+Remove-AzPolicyAttestation -Name "attestation-subscription" -PassThru
 ```
 
 ```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
+True
 ```
 
-{{ Add description here }}
+This command deletes the attestation named 'attestation-subscription' in the current context's subscription. The `-PassThru` switch forces the cmdlet to return the status of the operation.
 
-### Example 2: {{ Add title here }}
+### Example 2: Delete a policy remediation via piping at resource group.
 ```powershell
-{{ Add code here }}
+$rgName = "ps-attestation-test-rg"
+Get-AzPolicyAttestation -Name "attestation-RG" -ResourceGroupName $rgName | Remove-AzPolicyAttestation
 ```
 
-```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
+This command deletes the attestation named 'attestation-RG' at resource group 'ps-attestation-test-rg' using input object given by the **Get-AzPolicyAttestation** cmdlet.
+
+### Example 3: Delete a policy remediation using ResourceId.
+```powershell
+$scope = "/subscriptions/d1acb22b-c876-44f7-b08e-3fcf9f6767f4/resourceGroups/ps-attestation-test-rg/providers/Microsoft.Network/networkSecurityGroups/pstests0"
+$attestationToDelete = Get-AzPolicyAttestation -Name "attestation-resource" -Scope $scope
+Remove-AzPolicyAttestation -Id $attestationToDelete.Id
 ```
 
-{{ Add description here }}
-
+The first command gets an attestation named 'attestation-resource' with a resource id supplied as scope.
+The second command then deletes the attestation using the resource id of the stored attestation.

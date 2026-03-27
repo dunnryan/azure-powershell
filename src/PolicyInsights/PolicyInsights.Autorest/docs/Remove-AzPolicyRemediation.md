@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-AzPolicyRemediation
 
 ## SYNOPSIS
-Deletes an existing remediation at management group scope.
+Deletes a policy remediation.
 
 ## SYNTAX
 
@@ -49,36 +49,44 @@ Remove-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-DefaultProfi
 ```
 
 ## DESCRIPTION
-Deletes an existing remediation at management group scope.
+The **Remove-AzPolicyRemediation** cmdlet deletes a policy remediation.
+
+The remediation must be in a terminal state in order to be deleted.
+
+However, this cmdlet has a switch that allows it to force a remediation to stop if it's still in progress and then will proceed to delete it.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: Delete a policy remediation at resource group scope
 ```powershell
-{{ Add code here }}
+Remove-AzPolicyRemediation -ResourceGroupName "myRG" -Name "remediation1"
 ```
 
-```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
-```
+This command deletes the remediation named 'remediation1' in resource group 'myRG'.
 
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
+### Example 2: Delete a management group remediation via piping
 ```powershell
-{{ Add code here }}
+$remediation = Get-AzPolicyRemediation -ManagementGroupId "mg1" -Name "remediation1"
+$remediation | Remove-AzPolicyRemediation -Confirm
 ```
 
-```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
+This command deletes the remediation named 'remediation1' from management group 'mg1'.
+A confirmation prompt will be presented before deleting the resource.
+
+### Example 3: Cancel and delete a policy remediation
+```powershell
+Remove-AzPolicyRemediation -ResourceGroupName "myRG" -Name "remediation1" -AllowStop
 ```
 
-{{ Add description here }}
+This command deletes the remediation named 'remediation1' in resource group 'myRG'.
+If the remediation is in-progress it will be canceled before being deleted.
 
 ## PARAMETERS
 
 ### -AllowStop
 Allow the remediation to be canceled if it is in-progress.
+Harmless if the remediation is already in a terminal state.
+Without this switch, the cmdlet will throw an error if the remediation is not in a terminal state.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -94,7 +102,6 @@ Accept wildcard characters: False
 
 ### -AsJob
 Run cmdlet in the background.
-Runs until request of deletion of Remediation is able to be made.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -200,7 +207,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceId
-Resource ID.
+ID of the resource that the remediation was made for or full Resource ID of the remediation.
 
 ```yaml
 Type: System.String
@@ -217,7 +224,7 @@ Accept wildcard characters: False
 ### -Scope
 Scope of the resource.
 E.g.
-'/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
+'/subscriptions/\{subscriptionId}/resourceGroups/\{rgName}'.
 
 ```yaml
 Type: System.String
@@ -233,6 +240,7 @@ Accept wildcard characters: False
 
 ### -SubscriptionId
 The ID of the target subscription.
+Uses current subscription if one isn't provided.
 
 ```yaml
 Type: System.String

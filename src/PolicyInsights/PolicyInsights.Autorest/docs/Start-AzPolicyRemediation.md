@@ -8,7 +8,7 @@ schema: 2.0.0
 # Start-AzPolicyRemediation
 
 ## SYNOPSIS
-Create a remediation at management group scope.
+Creates and starts a policy remediation for a policy assignment.
 
 ## SYNTAX
 
@@ -67,37 +67,92 @@ Start-AzPolicyRemediation -InputObject <IPolicyInsightsIdentity> [-FailureThresh
 ```
 
 ## DESCRIPTION
-Create a remediation at management group scope.
+The **Start-AzPolicyRemediation** cmdlet creates a policy remediation for a particular policy assignment.
+
+All non-compliant resources at or below the remediation's scope will be remediated.
+
+This cmdlet can also be used to restart a previously created Remediation that is in a terminal state.
+
+Remediation is only supported for policies with the 'deployIfNotExists' and 'modify' effect.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: Start a remediation at subscription scope
 ```powershell
-{{ Add code here }}
+$policyAssignmentId = "/subscriptions/f0710c27-9663-4c05-19f8-1b4be01e86a5/providers/Microsoft.Authorization/policyAssignments/2deae24764b447c29af7c309"
+Start-AzPolicyRemediation -PolicyAssignmentId $policyAssignmentId -Name "remediation1" -NoWait
 ```
 
-```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
-```
+This command creates a new policy remediation in the current context's subscription for the provided policy assignment.
+The cmdlet will return immediately after the remediation is created without waiting for the remediation to complete.
 
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
+### Example 2: Start a remediation at management group scope with optional filters
 ```powershell
-{{ Add code here }}
+$policyAssignmentId = "/providers/Microsoft.Management/managementGroups/mg1/providers/Microsoft.Authorization/policyAssignments/pa1"
+Start-AzPolicyRemediation -ManagementGroupId "mg1" -PolicyAssignmentId $policyAssignmentId -Name "remediation1" -FilterLocation "westus","eastus"
 ```
 
-```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
+This command creates a new policy remediation in management group 'mg1' for the given policy assignment.
+Only resources in the 'westus' or 'eastus' locations will be remediated.
+
+### Example 3: Start a remediation at resource group scope for a policy set definition assignment
+```powershell
+$policyAssignmentId = "/subscriptions/f0710c27-9663-4c05-19f8-1b4be01e86a5/resourceGroups/myRG/providers/Microsoft.Authorization/policyAssignments/2deae24764b447c29af7c309"
+Start-AzPolicyRemediation -ResourceGroupName "myRG" -PolicyAssignmentId $policyAssignmentId -PolicyDefinitionReferenceId "0349234412441" -Name "remediation1"
 ```
 
-{{ Add description here }}
+This command creates a new policy remediation in resource group 'myRG' for the given policy assignment.
+The policy assignment assigns a policy set definition (also known as an initiative).
+The policy definition reference ID indicates which policy within the initiative should be remediated.
+
+### Example 4: Start a remediation and wait for it to complete in the background
+```powershell
+$policyAssignmentId = "/subscriptions/f0710c27-9663-4c05-19f8-1b4be01e86a5/providers/Microsoft.Authorization/policyAssignments/2deae24764b447c29af7c309"
+$job = Start-AzPolicyRemediation -PolicyAssignmentId $policyAssignmentId -Name "remediation1" -AsJob
+$job | Wait-Job
+$remediation = $job | Receive-Job
+```
+
+This command starts a new policy remediation in the current context's subscription with the provided policy assignment.
+It will wait for the remediation to complete before returning the final remediation status.
+
+### Example 5: Start a remediation that will discover non-compliant resources before remediating
+```powershell
+$policyAssignmentId = "/subscriptions/f0710c27-9663-4c05-19f8-1b4be01e86a5/providers/Microsoft.Authorization/policyAssignments/2deae24764b447c29af7c309"
+Start-AzPolicyRemediation -PolicyAssignmentId $policyAssignmentId -Name "remediation1" -ResourceDiscoveryMode ReEvaluateCompliance
+```
+
+This command creates a new policy remediation in  the current context's subscription with the provided policy assignment.
+The compliance state of resources in the subscription will be re-evaluated against the policy assignment and non-compliant resources will be remediated.
+
+### Example 6: Start a remediation that will remediate up to 10,000 non-compliant resources
+```powershell
+$policyAssignmentId = "/subscriptions/f0710c27-9663-4c05-19f8-1b4be01e86a5/providers/Microsoft.Authorization/policyAssignments/2deae24764b447c29af7c309"
+Start-AzPolicyRemediation -PolicyAssignmentId $policyAssignmentId -Name "remediation1" -ResourceCount 10000
+```
+
+
+
+### Example 7: Start a remediation that will remediate 30 resources in parallel
+```powershell
+$policyAssignmentId = "/subscriptions/f0710c27-9663-4c05-19f8-1b4be01e86a5/providers/Microsoft.Authorization/policyAssignments/2deae24764b447c29af7c309"
+Start-AzPolicyRemediation -PolicyAssignmentId $policyAssignmentId -Name "remediation1" -ParallelDeploymentCount 30
+```
+
+
+
+### Example 8: Start a remediation that will terminate if more than half of the remediation deployments fail
+```powershell
+$policyAssignmentId = "/subscriptions/f0710c27-9663-4c05-19f8-1b4be01e86a5/providers/Microsoft.Authorization/policyAssignments/2deae24764b447c29af7c309"
+Start-AzPolicyRemediation -PolicyAssignmentId $policyAssignmentId -Name "remediation1" -FailureThreshold 0.5
+```
+
+
 
 ## PARAMETERS
 
 ### -AsJob
 Run cmdlet in the background.
-Runs until terminal state of Remediation is reached.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -145,7 +200,9 @@ Accept wildcard characters: False
 ```
 
 ### -FilterLocation
-The resource locations that will be remediated.
+The resource locations that should be included in the remediation.
+
+Resources that don't reside in these locations will not be remediated.
 
 ```yaml
 Type: System.String[]
@@ -162,7 +219,8 @@ Accept wildcard characters: False
 ### -FilterResourceId
 The IDs of the resources that will be remediated.
 Can specify at most 100 IDs.
-This filter cannot be used when ReEvaluateCompliance is set to ReEvaluateCompliance, and cannot be empty if provided.
+This filter cannot be used when ReEvaluateCompliance is set to ReEvaluateCompliance.
+This filter cannot be empty if provided, or the remediation won't target any resources.
 
 ```yaml
 Type: System.String[]
@@ -222,7 +280,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoWait
-Run the command asynchronously
+Run the command asynchronously.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -255,6 +313,8 @@ Accept wildcard characters: False
 
 ### -PolicyAssignmentId
 The resource ID of the policy assignment that should be remediated.
+E.g.
+'/subscriptions/\{subscriptionId}/providers/Microsoft.Authorization/policyAssignments/\{assignmentName}'.
 
 ```yaml
 Type: System.String
@@ -285,7 +345,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceCount
-Determines the max number of resources that can be remediated by the remediation job.
+Determines the max number of non-compliant resources that can be remediated by the remediation job.
 If not provided, the default resource count is used.
 
 ```yaml
@@ -301,7 +361,8 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceDiscoveryMode
-The way resources to remediate are discovered.
+Describes how the remediation task will discover resources that need to be remediated.
+ReEvaluateCompliance is not supported when remediating management group scopes.
 Defaults to ExistingNonCompliant if not specified.
 
 ```yaml
@@ -332,7 +393,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceId
-Resource ID.
+ID of the resource that the remediation is being created for.
 
 ```yaml
 Type: System.String
@@ -349,7 +410,7 @@ Accept wildcard characters: False
 ### -Scope
 Scope of the resource.
 E.g.
-'/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
+'/subscriptions/\{subscriptionId}/resourceGroups/\{rgName}'.
 
 ```yaml
 Type: System.String
@@ -365,6 +426,7 @@ Accept wildcard characters: False
 
 ### -SubscriptionId
 The ID of the target subscription.
+Uses current subscription if one isn't provided.
 
 ```yaml
 Type: System.String

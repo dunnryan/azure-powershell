@@ -1,22 +1,14 @@
-### Example 1: {{ Add title here }}
+### Example 1: Cancel a policy remediation at resource group scope
 ```powershell
-{{ Add code here }}
+Stop-AzPolicyRemediation -ResourceGroupName "myRG" -Name "remediation1"
 ```
 
-```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
-```
+This command cancels the remediation named 'remediation1' in resource group 'myRG'.
 
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
+### Example 2: Cancel a management group remediation via piping
 ```powershell
-{{ Add code here }}
+$remediation = Get-AzPolicyRemediation -ManagementGroupName "mg1" -Name "remediation1"
+$remediation | Stop-AzPolicyRemediation
 ```
 
-```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
-```
-
-{{ Add description here }}
-
+This command cancels the remediation named 'remediation1' in management group 'mg1'.

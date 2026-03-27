@@ -83,27 +83,28 @@ The **Get-AzPolicyRemediation** cmdlet gets all policy remediations in a scope o
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: Get all policy remediations in the current subscription
 ```powershell
-{{ Add code here }}
+Get-AzPolicyRemediation
 ```
 
-```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
-```
+This command gets all the remediations created at or underneath the subscription in the current context.
 
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
+### Example 2: Get a specific policy remediation and the deployment details
 ```powershell
-{{ Add code here }}
+Get-AzPolicyRemediation -ResourceGroupName "myResourceGroup" -Name "remediation1" -IncludeDetail
 ```
 
-```output
-{{ Add output here (remove the output block if the example doesn't have an output) }}
+This command gets the remediation named 'remediation1' from resource group 'myResourceGroup'.
+The details of the deployments created by the remediation will be included.
+
+### Example 3: Get 10 policy remediations in a management group with optional filters
+```powershell
+Get-AzPolicyRemediation -ManagementGroupId "mg1" -Top 10 -Filter "PolicyAssignmentId eq '/providers/Microsoft.Management/managementGroups/mg1/providers/Microsoft.Authorization/policyAssignments/pa1'"
 ```
 
-{{ Add description here }}
+This command gets a max of 10 policy remediations from a management group named 'mg1'.
+Only policy remediations for the given policy assignment will be retrieved.
 
 ## PARAMETERS
 
@@ -231,7 +232,7 @@ Accept wildcard characters: False
 ### -Scope
 Scope of the remediations.
 E.g.
-'/subscriptions/{subscriptionId}/resourceGroups/{rgName}'.
+'/subscriptions/\{subscriptionId}/resourceGroups/\{rgName}'.
 
 ```yaml
 Type: System.String
