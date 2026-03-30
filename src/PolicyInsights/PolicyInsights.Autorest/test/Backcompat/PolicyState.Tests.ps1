@@ -21,7 +21,7 @@ Describe 'Get-AzPolicyState' {
     BeforeAll {
         # set up commonly used variables
         $managementGroupName = $env.managementGroup
-        $from = Get-TestQueryIntervalStart
+        $from = $env.fromDate
         $resourceGroupName = $env.firstRgName
         $resourceId = $env.testResourceId
         $policySetDefinitionName = $env.policySetDefName
@@ -169,7 +169,7 @@ Describe 'Get-AzPolicyState' {
     }
 
     It 'QueryResultsWithTo' {
-	      $to = Get-TestQueryIntervalEnd
+	      $to = $env.toDate
 
 	      $policyStates = Get-AzPolicyState -To $to -Top 10
 	      Validate-PolicyStates $policyStates 10

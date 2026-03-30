@@ -405,6 +405,10 @@ function setupEnv() {
     $env['attestationSetResourcePolicyAssignmentId'] = "/subscriptions/$($env.SubscriptionId)/providers/Microsoft.Authorization/policyAssignments/$($env.attestationSetAssignmentNameResource)"
     $env['attestationSetResourcePolicyRefId'] = "$($env.manualPolicyDefNameResource)_1"
 
+    # date values that we want saved for playback runs
+    $env['fromDate'] = Get-TestQueryIntervalStart
+    $env['toDate'] = Get-TestQueryIntervalEnd
+
     # --- BELOW SECTION IS ENVIRONMENT SETUP --- 
 
     # Connect

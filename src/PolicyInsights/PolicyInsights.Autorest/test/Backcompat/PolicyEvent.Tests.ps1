@@ -20,7 +20,7 @@ Describe 'Get-AzPolicyEvent' {
 
     BeforeAll {
         $managementGroupName = $env.managementGroup
-        $from = Get-TestQueryIntervalStart
+        $from = $env.fromDate
         $resourceGroupName = $env.firstRgName
     }
 

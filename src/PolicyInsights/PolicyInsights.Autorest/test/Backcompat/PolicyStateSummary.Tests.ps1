@@ -21,7 +21,7 @@ Describe 'Get-AzPolicyStateSummary' {
     BeforeAll {
         # set up commonly used variables
         $managementGroupName = $env.managementGroup
-        $from = Get-TestQueryIntervalStart
+        $from = $env.fromDate
         $resourceGroupName = $env.firstRgName
         $resourceId = $env.testResourceId
         $policySetDefinitionName = $env.policySetDefName
