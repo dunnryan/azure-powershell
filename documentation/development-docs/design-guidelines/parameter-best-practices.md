@@ -1,21 +1,60 @@
 # Parameter Best Practices
 
+<<<<<<< HEAD
+=======
+- [Parameter Guidelines](#parameter-guidelines)
+  - [Parameter Naming Conventions](#parameter-naming-conventions)
+    - [Standard Parameter Name](#standard-parameter-name)
+    - [Pascal Case](#pascal-case)
+    - [Acronyms](#acronyms)
+    - [Singularity](#singularity)
+    - [Parameter Alias](#parameter-alias)
+  - [Parameter Types](#parameter-types)
+    - [Valid Parameter Types](#valid-parameter-types)
+    - [Consistent Parameter Types](#consistent-parameter-types)
+    - [Array vs. Enumerable Types](#array-vs-enumerable-types)
+    - [Secret Parameters](#secret-parameters)
+    - [Bool vs. SwitchParameter](#bool-vs-switchparameter)
+  - [Argument Completers](#argument-completers)
+    - [Resource Group Completer](#resource-group-completer)
+    - [Resource Name Completer](#resource-name-completer)
+    - [Location Completer](#location-completer)
+    - [Generic Argument Completer](#generic-argument-completer)
+- [Parameter Set Guidelines](#parameter-set-guidelines)
+  - [Parameter Set Naming Conventions](#parameter-set-naming-conventions)
+    - [Pascal Case](#pascal-case-1)
+  - [Attribute Guidelines](#attribute-guidelines)
+    - [Mutually Exclusive Parameter Sets](#mutually-exclusive-parameter-sets)
+    - [Positional Parameters Limit](#positional-parameters-limit)
+    - [ValueFromPipeline Limit](#valuefrompipeline-limit)
+- [Appendix: Parameter Syntax](#appendix-parameter-syntax)
+
+>>>>>>> upstream
 ## Parameter Guidelines
 
 ### Parameter Naming Conventions
 
 The following are naming conventions to keep in mind when coming up with a name for your parameters.
 
+<<<<<<< HEAD
 In addition, a recommended list of parameter names can be found [here](https://learn.microsoft.com/en-us/powershell/developer/cmdlet/standard-cmdlet-parameter-names-and-types).
 
 #### Standard Parameter Name
 
 From the [_Strongly Encouraged Development Guidelines_](https://learn.microsoft.com/en-us/powershell/developer/cmdlet/strongly-encouraged-development-guidelines#use-standard-parameter-names):
+=======
+In addition, a recommended list of parameter names can be found [here](https://learn.microsoft.com/en-us/powershell/scripting/developer/cmdlet/standard-cmdlet-parameter-names-and-types).
+
+#### Standard Parameter Name
+
+From the [_Strongly Encouraged Development Guidelines_](https://learn.microsoft.com/en-us/powershell/scripting/developer/cmdlet/strongly-encouraged-development-guidelines#use-standard-parameter-names):
+>>>>>>> upstream
 
 > _Your cmdlet should use standard parameter names so that the user can quickly determine what a particular parameter means. If a more specific name is required, use a standard parameter name, and then specify a more specific name as an alias. For example, the `Get-Service` cmdlet has a parameter that has a generic name (**Name**) and a more specific alias (**ServiceName**). Both terms can be used to specify the parameter._
 
 #### Pascal Case
 
+<<<<<<< HEAD
 Similar to cmdlets, parameters should follow pascal casing.From the [_Strongly Encouraged Development Guidelines_](https://learn.microsoft.com/en-us/powershell/developer/cmdlet/strongly-encouraged-development-guidelines#use-pascal-case-for-parameter-names):
 
 > _Use Pascal case for parameter names. In other words, capitalize the first letter of each word in the parameter name, including the first letter of the name._
@@ -23,11 +62,30 @@ Similar to cmdlets, parameters should follow pascal casing.From the [_Strongly E
 #### Singularity
 
 From the [_Strongly Encouraged Development Guidelines_](https://learn.microsoft.com/en-us/powershell/developer/cmdlet/strongly-encouraged-development-guidelines#use-singular-parameter-names):
+=======
+Similar to cmdlets, parameters should follow pascal casing.From the [_Strongly Encouraged Development Guidelines_](https://learn.microsoft.com/en-us/powershell/scripting/developer/cmdlet/strongly-encouraged-development-guidelines#use-pascal-case-for-parameter-names):
+
+> _Use Pascal case for parameter names. In other words, capitalize the first letter of each word in the parameter name, including the first letter of the name._
+
+#### Acronyms
+Do capitalize both characters of two-character acronyms. For example,-*VM*ScaleSetName.
+
+Do capitalize only the first character of acronyms with three or more characters, which aligned with Pascal case. For example, -*Fqdn* and -*Vmss*Name.
+
+#### Singularity
+
+From the [_Strongly Encouraged Development Guidelines_](https://learn.microsoft.com/en-us/powershell/scripting/developer/cmdlet/strongly-encouraged-development-guidelines#use-singular-parameter-names):
+>>>>>>> upstream
 
 > _Avoid using plural names for parameters whose value is a single element. This includes parameters that take arrays or lists because the user might supply an array or list with only one element._
 >
 > _Plural parameter names should be used only in those cases where the value of the parameter is always a multiple-element value. In these cases, the cmdlet should verify that multiple elements are supplied, and the cmdlet should display a warning to the user if multiple elements are not supplied._
 
+<<<<<<< HEAD
+=======
+A common exception to this guideline is with units, e.g. `-IntervalInSeconds`, `-MaxSizeInMegabytes`.
+
+>>>>>>> upstream
 #### Parameter Alias
 
 If you there is a separate nomenclature for the parameter name, or if you would like to shorten the name of the parameter so it's easier to remember, you can add an alias attribute to your parameter to allow for this functionality.
@@ -40,7 +98,11 @@ The type of parameters should always be defined; a parameter should never be of 
 
 #### Consistent Parameter Types
 
+<<<<<<< HEAD
 From the [_Strongly Encouraged Development Guidelines_](https://learn.microsoft.com/en-us/powershell/developer/cmdlet/strongly-encouraged-development-guidelines#use-consistent-parameter-types):
+=======
+From the [_Strongly Encouraged Development Guidelines_](https://learn.microsoft.com/en-us/powershell/scripting/developer/cmdlet/strongly-encouraged-development-guidelines#use-consistent-parameter-types):
+>>>>>>> upstream
 
 > _When the same parameter is used by multiple cmdlets, always use the same parameter type. For example, if the **Process** parameter is an **Int16** type for one cmdlet, do not make the **Process** parameter for another cmdlet a **UInt16** type._
 
@@ -48,13 +110,27 @@ From the [_Strongly Encouraged Development Guidelines_](https://learn.microsoft.
 
 For parameters that require a collection of elements to be provided, use an array instead of any other enumerable type to represent this collection.
 
+<<<<<<< HEAD
 From the [_Strongly Encouraged Development Guidelines_](https://learn.microsoft.com/en-us/powershell/developer/cmdlet/strongly-encouraged-development-guidelines#support-arrays-for-parameters):
+=======
+From the [_Strongly Encouraged Development Guidelines_](https://learn.microsoft.com/en-us/powershell/scripting/developer/cmdlet/strongly-encouraged-development-guidelines#support-arrays-for-parameters):
+>>>>>>> upstream
 
 > _Frequently, users must perform the same operation against multiple arguments. For these users, a cmdlet should accept an array as parameter input so that a user can pass the arguments into the parameter as a Windows PowerShell variable. For example, the `Get-Process` cmdlet uses an array for the strings that identify the names of the processes to retrieve._
 
 #### Secret Parameters
 
+<<<<<<< HEAD
 For parameters that represent a value that should be kept secret in some fashion (such as a password, secret, key, etc.), the type of the parameter should be `SecureString` to avoid any sensitive information about the parameter from leaking during cmdlet execution.
+=======
+For parameters whose type is string and which represent a value that should be kept secret in some fashion (such as a password, secret, key, etc.), the type of the parameter should be [SecureString](https://learn.microsoft.com/dotnet/api/system.security.securestring) to limit the exposure of sensitive string data from unexpected leakage during cmdlet execution. The practice also applies to output properties whose type is string and that should be kept in secret.
+
+Please notice that DO NOT use `SecureString` for encryption purposes. We only recommend to use `SecureString` as a wrapper of string to prevent unexpected leakage of information as string may still be exposed to any process or operation that has access to raw memory.
+
+From [How secure is SecureString?](https://learn.microsoft.com/dotnet/api/system.security.securestring#how-secure-is-securestring)
+
+> _SecureString is more secure than String because it limits the exposure of sensitive string data. However, those strings may still be exposed to any process or operation that has access to raw memory, such as a malicious process running on the host computer, a process dump, or a user-viewable swap file. Instead of using SecureString to protect passwords, the recommended alternative is to use an opaque handle to credentials that are stored outside of the process._
+>>>>>>> upstream
 
 #### Bool vs. SwitchParameter
 
@@ -126,7 +202,11 @@ The following are naming conventions to keep in mind when coming up with a name 
 
 #### Pascal Case
 
+<<<<<<< HEAD
 Similar to parameters (mentioned above), parameter set names should follow pascal casing. From the [_Strongly Encouraged Development Guidelines_](https://learn.microsoft.com/en-us/powershell/developer/cmdlet/strongly-encouraged-development-guidelines#use-pascal-case-for-cmdlet-names-sd02):
+=======
+Similar to parameters (mentioned above), parameter set names should follow pascal casing. From the [_Strongly Encouraged Development Guidelines_](https://learn.microsoft.com/en-us/powershell/scripting/developer/cmdlet/strongly-encouraged-development-guidelines#use-pascal-case-for-cmdlet-names-sd02):
+>>>>>>> upstream
 
 > _Use Pascal case for cmdlet names. In other words, capitalize the first letter of the verb and all terms used in the noun. For example, "Clear-ItemProperty"._
 
@@ -136,22 +216,70 @@ The following are guidelines that should be followed when working with the attri
 
 #### Mutually Exclusive Parameter Sets
 
+<<<<<<< HEAD
 For PowerShell to determine which parameter set a user is intending to use with a set of provided parameters, the parameter sets need to be designed in such a way that they are mutually exclusive. From the remarks section of [_Parameter Attribute Declaration_](https://learn.microsoft.com/en-us/powershell/developer/cmdlet/parameter-attribute-declaration#remarks):
+=======
+For PowerShell to determine which parameter set a user is intending to use with a set of provided parameters, the parameter sets need to be designed in such a way that they are mutually exclusive. From the remarks section of [_Parameter Attribute Declaration_](https://learn.microsoft.com/en-us/powershell/scripting/developer/cmdlet/parameter-attribute-declaration#remarks):
+>>>>>>> upstream
 
 > _Each parameter set must have at least one unique parameter. Good cmdlet design indicates this unique parameter should also be mandatory if possible. If your cmdlet is designed to be run without parameters, the unique parameter cannot be mandatory._
 
 #### Positional Parameters Limit
 
+<<<<<<< HEAD
 It is possibile to call a PowerShell cmdlet without providing the parameter names, but just the values you would like to pass through. This is done by specifying the position at which the value of each parameter should be provided by using the `Position` property for a parameter.  However, when there are too many positional parameters in a single parameter set, it can be difficult for the user to remember the exact ordering in which the parameter values should be provided. From the remarks section of [_Parameter Attribute Declaration_](https://learn.microsoft.com/en-us/powershell/developer/cmdlet/parameter-attribute-declaration#remarks):
 
 > _When you specify positional parameters, limit the number of positional parameters in a parameter set to less than five. And, positional parameters do not have to be contiguous. Positions 5, 100, and 250 work the same as positions 0, 1, and 2._
 
 In addition, there should be no two parameters with the same position in the same parameter set. From the remarks section of [_Parameter Attribute Declaration_](https://learn.microsoft.com/en-us/powershell/developer/cmdlet/parameter-attribute-declaration#remarks):
+=======
+It is possible to call a PowerShell cmdlet without providing the parameter names, but just the values you would like to pass through. This is done by specifying the position at which the value of each parameter should be provided by using the `Position` property for a parameter.  However, when there are too many positional parameters in a single parameter set, it can be difficult for the user to remember the exact ordering in which the parameter values should be provided. From the remarks section of [_Parameter Attribute Declaration_](https://learn.microsoft.com/en-us/powershell/scripting/developer/cmdlet/parameter-attribute-declaration#remarks):
+
+> _When you specify positional parameters, limit the number of positional parameters in a parameter set to less than five. And, positional parameters do not have to be contiguous. Positions 5, 100, and 250 work the same as positions 0, 1, and 2._
+
+In addition, there should be no two parameters with the same position in the same parameter set. From the remarks section of [_Parameter Attribute Declaration_](https://learn.microsoft.com/en-us/powershell/scripting/developer/cmdlet/parameter-attribute-declaration#remarks):
+>>>>>>> upstream
 
 > _No parameter set should contain more than one positional parameter with the same position._
 
 #### ValueFromPipeline Limit
 
+<<<<<<< HEAD
 Allowing the user to pipe an object from one cmdlet to another is a major scenario in PowerShell, but allowing multiple parameters in the same parameter set to accept their value from the pipeline can cause issues. From the remarks section of [_Parameter Attribute Declaration_](https://learn.microsoft.com/en-us/powershell/developer/cmdlet/parameter-attribute-declaration#remarks):
 
 > _Only one parameter in a parameter set should declare ValueFromPipeline = true. Multiple parameters can define ValueFromPipelineByPropertyName = true._
+=======
+Allowing the user to pipe an object from one cmdlet to another is a major scenario in PowerShell, but allowing multiple parameters in the same parameter set to accept their value from the pipeline can cause issues. From the remarks section of [_Parameter Attribute Declaration_](https://learn.microsoft.com/en-us/powershell/scripting/developer/cmdlet/parameter-attribute-declaration#remarks):
+
+> _Only one parameter in a parameter set should declare ValueFromPipeline = true. Multiple parameters can define ValueFromPipelineByPropertyName = true._
+
+
+## Appendix: Parameter Syntax
+
+In PowerShell documentation, square brackets (`[]`) indicate optional.
+Convention is as follows:
+
+```powershell
+command-name
+    -RequiredParameterName <RequiredParameterValue>
+    [-OptionalParameterName <OptionalParameterValue>]
+    [-OptionalSwitchParameters]
+    [-OptionalParameterName] <RequiredParameterValue>
+```
+
+Using `New-Alias` cmdlet as an example:
+
+```powershell
+New-Alias
+    [-Name] <string>             # required 'positional' parameter
+    [-Value] <string>
+    [-Description <string>]      # optional parameter
+    [-Force]                     # optional switch parameter (all switch parameters are optional, non-positional)
+    [-Option {None | ReadOnly | Constant | Private | AllScope}]
+    [-PassThru]
+    [-Scope <string>]
+    [-Confirm]
+    [-WhatIf]
+    [<CommonParameters>]
+```
+>>>>>>> upstream

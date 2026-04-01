@@ -35,12 +35,20 @@
     <!-- General -->
     <Configuration Condition="'$(Configuration)' != 'Release'">Debug</Configuration>
     <Scope Condition="$(Scope) == ''">All</Scope>
+<<<<<<< HEAD
     <TestFramework Condition="'$(TestFramework)' == ''">netcoreapp2.2</TestFramework>
+=======
+    <TestFramework Condition="'$(TestFramework)' == ''">net8.0</TestFramework>
+>>>>>>> upstream
     <IsGenerateBased Condition="'$(IsGenerateBased)' != 'true'">false</IsGenerateBased>
     <IsSecurityCheck Condition="'$(IsSecurityCheck)' != 'true'">false</IsSecurityCheck>
     <ModifiedModuleBuild Condition="'$(ModifiedModuleBuild)' != 'true'">false</ModifiedModuleBuild>
 
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> upstream
     <!-- Flags -->
     <CodeSign Condition ="'$(CodeSign)' == ''">false</CodeSign>
     <SkipHelp Condition ="'$(SkipHelp)' != 'true'">false</SkipHelp>
@@ -106,7 +114,10 @@
   <UsingTask Condition="$(OnPremiseBuild)" TaskName="CorporateValidation" AssemblyFile="$(CIToolsPath)/Microsoft.WindowsAzure.Tools.Build.Tasks.OnPremise.dll" />
   <Import Condition="$(OnPremiseBuild)" Project="$(CIToolsPath)/Microsoft.WindowsAzure.Build.OnPremise.msbuild" />
   <UsingTask TaskName="ESRPSignTask" AssemblyFile="$(CISignRepoPath)/tools/sdkbuildtools/tasks/MS.Az.Sdk.OnPremise.Build.Tasks.dll" />
+<<<<<<< HEAD
   <UsingTask TaskName="FilesChangedTask" AssemblyFile="$(RepoArtifacts)Microsoft.Azure.Build.Tasks/Microsoft.Azure.Build.Tasks.dll" />
+=======
+>>>>>>> upstream
   <UsingTask TaskName="CIFilterTask" AssemblyFile="$(RepoArtifacts)Microsoft.Azure.Build.Tasks/Microsoft.Azure.Build.Tasks.dll" />
 
   <Target Name="Clean">
@@ -124,13 +135,18 @@
     <Exec Command="dotnet publish $(RepoTools)StaticAnalysis/StaticAnalysis.Netcore.csproj -c $(Configuration)" />
   </Target>
 
+<<<<<<< HEAD
   <Target Name="FilterBuild" Condition="$(PullRequestNumber) != ''" DependsOnTargets="BuildTools">
+=======
+  <Target Name="FilterBuild" DependsOnTargets="BuildTools">
+>>>>>>> upstream
     <Message Importance="high" Text="Filtering projects and modules..." />
 
     <Message Text="$(IsGenerateBased)" />
     <!-- Build the Microsoft.Azure.Build.Tasks project -->
     <Exec Command="dotnet publish $(RepoTools)BuildPackagesTask/Microsoft.Azure.Build.Tasks/Microsoft.Azure.Build.Tasks.csproj -c $(Configuration)" />
 
+<<<<<<< HEAD
     <!-- Get all of the files changed in the given pull request -->
     <FilesChangedTask RepositoryOwner="Azure" RepositoryName="azure-powershell" PullRequestNumber="$(PullRequestNumber)"  OutputFile="$(RepoArtifacts)FilesChanged.txt">
       <Output TaskParameter="FilesChanged" ItemName="FilesChanged" />
@@ -149,17 +165,35 @@
 
   <!-- Build all flavors of the Cmdlets -->
   <Target Name="Build" DependsOnTargets="FilterBuild">
+=======
+    <Exec Command="$(PowerShellCoreCommandPrefix) &quot;$(RepoTools)/CreateFilterMappings.ps1&quot;" />
+    <Exec Command="$(PowerShellCoreCommandPrefix) &quot;$(RepoTools)/PrepareForSecurityCheck.ps1&quot;" Condition="'$(IsSecurityCheck)' == 'true'"/>
+
+    <CIFilterTask FilesChangedPath="$(FilesChangedOutputPath)" Mode="$(Configuration)" SubTasksFilePath="$(SubTasksFilePath)" CsprojMapFilePath="./CsprojMappings.json"></CIFilterTask>
+  </Target>
+
+  <!-- Build all flavors of the Cmdlets -->
+  <Target Name="Build">
+>>>>>>> upstream
     <Message Importance="high" Text="Building Cmdlets..." />
 
     <MakeDir Directories="$(RepoArtifacts)" />
 
     <!-- Copy appropriate targets -->
     <Copy SourceFiles="$(RepoTools)after.Azure.PowerShell.sln.targets" DestinationFolder="$(RepoArtifacts)" />
+<<<<<<< HEAD
 
     <!-- Build and create package content -->
     <CallTarget Targets="BuildNormalModules" />
     <CallTarget Targets="AzToolsPredictor" Condition="$(SubTasks.Contains('Predictor')) OR $(SubTasks.Contains('all'))" />
     <CallTarget Targets="AzToolsInstaller" Condition="$(SubTasks.Contains('Installer')) OR $(SubTasks.Contains('all'))" />
+=======
+    <!-- Build and create package content -->
+    <Exec Command="$(PowerShellCoreCommandPrefix) &quot;./tools/BuildScripts/BuildModules.ps1 -RepoRoot $(RepoRoot) -Configuration $(Configuration)" />
+
+    <!-- Build version controller -->
+    <Exec Command="dotnet build $(RepoTools)VersionController/VersionController.Netcore.csproj -c $(Configuration)" />
+>>>>>>> upstream
   </Target>
 
   <Target Name="BuildNormalModules">
@@ -341,4 +375,8 @@ $(RepoArtifacts)$(Configuration)/**/Microsoft.Azure.PowerShell.Authenticators.dl
     <SetEnvVar EnvName="SignedMsiDir" EnvValue="$(SignedOutputRootDir)" />
   </Target>
 
+<<<<<<< HEAD
 </Project>
+=======
+</Project>
+>>>>>>> upstream

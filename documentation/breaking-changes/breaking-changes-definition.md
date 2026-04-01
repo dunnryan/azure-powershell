@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+> **WARNING:**<br>
+> **This page is moved to [Breaking Change Definition](https://eng.ms/docs/cloud-ai-platform/azure-core/azure-management-and-platforms/control-plane-bburns/azure-cli-tools-azure-cli-powershell-and-terraform/azure-cli-tools/devguide/azps/breaking-change/breaking-changes-definition). DO NOT UPDATE IT HERE!**<br>
+
+>>>>>>> upstream
 # Breaking Change Definition
 
 This document lists the various types of breaking changes and how to call them out in your code using the [breaking change attributes](./breaking-changes-attribute-help.md).
@@ -6,9 +12,15 @@ Breaking changes in cmdlets are defined as follows:
 
 # Cmdlets
 - Removing a cmdlet
+<<<<<<< HEAD
   - Use the breaking change attribute ["CmdletDeprecationAttribute"](./breaking-changes-attribute-help.md#cmdletdeprecationattribute), more specificallly the ["cmdlet deprecation without replacement"](./breaking-changes-attribute-help.md#when-there-is-no-replacement-cmdlet) option
 - Changing a cmdlet name without an alias to the original name
   - Use the breaking change attribute ["CmdletDeprecationAttribute"](./breaking-changes-attribute-help.md#cmdletdeprecationattribute), more specificallly the ["cmdlet deprecation with replacement"](./breaking-changes-attribute-help.md#when-there-is-a-replacement-cmdlet) option
+=======
+  - Use the breaking change attribute ["CmdletDeprecationAttribute"](./breaking-changes-attribute-help.md#cmdletdeprecationattribute), more specifically the ["cmdlet deprecation without replacement"](./breaking-changes-attribute-help.md#when-there-is-no-replacement-cmdlet) option
+- Changing a cmdlet name without an alias to the original name
+  - Use the breaking change attribute ["CmdletDeprecationAttribute"](./breaking-changes-attribute-help.md#cmdletdeprecationattribute), more specifically the ["cmdlet deprecation with replacement"](./breaking-changes-attribute-help.md#when-there-is-a-replacement-cmdlet) option
+>>>>>>> upstream
 - Removing or changing a cmdlet alias
   - Use the generic breaking change attribute ["GenericBreakingChangeAttribute"](./breaking-changes-attribute-help.md#genericbreakingchangeattribute) with a [simple message](./breaking-changes-attribute-help.md#with-a-simple-message) calling out the alias that is being deprecated
 - Removing a cmdlet attribute option (`SupportShouldProcess`, `SupportsPaging`)
@@ -25,11 +37,19 @@ Breaking changes in cmdlets are defined as follows:
   - Use the parameter breaking change attribute ["CmdletParameterBreakingChangeAttribute"](./breaking-changes-attribute-help.md#cmdletparameterbreakingchangeattribute) as [described here](./breaking-changes-attribute-help.md#a-parameter-is-being-replaced) to call out a parameter name change.
 - Breaking change in parameter type
   - Use the parameter breaking change attribute ["CmdletParameterBreakingChangeAttribute"](./breaking-changes-attribute-help.md#cmdletparameterbreakingchangeattribute) as [described here](./breaking-changes-attribute-help.md#a-parameter-is-changing-its-type) to call out a parameter name change.
+<<<<<<< HEAD
 - Adding a required parameter to an existing parametrer set (adding new parameter sets or adding additional optional parameters is not a breaking change)
   - An existing parameter becomes mandatry :
     - Use the parameter breaking change attribute ["CmdletParameterBreakingChangeAttribute"](./breaking-changes-attribute-help.md#cmdletparameterbreakingchangeattribute) as [described here](./breaking-changes-attribute-help.md#a-parameter-is-becoming-mandatory) to call out a parameter becoming mandatory.
   - Adding a new mandatory parameter to a parameter set:
       - Use the generic breaking change attribute ["GenericBreakingChangeAttribute"](./breaking-changes-attribute-help.md#genericbreakingchangeattribute) with a [custom message](./breaking-changes-attribute-help.md#with-a-simple-message) calling out the new mandatiry parameter that is going to be added to the parameter set.
+=======
+- Adding a required parameter to an existing parameter set (adding new parameter sets or adding additional optional parameters is not a breaking change)
+  - An existing parameter becomes mandatory :
+    - Use the parameter breaking change attribute ["CmdletParameterBreakingChangeAttribute"](./breaking-changes-attribute-help.md#cmdletparameterbreakingchangeattribute) as [described here](./breaking-changes-attribute-help.md#a-parameter-is-becoming-mandatory) to call out a parameter becoming mandatory.
+  - Adding a new mandatory parameter to a parameter set:
+      - Use the generic breaking change attribute ["GenericBreakingChangeAttribute"](./breaking-changes-attribute-help.md#genericbreakingchangeattribute) with a [custom message](./breaking-changes-attribute-help.md#with-a-simple-message) calling out the new mandatory parameter that is going to be added to the parameter set.
+>>>>>>> upstream
 - Changing parameter order for parameter sets with ordered parameters
     - Use the generic breaking change attribute ["GenericBreakingChangeAttribute"](./breaking-changes-attribute-help.md#genericbreakingchangeattribute) with a [custom message](./breaking-changes-attribute-help.md#with-a-simple-message) calling out the new order in the parameter set.
 - Removing or changing a parameter alias
@@ -47,12 +67,20 @@ Breaking changes in cmdlets are defined as follows:
     - Use the parameter breaking change attribute ["CmdletParameterBreakingChangeAttribute"](./breaking-changes-attribute-help.md#cmdletparameterbreakingchangeattribute) as [described here](./breaking-changes-attribute-help.md#generic-change-in-a-parameter) to call out the change.
 - Removing properties
   - In the output type
+<<<<<<< HEAD
       - Use the cmdlet output type breaking change attribute ["CmdletOutputBreakingChangeAttribute"](./breaking-changes-attribute-help.md#cmdletoutputbreakingchangeattribute) [as follows](./breaking-changes-attribute-help.md#a-few-properties-in-the-output-type-are-being-deprecated) to call out derecated properties. 
+=======
+      - Use the cmdlet output type breaking change attribute ["CmdletOutputBreakingChangeAttribute"](./breaking-changes-attribute-help.md#cmdletoutputbreakingchangeattribute) [as follows](./breaking-changes-attribute-help.md#a-few-properties-in-the-output-type-are-being-deprecated) to call out deprecated properties. 
+>>>>>>> upstream
   - In a parameter
       - Use the parameter breaking change attribute ["CmdletParameterBreakingChangeAttribute"](./breaking-changes-attribute-help.md#cmdletparameterbreakingchangeattribute) as [described here](./breaking-changes-attribute-help.md#generic-change-in-a-parameter) to call out the change.
 - Adding additional required properties
   - In the output type
+<<<<<<< HEAD
       - Use the cmdlet output type breaking change attribute ["CmdletOutputBreakingChangeAttribute"](./breaking-changes-attribute-help.md#cmdletoutputbreakingchangeattribute) [as follows](./breaking-changes-attribute-help.md#a-few-new-properties-are-bing-added-to-the-output-type) to call out derecated properties. 
+=======
+      - Use the cmdlet output type breaking change attribute ["CmdletOutputBreakingChangeAttribute"](./breaking-changes-attribute-help.md#cmdletoutputbreakingchangeattribute) [as follows](./breaking-changes-attribute-help.md#a-few-new-properties-are-being-added-to-the-output-type) to call out deprecated properties. 
+>>>>>>> upstream
   - In a parameter
       - Use the parameter breaking change attribute ["CmdletParameterBreakingChangeAttribute"](./breaking-changes-attribute-help.md#cmdletparameterbreakingchangeattribute) as [described here](./breaking-changes-attribute-help.md#generic-change-in-a-parameter) to call out the change.
 - Adding required parameters, changing parameter names, or parameter types for methods or constructors

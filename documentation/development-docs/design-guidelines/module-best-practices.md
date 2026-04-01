@@ -1,5 +1,16 @@
 # Module Best Practices
 
+<<<<<<< HEAD
+=======
+- [Module Metadata](#module-metadata)
+  - [Module Naming](#module-naming)
+  - [Module Manifest](#module-manifest)
+- [Module Dependencies](#module-dependencies)
+  - [Common Assemblies](#common-assemblies)
+  - [SDK Assemblies](#sdk-assemblies)
+  - [Other Assemblies](#other-assemblies)
+
+>>>>>>> upstream
 ## Module Metadata
 
 ### Module Naming

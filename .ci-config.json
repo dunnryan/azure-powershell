@@ -128,7 +128,13 @@
     },
     {
       "patterns": [
+<<<<<<< HEAD
         "src/{ModuleName}/*"
+=======
+        "src/{ModuleName}/*",
+        "src/{ModuleName}",
+        "generated/{ModuleName}/*"
+>>>>>>> upstream
       ],
       "phases": [
         "build:related-module",

@@ -2,6 +2,7 @@ parameters:
 - name: dotnet_sdk
   displayName: .NET SDK
   type: string
+<<<<<<< HEAD
   default: 6.0.x
 - name: testFramework
   displayName: Test Framework
@@ -15,6 +16,17 @@ parameters:
   displayName: Test Pool VM Image
   type: string
   default: ' '
+=======
+  default: 8.x
+- name: testFramework
+  displayName: Test Framework
+  type: string
+  default: net8.0
+- name: updateBaseline
+  displayName: Update Test Coverage Baseline?
+  type: boolean
+  default: false
+>>>>>>> upstream
 
 variables:
   EnableTestCoverage: true
@@ -26,11 +38,19 @@ trigger: none
 jobs:
 - job: Build
   displayName: Build
+<<<<<<< HEAD
   pool: pool-windows-2019
 
   steps:
   - task: UseDotNet@2
     displayName: 'Install .NET SDK'
+=======
+  pool: pool-windows-2022
+
+  steps:
+  - task: UseDotNet@2
+    displayName: 'Install .NET SDK for Build'
+>>>>>>> upstream
     inputs:
       packageType: sdk
       version: ${{ parameters.dotnet_sdk }}
@@ -51,6 +71,7 @@ jobs:
 - job: TestCoverage
   dependsOn: Build
   timeoutInMinutes: 600
+<<<<<<< HEAD
   pool:
     name: ${{ parameters.testPoolName }}
     vmImage: ${{ parameters.testPoolVMImage }}
@@ -58,6 +79,13 @@ jobs:
   steps:
   - task: UseDotNet@2
     displayName: 'Install .NET SDK'
+=======
+  pool: pool-windows-2022
+
+  steps:
+  - task: UseDotNet@2
+    displayName: 'Install .NET SDK for Test'
+>>>>>>> upstream
     inputs:
       packageType: sdk
       version: ${{ parameters.dotnet_sdk }}
@@ -85,7 +113,11 @@ jobs:
 
   - task: PowerShell@2
     displayName: Test Autorest-Based Cmdlets
+<<<<<<< HEAD
     condition: succeeded()
+=======
+    condition: succeededOrFailed()
+>>>>>>> upstream
     inputs:
       pwsh: true
       targetType: inline
@@ -103,11 +135,16 @@ jobs:
 
   - task: PowerShell@2
     displayName: Analyze Test Coverage
+<<<<<<< HEAD
     condition: succeeded()
+=======
+    condition: succeededOrFailed()
+>>>>>>> upstream
     inputs:
       pwsh: true
       targetType: filePath
       filePath: ./tools/TestFx/Coverage/AnalyzeTestCoverage.ps1
+<<<<<<< HEAD
       arguments: -CalcBaseline
 
   - template: util/get-github-pat-steps.yml
@@ -115,6 +152,17 @@ jobs:
   - task: PowerShell@2
     displayName: Update Test Coverage Baseline
     condition: succeeded()
+=======
+      arguments: '-CalcBaseline:$${{ parameters.updateBaseline }}'
+
+  - template: util/get-github-pat-steps.yml
+    parameters:
+      execCondition: and(succeeded(), ${{ parameters.updateBaseline }})
+
+  - task: PowerShell@2
+    displayName: Update Test Coverage Baseline
+    condition: and(succeeded(), ${{ parameters.updateBaseline }})
+>>>>>>> upstream
     inputs:
       pwsh: true
       targetType: inline

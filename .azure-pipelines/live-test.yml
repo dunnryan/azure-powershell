@@ -1,4 +1,5 @@
 parameters:
+<<<<<<< HEAD
 - name: os_windows_2019
   displayName: Windows 2019 Image Version
   type: string
@@ -49,10 +50,36 @@ parameters:
   default: 8.0.x
 
 variables:
+=======
+  - name: GalleryName
+    displayName: Gallery Name
+    type: string
+    default: DailyBuild
+    values:
+      - DailyBuild
+      - Sign
+      - PSGallery
+  - name: PipelineBuildId
+    displayName: Pipeline Build Id for Artifacts
+    type: string
+    default: ' '
+
+variables:
+  os_windows: windows-latest
+  os_linux: ubuntu-latest
+  os_macos: macOS-latest
+  win_ps_5_1: 5.1
+  ps_7_4_x: 7.4.*
+  ps_7_5_x: 7.5.*
+  ps_latest: latest
+  dotnet_sdk_8: 8.x
+  dotnet_sdk_9: 9.x
+>>>>>>> upstream
   ArtifactsName: LiveTestArtifacts
   DataLocation: $(Pipeline.Workspace)/$(ArtifactsName)
   SuppressAzurePowerShellBreakingChangeWarnings: true
 
+<<<<<<< HEAD
 schedules:
 - cron: "0 19 * * *"
   displayName: Daily Live Test
@@ -61,6 +88,8 @@ schedules:
     - main
   always: true
 
+=======
+>>>>>>> upstream
 pr: none
 trigger: none
 
@@ -70,6 +99,7 @@ stages:
   jobs:
   - template: util/live-test-steps.yml
     parameters:
+<<<<<<< HEAD
       name: 'win_ps_5_1_win_2019'
       vmImage: ${{ parameters.os_windows_2019 }}
       osType: 'Windows'
@@ -163,18 +193,77 @@ stages:
       osType: 'Linux'
       psVersion: ${{ parameters.ps_7_3_x }}
       dotnetVersion: ${{ parameters.dotnet_sdk_7 }}
+=======
+      name: 'ps_5_1_windows'
+      vmImage: ${{ variables.os_windows }}
+      osType: 'Windows'
+      psVersion: ${{ variables.win_ps_5_1 }}
+      dotnetVersion: ${{ variables.dotnet_sdk_8 }}
+      galleryName: ${{ parameters.GalleryName }}
+      pipelineBuildId: ${{ parameters.PipelineBuildId }}
+
+  - template: util/live-test-steps.yml
+    parameters:
+      name: 'ps_7_4_x_windows'
+      vmImage: ${{ variables.os_windows }}
+      osType: 'Windows'
+      psVersion: ${{ variables.ps_7_4_x }}
+      dotnetVersion: ${{ variables.dotnet_sdk_8 }}
+      galleryName: ${{ parameters.GalleryName }}
+      pipelineBuildId: ${{ parameters.PipelineBuildId }}
+
+  - template: util/live-test-steps.yml
+    parameters:
+      name: 'ps_7_5_x_windows'
+      vmImage: ${{ variables.os_windows }}
+      osType: 'Windows'
+      psVersion: ${{ variables.ps_7_5_x }}
+      dotnetVersion: ${{ variables.dotnet_sdk_9 }}
+      galleryName: ${{ parameters.GalleryName }}
+      pipelineBuildId: ${{ parameters.PipelineBuildId }}
+
+  - template: util/live-test-steps.yml
+    parameters:
+      name: 'ps_latest_windows'
+      vmImage: ${{ variables.os_windows }}
+      osType: 'Windows'
+      psVersion: ${{ variables.ps_latest }}
+      dotnetVersion: ${{ variables.dotnet_sdk_9 }}
+      galleryName: ${{ parameters.GalleryName }}
+      pipelineBuildId: ${{ parameters.PipelineBuildId }}
+>>>>>>> upstream
 
   - template: util/live-test-steps.yml
     parameters:
       name: 'ps_7_4_x_linux'
+<<<<<<< HEAD
       vmImage: ${{ parameters.os_linux }}
       osType: 'Linux'
       psVersion: ${{ parameters.ps_7_4_x }}
       dotnetVersion: ${{ parameters.dotnet_sdk_8 }}
+=======
+      vmImage: ${{ variables.os_linux }}
+      osType: 'Linux'
+      psVersion: ${{ variables.ps_7_4_x }}
+      dotnetVersion: ${{ variables.dotnet_sdk_8 }}
+      galleryName: ${{ parameters.GalleryName }}
+      pipelineBuildId: ${{ parameters.PipelineBuildId }}
+
+  - template: util/live-test-steps.yml
+    parameters:
+      name: 'ps_7_5_x_linux'
+      vmImage: ${{ variables.os_linux }}
+      osType: 'Linux'
+      psVersion: ${{ variables.ps_7_5_x }}
+      dotnetVersion: ${{ variables.dotnet_sdk_9 }}
+      galleryName: ${{ parameters.GalleryName }}
+      pipelineBuildId: ${{ parameters.PipelineBuildId }}
+>>>>>>> upstream
 
   - template: util/live-test-steps.yml
     parameters:
       name: 'ps_latest_linux'
+<<<<<<< HEAD
       vmImage: ${{ parameters.os_linux }}
       osType: 'Linux'
       psVersion: ${{ parameters.ps_latest }}
@@ -211,6 +300,44 @@ stages:
   #     osType: 'MacOS'
   #     psVersion: ${{ parameters.ps_latest }}
   #     dotnetVersion: ${{ parameters.dotnet_sdk_8 }}
+=======
+      vmImage: ${{ variables.os_linux }}
+      osType: 'Linux'
+      psVersion: ${{ variables.ps_latest }}
+      dotnetVersion: ${{ variables.dotnet_sdk_9 }}
+      galleryName: ${{ parameters.GalleryName }}
+      pipelineBuildId: ${{ parameters.PipelineBuildId }}
+
+  - template: util/live-test-steps.yml
+    parameters:
+      name: 'ps_7_4_x_macos'
+      vmImage: ${{ variables.os_macos }}
+      osType: 'MacOS'
+      psVersion: ${{ variables.ps_7_4_x }}
+      dotnetVersion: ${{ variables.dotnet_sdk_8 }}
+      galleryName: ${{ parameters.GalleryName }}
+      pipelineBuildId: ${{ parameters.PipelineBuildId }}
+
+  - template: util/live-test-steps.yml
+    parameters:
+      name: 'ps_7_5_x_macos'
+      vmImage: ${{ variables.os_macos }}
+      osType: 'MacOS'
+      psVersion: ${{ variables.ps_7_5_x }}
+      dotnetVersion: ${{ variables.dotnet_sdk_9 }}
+      galleryName: ${{ parameters.GalleryName }}
+      pipelineBuildId: ${{ parameters.PipelineBuildId }}
+
+  - template: util/live-test-steps.yml
+    parameters:
+      name: 'ps_latest_macos'
+      vmImage: ${{ variables.os_macos }}
+      osType: 'MacOS'
+      psVersion: ${{ variables.ps_latest }}
+      dotnetVersion: ${{ variables.dotnet_sdk_9 }}
+      galleryName: ${{ parameters.GalleryName }}
+      pipelineBuildId: ${{ parameters.PipelineBuildId }}
+>>>>>>> upstream
 
 - stage: Report
   displayName: Send Report
@@ -231,7 +358,11 @@ stages:
       displayName: Download live test results
       inputs:
         buildType: 'current'
+<<<<<<< HEAD
         targetPath: $(Pipeline.Workspace)/$(ArtifactsName)
+=======
+        targetPath: $(DataLocation)
+>>>>>>> upstream
 
     - task: PowerShell@2
       displayName: Send live test report
@@ -243,7 +374,11 @@ stages:
 
     - task: AzurePowerShell@5
       displayName: Save live test results
+<<<<<<< HEAD
       condition: or(eq(variables['Build.Reason'], 'Schedule'), eq(variables['Build.SourceBranch'], 'refs/heads/internal/release'))
+=======
+      condition: or(in(variables['Build.SourceBranch'], 'refs/heads/main', 'refs/heads/internal/release'), startsWith(variables['Build.SourceBranch'], 'refs/heads/Daily/Release_'))
+>>>>>>> upstream
       inputs:
         pwsh: true
         azurePowerShellVersion: latestVersion

@@ -2,16 +2,37 @@
 
 _Note_: for the below examples, the string "TopLevelResource" would be replaced with the name of your top-level resource (_e.g._, "VirtualMachine", "VirtualNetwork", "SqlServer"), and the string "ChildResource" would be replaced with the name of your child resource (_e.g._, "VirtualMachineExtension", "VirtualNetworkPeering", "SqlDatabase")
 
+<<<<<<< HEAD
+=======
+- [Piping in PowerShell](#piping-in-powershell)
+  - [Understanding Piping](#understanding-piping)
+- [Piping in Azure PowerShell](#piping-in-azure-powershell)
+  - [Using the `-InputObject` Parameter](#using-the--inputobject-parameter)
+    - [Short explanation](#short-explanation)
+    - [Long explanation](#long-explanation)
+  - [Using the `-ResourceId` Parameter](#using-the--resourceid-parameter)
+    - [Short explanation](#short-explanation-1)
+    - [Long explanation](#long-explanation-1)
+  - [Full examples](#full-examples)
+
+>>>>>>> upstream
 ## Piping in PowerShell
 
 ### Understanding Piping
 
 In PowerShell, cmdlets pipe objects between one another; cmdlets should return objects, not text (strings).
 
+<<<<<<< HEAD
 For example, in Azure PowerShell, you can remove all of your current environments with the following pipeline scenairo:
 
 ```powershell
 Get-AzEnvironment | Remove-AzEnviornment
+=======
+For example, in Azure PowerShell, you can remove all of your current environments with the following pipeline scenario:
+
+```powershell
+Get-AzEnvironment | Remove-AzEnvironment
+>>>>>>> upstream
 ```
 
 The cmdlet `Get-AzEnvironment` will return a set of `Environment` objects, and those objects will be individually piped to the `Remove-AzEnvironment` cmdlet, where they will be removed.

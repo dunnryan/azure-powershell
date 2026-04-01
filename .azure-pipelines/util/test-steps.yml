@@ -11,10 +11,17 @@ steps:
     artifactName: build-${{ parameters.testFramework }}
 
 - task: UseDotNet@2
+<<<<<<< HEAD
   displayName: 'Use .NET SDK 6 for tests'
   inputs:
     packageType: sdk
     version: 6.0.x
+=======
+  displayName: 'Use .NET SDK'
+  inputs:
+    packageType: sdk
+    version: 8.x
+>>>>>>> upstream
 
 - task: PowerShell@2
   displayName: Remove pre-installed Az modules
@@ -33,6 +40,7 @@ steps:
     PowerShellPlatform: ${{ parameters.powerShellPlatform }}
   continueOnError: true
 
+<<<<<<< HEAD
 # Comment this because it's not triggered for 3 years
 # - powershell: |
 #    Install-Module -Name Pester -RequiredVersion 4.10.1 -Force -SkipPublisherCheck
@@ -43,6 +51,8 @@ steps:
 #   displayName: Test for AutoGen Modules With Windows PowerShell
 #   condition: and(succeeded(), ne('${{ parameters.testTarget }}', 'Test'))
 
+=======
+>>>>>>> upstream
 - pwsh: |
    Install-Module -Name Pester -RequiredVersion 4.10.1 -Force
    if ($IsWindows) { $sp = ";" } else { $sp = ":" }
@@ -79,6 +89,10 @@ steps:
 
 
 - task: PublishTestResults@2
+<<<<<<< HEAD
+=======
+  condition: always()
+>>>>>>> upstream
   inputs:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'

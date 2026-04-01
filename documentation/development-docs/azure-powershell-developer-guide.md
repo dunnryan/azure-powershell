@@ -2,6 +2,7 @@
 
 The Azure PowerShell Developer Guide was created to help with the development and testing of Azure PowerShell cmdlets. This guide contains information on how to set up your environment, create a new project, implement cmdlets, record and run tests, and more.
 
+<<<<<<< HEAD
 # Table of Contents
 
 - [Prerequisites](#prerequisites)
@@ -51,16 +52,78 @@ The following prerequisites should be completed before contributing to the Azure
 - Install the [`platyPS` module](help-generation.md#Installing-platyPS)
 - Install the latest [**.NET Core SDK** and **.NET Framework Dev Pack 4.7.2**](https://dotnet.microsoft.com/download) or greater
 - Install [PowerShell Core](https://github.com/PowerShell/PowerShell/releases/latest)
+=======
+**Note: this guide only applies to the SDK-based development approach. For the generator-based approach, please refer to [Autorest PowerShell Generator](#autorest-powershell-generator).**
+
+## Table of Contents
+
+- [Table of Contents](#table-of-contents)
+- [Prerequisites](#prerequisites)
+- [Environment Setup](#environment-setup)
+  - [GitHub Basics](#github-basics)
+  - [Building the Environment](#building-the-environment)
+  - [Generating Help](#generating-help)
+  - [Running Static Analysis](#running-static-analysis)
+  - [Running Tests](#running-tests)
+- [Before Adding a New Project](#before-adding-a-new-project)
+  - [.NET SDK](#net-sdk)
+  - [Design Review](#design-review)
+  - [Point of Contact](#point-of-contact)
+- [Setting Up a New Project](#setting-up-a-new-project)
+  - [Getting Started](#getting-started)
+    - [Creating the Project](#creating-the-project)
+    - [Adding Project References](#adding-project-references)
+- [Creating Cmdlets](#creating-cmdlets)
+  - [PowerShell Cmdlet Design Guidelines](#powershell-cmdlet-design-guidelines)
+  - [Exceptions Guidelines](#exceptions-guidelines)
+  - [Enable Running PowerShell when Debugging](#enable-running-powershell-when-debugging)
+    - [Set a StartUp Project](#set-a-startup-project)
+    - [Setup a Debug Profile](#setup-a-debug-profile)
+  - [Adding Help Content](#adding-help-content)
+- [Adding Tests](#adding-tests)
+  - [Using Azure TestFramework](#using-azure-testframework)
+  - [Scenario Tests](#scenario-tests)
+    - [Adding Test Project](#adding-test-project)
+    - [Adding Scenario Tests](#adding-scenario-tests)
+    - [Use local files in test](#use-local-files-in-test)
+    - [Using Active Directory](#using-active-directory)
+    - [AD Scenario Tests](#ad-scenario-tests)
+    - [Recording/Running Tests](#recordingrunning-tests)
+- [After Development](#after-development)
+  - [Change Log](#change-log)
+- [Misc](#misc)
+  - [Publish to PowerShell Gallery](#publish-to-powershell-gallery)
+- [AutoRest PowerShell Generator](#autorest-powershell-generator)
+
+## Prerequisites
+
+The following prerequisites should be completed before contributing to the Azure PowerShell repository:
+
+- Install [Visual Studio 2022 or above](https://www.visualstudio.com/downloads/)
+- Install the latest version of [Git](https://git-scm.com/downloads)
+- Install the [`platyPS` module](help-generation.md#Installing-platyPS)
+- Install [PSScriptAnalyzer](https://github.com/PowerShell/PSScriptAnalyzer#installation)
+- Install [**.NET SDK 6, and .NET Framework Dev Pack 4.7.2**](https://dotnet.microsoft.com/en-us/download/dotnet) or greater
+- Install [PowerShell 7](https://github.com/PowerShell/PowerShell/releases/latest)
+>>>>>>> upstream
 - Set the PowerShell [execution policy](https://technet.microsoft.com/en-us/library/ee176961.aspx) to **Unrestricted** for the following versions of PowerShell:
   - `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`
   - `C:\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe`
   - `C:\Program Files\PowerShell\{{version}}\pwsh.exe`
 
+<<<<<<< HEAD
 # Environment Setup
 
 ## GitHub Basics
 
 If you don't have experience with Git and GitHub, some of the terminology and process can be confusing. [Here is a guide to understanding the GitHub flow](https://guides.github.com/introduction/flow/) and [here is a guide to understanding the basic Git commands](https://services.github.com/on-demand/downloads/github-git-cheat-sheet.pdf).
+=======
+## Environment Setup
+
+### GitHub Basics
+
+If you don't have experience with Git and GitHub, some of the terminology and process can be confusing. [Here is a guide to understanding the GitHub flow](https://guides.github.com/introduction/flow/) and [here is a guide to understanding the basic Git commands](https://education.github.com/git-cheat-sheet-education.pdf).
+>>>>>>> upstream
 
 To develop in the Azure PowerShell repository locally, you first need to create your own fork. For more information on how to fork, click [here](https://guides.github.com/activities/forking/).
 
@@ -78,6 +141,7 @@ You now be able to create your own branches, commit changes, and push commits to
 git remote add upstream https://github.com/Azure/azure-powershell.git
 ```
 
+<<<<<<< HEAD
 Then, to pull changes from the **master** branch in _Azure/azure-powershell_ into your local working branch, run the following command:
 
 ```
@@ -85,6 +149,15 @@ git pull upstream master
 ```
 
 ## Building the Environment
+=======
+Then, to pull changes from the **main** branch in _Azure/azure-powershell_ into your local working branch, run the following command:
+
+```
+git pull upstream main
+```
+
+### Building the Environment
+>>>>>>> upstream
 
 _Note_: to build the environment locally, you need `platyPS` install on your machine. Please see the [Prerequisites](#prerequisites) section for details on how to install this module.
 
@@ -94,13 +167,21 @@ After cloning the repository to your local machine, you want to ensure that you 
 msbuild build.proj
 ```
 
+<<<<<<< HEAD
 Alternatively, you can open any command prompt (Command Prompt, Windows PowerShell, or PowerShell Core), navigate to the root of the repository, and run:
+=======
+Alternatively, you can open any command prompt (Command Prompt, Windows PowerShell, or PowerShell 7), navigate to the root of the repository, and run:
+>>>>>>> upstream
 
 ```powershell
 PS C:\azure-powershell> dotnet msbuild build.proj
 ```
 
+<<<<<<< HEAD
 ## Generating Help
+=======
+### Generating Help
+>>>>>>> upstream
 
 We build the `dll-Help.xml` files (used to display the help content for cmdlets in PowerShell) from markdown using the `platyPS` module. Since this help generation step can take 10-15 minutes, it is a separate part of the command line build process. Run this to generate help:
 
@@ -108,9 +189,15 @@ We build the `dll-Help.xml` files (used to display the help content for cmdlets 
 msbuild build.proj /t:GenerateHelp
 ```
 
+<<<<<<< HEAD
 ## Running Static Analysis
 
 To keep consistency across our modules, we've implemented a static analysis system. This verifies various aspects (depdencies, breaking changes, etc.) for your module. Run this command to execute static analysis validation for the built modules:
+=======
+### Running Static Analysis
+
+To keep consistency across our modules, we've implemented a static analysis system. This verifies various aspects (dependencies, breaking changes, etc.) for your module. Run this command to execute static analysis validation for the built modules:
+>>>>>>> upstream
 
 ```
 msbuild build.proj /t:StaticAnalysis
@@ -118,7 +205,11 @@ msbuild build.proj /t:StaticAnalysis
 
 _Note_: this can add 10-15 minutes to your build time due to help generation.
 
+<<<<<<< HEAD
 ## Running Tests
+=======
+### Running Tests
+>>>>>>> upstream
 
 Launch `VS Developer Command Prompt` and run the following command (from the root of the repository) to run all of the tests in playback:
 
@@ -126,21 +217,35 @@ Launch `VS Developer Command Prompt` and run the following command (from the roo
 msbuild build.proj /t:Test
 ```
 
+<<<<<<< HEAD
 Alternatively, you can open any command prompt (Command Prompt, Windows PowerShell, or PowerShell Core), navigate to the root of the repository, and run:
+=======
+Alternatively, you can open any command prompt (Command Prompt, Windows PowerShell, or PowerShell 7), navigate to the root of the repository, and run:
+>>>>>>> upstream
 
 ```powershell
 PS C:\azure-powershell> dotnet msbuild build.proj /t:Test
 ```
 
+<<<<<<< HEAD
 # Before Adding a New Project
 
 ## .NET SDK
+=======
+## Before Adding a New Project
+
+### .NET SDK
+>>>>>>> upstream
 
 Before adding a new project to Azure PowerShell, you must have generated an [SDK for .NET](https://github.com/Azure/azure-sdk-for-net) using [AutoRest](https://github.com/Azure/autorest) for your service, and it must have been merged into the repository.
 
 For more information about on-boarding a new library in the SDK for .NET repository, click [here](https://github.com/Azure/azure-sdk-for-net#to-on-board-new-libraries).
 
+<<<<<<< HEAD
 ## Design Review
+=======
+### Design Review
+>>>>>>> upstream
 
 Before development, you must meet with the Azure PowerShell team to have a design review for your proposed PowerShell cmdlets. We advise that this review is held no earlier than three weeks out from code complete of the release you want to ship the cmdlets with. For a small number of cmdlet changes and/or additions, an email containing the markdown files for the proposed changes is suggested. For a large number of changes and/or additions, a meeting is required with the Azure PowerShell team.
 
@@ -148,16 +253,25 @@ Before submitting a design review, please be sure that you have read the documen
 
 Please submit a design review here: https://github.com/Azure/azure-powershell-cmdlet-review-pr
 
+<<<<<<< HEAD
 _Note_: You will need to be part of the `GitHub Azure` org to see this repository. Please go to [this link](aka.ms/azuregithub) to become part of the `Azure` org.
 
 We recommend using the `platyPS` module to easily generate markdown files that contains the above information and including the files in the design submission.
 
 ## Point of Contact
+=======
+_Note_: You will need to be part of the `GitHub Azure` org to see this repository. Please go to [this link](https://aka.ms/azuregithub) to become part of the `Azure` org.
+
+We recommend using the `platyPS` module to easily generate markdown files that contains the above information and including the files in the design submission.
+
+### Point of Contact
+>>>>>>> upstream
 
 You must provide a contact (Microsoft alias + GitHub alias) on your team that is responsible for handling issues with your SDK and cmdlets, as well as open source contributions to your code.
 
 Also, members of your team (who are involved with the SDKs) are advised to join the [Microsoft Teams Azure SDK team](https://teams.microsoft.com/l/team/19%3a9b93b9f4bd1540a486e5ef1a82a74637%40thread.skype/conversations?groupId=da8d67c5-f19d-4799-b158-5dbbef868d49&tenantId=72f988bf-86f1-41af-91ab-2d7cd011db47), and join the **adxsdkpartners** alias on idweb.
 
+<<<<<<< HEAD
 # Setting Up a New Project
 
 ## Getting Started
@@ -165,6 +279,15 @@ Also, members of your team (who are involved with the SDKs) are advised to join 
 When adding a new project, please follow these guidelines:
 
 ### Creating the Project
+=======
+## Setting Up a New Project
+
+### Getting Started
+
+When adding a new project, please follow these guidelines:
+
+#### Creating the Project
+>>>>>>> upstream
 
 Add a new folder under `src` with your service specific name (_e.g.,_ `Compute`, `Sql`, `Websites`).
 
@@ -204,6 +327,7 @@ If you have not generated your AutoRest SDK yet, remove this entry for now.
 
 Right click on the project and select `Reload project`, and then build the solution by either right clicking on the solution and selecting `Rebuild Solution` or, from the top of Visual Studio, selecting `Build > Rebuild Solution`. If the build does not succeed, open the `.csproj` file and ensure there are no errors.
 
+<<<<<<< HEAD
 ### Adding Project References
 
 There are a few existing projects that need to be added before developing any cmdlets. To add a project to the solution, right click on the solution in `Solution Explorer` and select `Add > Existing Project`. This allows you to navigate through folders to find the `.csproj` of the project you want to add. Once a project is added to your solution, you can add it as a reference to the `<SERVICE>` project by right clicking on `<SERVICE>` and selecting `Add > Reference`. This opens the `Reference Manager` window, and once you have selected the `Projects > Solution` option on the left side of the window, you are able to select which projects you want to reference in `<SERVICE>` by checking the box to the left of the name.
@@ -233,6 +357,41 @@ To import modules automatically when debug has started, follow the below steps:
 - **Note**: if you do not see all of the changes you made to the cmdlets when importing your module in a PowerShell session (_e.g.,_ a cmdlet you added is not recognized as a cmdlet), you may need to delete any existing Azure PowerShell modules that you have on your machine (installed through the PowerShell Gallery) before you import your module.
 
 ## Adding Help Content
+=======
+#### Adding Project References
+
+There are a few existing projects that need to be added before developing any cmdlets. To add a project to the solution, right click on the solution in `Solution Explorer` and select `Add > Existing Project`. This allows you to navigate through folders to find the `.csproj` of the project you want to add. Once a project is added to your solution, you can add it as a reference to the `<SERVICE>` project by right clicking on `<SERVICE>` and selecting `Add > Reference`. This opens the `Reference Manager` window, and once you have selected the `Projects > Solution` option on the left side of the window, you are able to select which projects you want to reference in `<SERVICE>` by checking the box to the left of the name.
+
+## Creating Cmdlets
+
+### PowerShell Cmdlet Design Guidelines
+
+Please check out the [_Cmdlet Best Practices_](./design-guidelines/cmdlet-best-practices.md) document for more information on how to create cmdlets that follow the PowerShell guidelines.
+
+### Exceptions Guidelines
+
+Azure PowerShell defines most commonly used exceptions. Developers working on Azure PowerShell should use these exceptions during development, rather than other more generic exceptions.
+Refer to [_Azure PowerShell Exceptions_](./design-guidelines/azure-powershell-exceptions.md) for more information on Azure PowerShell Exceptions.
+
+### Enable Running PowerShell when Debugging
+To import modules automatically when debug has started, follow the below steps:
+
+#### Set a StartUp Project
+- Choose any project and set it as the startup project in Visual Studio
+  - Right click on your project in the **Solution Explorer** and select **Set as StartUp project**
+
+#### Setup a Debug Profile
+- Please refer to [Debug Page, Project Designer](https://learn.microsoft.com/visualstudio/ide/reference/debug-page-project-designer?view=vs-2022) for how to access the Debug page
+- Create a **Excutable** new Debug profile
+- For Azure PowerShell, please setup debug profile in the following way
+  - Set **Excutable** to the path of the executable file of PowerShell core, for example,`C:\Program Files\PowerShell\7\pwsh.exe`
+  - Import the Profile module, along with the module you are testing, by pasting the following in the **Command line arguments** box (_note_: you have to update the <PATH_TO_REPO> and <SERVICE> values provided below):
+    - `-NoExit -Command "Import-Module <PATH_TO_REPO>/artifacts/Debug/Az.Accounts/Az.Accounts.psd1;Import-Module <PATH_TO_REPO>/artifacts/Debug/Az.<SERVICE>/Az.<SERVICE>.psd1;$DebugPreference='Continue'"`
+
+**Note**: if you do not see all of the changes you made to the cmdlets when importing your module in a PowerShell session (_e.g.,_ a cmdlet you added is not recognized as a cmdlet), you may need to delete any existing Azure PowerShell modules that you have on your machine (installed through the PowerShell Gallery) before you import your module.
+
+### Adding Help Content
+>>>>>>> upstream
 
 All cmdlets that are created must have accompanying help that is displayed when users execute the command `Get-Help <your cmdlet>`.
 
@@ -240,7 +399,11 @@ Each cmdlet has a markdown file that contains the help content that is displayed
 
 For complete documentation, see [`help-generation.md`](help-generation.md) in the `documentation` folder.
 
+<<<<<<< HEAD
 # Adding Tests
+=======
+## Adding Tests
+>>>>>>> upstream
 
 _Note_: As mentioned in the prerequisites section, set the PowerShell [execution policy](https://technet.microsoft.com/en-us/library/ee176961.aspx) to **Unrestricted** for the following versions of PowerShell:
 
@@ -248,6 +411,7 @@ _Note_: As mentioned in the prerequisites section, set the PowerShell [execution
 - `C:\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe`
 - `C:\Program Files\PowerShell\{{version}}\pwsh.exe`
 
+<<<<<<< HEAD
 ## Using Azure TestFramework
 
 Please see our guide on [Using Azure TestFramework](../testing-docs/using-azure-test-framework.md) for information on how to setup the appropriate connection string and record tests using the `Microsoft.Rest.ClientRuntime.Azure.TestFramework` package.
@@ -261,6 +425,62 @@ Please see our guide on [Using Azure TestFramework](../testing-docs/using-azure-
     - Add `[Trait(Category.AcceptanceType, Category.CheckIn)]` as an attribute to any test that should be run during CI in Playback mode.
     - Add `[Trait(Category.AcceptanceType, Category.LiveOnly)]` as an attribute to any test that cannot be run in Playback mode (for example, if a test depends on a Dataplane SDK).
 - Create a ps1 file in the same folder that contains the actual tests ([see sample](../../src/Media/Media.Test/ScenarioTests))
+=======
+### Using Azure TestFramework
+
+Please see our guide on [Using Azure TestFramework](../testing-docs/using-azure-test-framework.md) for information on how to setup the appropriate connection string and record tests.
+
+### Scenario Tests
+
+#### Adding Test Project
+
+- Create a new folder called `ScenarioTests`
+- Create a new folder called `SessionRecords`
+- Inside the `ScenarioTests` folder, create a new class called `<SERVICE>TestRunner`
+- In the `<SERVICE>TestRunner` class, it should have the similar field and constructor like shown below. The parameter values passed in are based on the real situation.
+```csharp
+    protected readonly ITestRunner TestRunner;
+
+    protected <SERVICE>TestRunner(ITestOutputHelper output)
+    {
+        TestRunner = TestManager.CreateInstance(output)
+            .WithProjectSubfolderForTests("ScenarioTests")
+            .WithNewPsScriptFilename($"{GetType().Name}.ps1")
+            .WithCommonPsScripts(new[]
+            {
+                @"Common.ps1",
+                @"../AzureRM.Resources.ps1",
+                @"../AzureRM.Storage.ps1"
+            })
+            .WithNewRmModules(helper => new[]
+            {
+                helper.RMProfileModule,
+                ...
+            })
+            .WithNewRecordMatcherArguments(
+                userAgentsToIgnore: new Dictionary<string, string>
+                {
+                    ...
+                },
+                resourceProviders: new Dictionary<string, string>
+                {
+                    ...
+                }
+            )
+            .Build();
+    }
+```
+
+#### Adding Scenario Tests
+
+- Create a new class in `<SERVICE>.Test`
+    - The new class must inherit from the `<SERVICE>TestRunner` class in this project.
+    - Add `[Fact]` as an attribute to every test
+    - Add `[Trait(Category.AcceptanceType, Category.CheckIn)]` as an attribute to any test that should be run during CI in Playback mode.
+    - Add `[Trait(Category.AcceptanceType, Category.LiveOnly)]` as an attribute to any test that cannot be run in Playback mode (for example, if a test depends on a Dataplane SDK).
+- Create a ps1 file in the same folder that contains the actual tests.
+- The name of the ps1 file should exactly match with name of the class. ([see sample](../../src/Media/Media.Test/ScenarioTests))
+>>>>>>> upstream
     - Use `Assert-AreEqual x y` to verify that values are the same
     - Use `Assert-AreNotEqual x y` to verify that values are not the same
     - Use `Assert-Throws scriptblock message` to verify an exception is being thrown
@@ -276,7 +496,19 @@ Please see our guide on [Using Azure TestFramework](../testing-docs/using-azure-
     - Use `Assert-Match s1 s2` to verify that the string `s2` matches the regular expression `s1`
     - Use `Assert-NotMatch s1 s2` to verify that the string `s2` does not match the regular expression `s1`
 
+<<<<<<< HEAD
 ### Using Active Directory
+=======
+#### Use local files in test
+CI in DevOps will happens under `Debug` folder. So you need to make sure that these files will be copied to that folder during the CI runs. One way to do this is config the `Module.Test.csproj`. There is a example:
+```xml
+  <ItemGroup>
+    <None Update="PemFiles\*.*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+```
+
+#### Using Active Directory
+>>>>>>> upstream
 
 - Use the `Set-TestEnvironment` cmdlet from `Repo-Tasks.psd1` to setup your connection string
 - Alternatively, you can set the following environment variables
@@ -286,11 +518,16 @@ Please see our guide on [Using Azure TestFramework](../testing-docs/using-azure-
 > 1. Be sure that you have set the `ExecutionPolicy` to `Unrestricted` on both 32-bit and 64-bit PowerShell environments, as mentioned in the [prerequisites](#prerequisites) at the top
 > 2. When recording tests, if you are using a Prod environment, use ServicePrincipalName (SPN) and ServicePrincipalSecret. For more information on creating an SPN, click [here](https://learn.microsoft.com/en-us/azure/azure-resource-manager/resource-group-create-service-principal-portal).
 
+<<<<<<< HEAD
 ### AD Scenario Tests
+=======
+#### AD Scenario Tests
+>>>>>>> upstream
 
 Create this environment variables for the AD scenario tests:
 
 - `AZURE_SERVICE_PRINCIPAL` should be a service principal - an application defined in the subscription's tenant - that has management access to the subscription (or at least to a resource group in the tenant)
+<<<<<<< HEAD
   - `AZURE_SERVICE_PRINCIPAL=UserId=<UserGuid>;Password=<Password>;AADTenant=<TenantGuid>;SubscriptionId=<SubscriptionId>`
 
 ### Recording/Running Tests
@@ -314,3 +551,29 @@ Whenver you make updates to a project, please make sure to update the correspond
 ## Publish to PowerShell Gallery
 
 To publish your module to the [official PowerShell gallery](http://www.powershellgallery.com/) or the test gallery site, contact the Azure PowerShell team
+=======
+  - `AZURE_SERVICE_PRINCIPAL=UserId=<UserGuid>;Password=<Password>;TenantId=<TenantGuid>;SubscriptionId=<SubscriptionId>`
+
+#### Recording/Running Tests
+
+- Set up environment variables using New-TestCredential as described [here](../testing-docs/using-azure-test-framework.md#new-testcredential)
+- Run the test in Visual Studio in the Test Explorer window and make sure you got a generated JSON file that matches the test name under the `SessionRecords` folder
+
+## After Development
+
+Once all of your cmdlets have been created and the appropriate tests have been added, you can open a pull request in the Azure PowerShell repository to have your cmdlets added to the next release. Please make sure to read [CONTRIBUTING.md](../../CONTRIBUTING.md) for more information on how to open a pull request, clean up commits, make sure appropriate files have been added/changed, and more.
+
+### Change Log
+
+Whenever you make updates to a project, please make sure to update the corresponding service's `ChangeLog.md` file with a snippet of what you changed under the `Upcoming Release` header. This information is later used for the release notes that goes out with each module the next time they are released, and provides users with more information as to what has changed in the module from the previous release. For more information on updating change logs can be found in [`CONTRIBUTING.md`](../../CONTRIBUTING.md#updating-the-change-log)
+
+## Misc
+
+### Publish to PowerShell Gallery
+
+To publish your module to the [official PowerShell gallery](http://www.powershellgallery.com/) or the test gallery site, contact the Azure PowerShell team
+
+## AutoRest PowerShell Generator
+- [autorest.powershell documentation](https://github.com/Azure/autorest.powershell/tree/master/docs)
+- [examples](https://github.com/Azure/azure-powershell/tree/generation/src)
+>>>>>>> upstream

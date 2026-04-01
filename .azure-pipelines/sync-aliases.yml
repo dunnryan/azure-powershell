@@ -16,17 +16,32 @@ resources:
 jobs:
 - job: UpdateYaml
   displayName: Update resourceManagement.yml
+<<<<<<< HEAD
   pool: pool-windows-2019
+=======
+  pool: pool-windows-2022
+>>>>>>> upstream
   uses:
     repositories:
     - ServiceContactList
 
   steps:
   - task: UseDotNet@2
+<<<<<<< HEAD
     displayName: Install .NET 8 SDK
     inputs:
       packageType: sdk
       version: 8.0.x
+=======
+    displayName: Install .NET SDK
+    inputs:
+      packageType: sdk
+      version: 8.x
+
+  - task: NuGetAuthenticate@1
+    inputs:
+      forceReinstallCredentialProvider: false
+>>>>>>> upstream
 
   - pwsh: |
       dotnet --version
@@ -34,11 +49,27 @@ jobs:
       dotnet tool install powershell --version 7.4.*
     displayName: Install PowerShell 7.4.x
 
+<<<<<<< HEAD
+=======
+  - task: NuGetCommand@2
+    displayName: Install YamlDotNet NuGet Package
+    inputs:
+      command: custom
+      arguments: 'install YamlDotNet -Version $(YamlDotNetVersion) -OutputDirectory "$(Agent.TempDirectory)/packages" -NonInteractive'
+    retryCountOnTaskFailure: 3
+
+>>>>>>> upstream
   - pwsh: |
       dotnet tool run pwsh -NoLogo -NoProfile -NonInteractive -File ./tools/Github/ParseServiceContactsList.ps1 -AccessToken $env:SYSTEM_ACCESSTOKEN
     env:
       SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+<<<<<<< HEAD
     displayName: Update resourceManagement.yml file locally
+=======
+      YAMLDOTNETVERSION: $(YamlDotNetVersion)
+    displayName: Update resourceManagement.yml file locally
+    condition: succeeded()
+>>>>>>> upstream
 
   - pwsh: |
       $hasChanges = git diff --name-only .github/policies

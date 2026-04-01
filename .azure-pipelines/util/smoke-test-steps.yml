@@ -2,8 +2,12 @@ parameters:
   name: ''
   psVersion: ''
   agentPoolName: ''
+<<<<<<< HEAD
   agentPoolVMImage: ''
   netCoreVersion: ''
+=======
+  dotnetVersion: ''
+>>>>>>> upstream
   PowerShellPath: '$(Build.SourcesDirectory)/ps_preview'
 
 jobs:
@@ -11,6 +15,7 @@ jobs:
   timeoutInMinutes: 180
   pool:
     name: ${{ parameters.agentPoolName }}
+<<<<<<< HEAD
     vmImage: ${{ parameters.agentPoolVMImage }}
 
   steps:
@@ -20,6 +25,16 @@ jobs:
     inputs:
       packageType: sdk
       version: ${{ parameters.netCoreVersion }}
+=======
+
+  steps:
+  - task: UseDotNet@2
+    condition: ne('${{ parameters.dotnetVersion }}', '')
+    displayName: 'Install .NET SDK ${{ parameters.dotnetVersion }}'
+    inputs:
+      packageType: sdk
+      version: ${{ parameters.dotnetVersion }}
+>>>>>>> upstream
 
   - task: PowerShell@2
     condition: and(succeeded(), eq('${{ parameters.psVersion }}', 'preview'))
@@ -39,7 +54,11 @@ jobs:
       overwriteExistingFiles: true
 
   - task: PowerShell@2
+<<<<<<< HEAD
     displayName: Prepare Powershell ${{ parameters.psVersion }}
+=======
+    displayName: Install Powershell ${{ parameters.psVersion }}
+>>>>>>> upstream
     inputs:
       filePath: 'tools/Test/SmokeTest/PrepareRequiredPowershell.ps1'
       arguments: '-RequiredPsVersion ${{ parameters.psVersion }} -PowerShellPath "${{ parameters.PowerShellPath }}" -AgentOS "$(Agent.OS)"'
@@ -76,11 +95,30 @@ jobs:
       targetType: 'inline'
       script: |
        New-Item -Path "$(Pipeline.Workspace)" -Name "LocalRepo" -ItemType "directory"
+<<<<<<< HEAD
        $fileList = Get-ChildItem -Path "$(Pipeline.Workspace)" -Recurse -Filter "*.nupkg" 
+=======
+       $fileList = Get-ChildItem -Path "$(Pipeline.Workspace)" -Recurse -Filter "*.nupkg"
+>>>>>>> upstream
        $fileList | ForEach-Object { Copy-Item -Path $_.FullName -Destination "$(Pipeline.Workspace)\LocalRepo\" -Force }
        Write-Host "List artifacts..."
        Get-ChildItem "$(Pipeline.Workspace)\\LocalRepo\\"
 
+<<<<<<< HEAD
+=======
+  - task: Bash@3
+    displayName: 'Ensure Mono installed (required for NuGet.exe on 1ES Ubuntu >= 24)'
+    condition: eq( variables['Agent.OS'], 'Linux' )
+    inputs:
+      targetType: inline
+      script: |
+        # Conditionally install Mono if missing from image
+        command -v mono >/dev/null || { 
+            echo "Mono not found, installing..."; 
+            sudo apt-get update -qq && sudo apt-get install -y mono-complete; 
+        }
+
+>>>>>>> upstream
   - task: NuGetCommand@2
     condition: and(succeeded(), eq(variables['GalleryName'], 'LocalRepo'))
     displayName: 'Download Previous Az .nupkg Files'

@@ -12,7 +12,11 @@ jobs:
 - job: Job_1
   displayName: "Sync latest UX metadata files to Storage Blob"
   timeoutInMinutes: 90
+<<<<<<< HEAD
   pool: pool-windows-2019
+=======
+  pool: pool-windows-2022
+>>>>>>> upstream
   steps:
   - checkout: self
   - task: PowerShell@2
@@ -42,4 +46,8 @@ jobs:
       pwsh: true
   - template: util/publish-artifacts-steps.yml
     parameters:
+<<<<<<< HEAD
       artifactName: ux-portal
+=======
+      artifactName: ux-portal
+>>>>>>> upstream
